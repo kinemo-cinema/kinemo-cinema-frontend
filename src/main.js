@@ -3,7 +3,7 @@ import './style.css'
 import App from './app.vue'
 import i18n from "./i18n.js";
 import pinia from "./pinia.js";
-import router from "./router.js";
+import {router} from "./router.js";
 import PrimeVue from 'primevue/config';
 import Material from '@primeuix/themes/material';
 import 'primeicons/primeicons.css';

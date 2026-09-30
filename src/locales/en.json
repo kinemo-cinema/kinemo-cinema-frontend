@@ -1,0 +1,101 @@
+{
+  "header": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "operations": "Operations",
+      "maintenance": "Maintenance",
+      "analytics": "Analytics"
+    },
+    "user": {
+      "placeholder-name": "Cinema Manager",
+      "placeholder-role": "UVK Multicines",
+      "subscription": "Subscription",
+      "logout": "Log out"
+    }
+  },
+  "hub": {
+    "title": "Welcome to Kinemo",
+    "subtitle": "Select a module to manage your 4D cinema operations.",
+    "sections": {
+      "manager": "Commercial & Analytical Modules",
+      "technician": "Operational & Technical Modules"
+    },
+    "modules": {
+      "catalog": {
+        "title": "Movie Catalog",
+        "description": "Register 4D movies, associate effects files, and manage the catalog available for scheduling."
+      },
+      "sensory": {
+        "title": "Sensory Content",
+        "description": "Upload and validate sensory tracks, assign intensity levels, and manage configuration history."
+      },
+      "scheduling": {
+        "title": "Scheduling",
+        "description": "Program 4D shows, manage room availability, and block time slots for maintenance."
+      },
+      "analytics": {
+        "title": "Analytics",
+        "description": "View occupancy, resource consumption, and per-room performance metrics."
+      },
+      "ticketing": {
+        "title": "Ticketing Integration",
+        "description": "Monitor the connection to your external ticketing system and review synced occupancy data."
+      },
+      "subscription": {
+        "title": "Subscription",
+        "description": "Manage your Kinemo plan, payment methods, screen limits, and renewals."
+      },
+      "room-readiness": {
+        "title": "Room Readiness",
+        "description": "Verify room status, calculate water and air requirements, and log inspections before each show."
+      },
+      "seat-control": {
+        "title": "Seat Allocation",
+        "description": "View the seat map, activate sold seats, and block individual seats for service."
+      },
+      "execution": {
+        "title": "4D Execution",
+        "description": "Start, pause, and conclude effect sequences; monitor synchronization and hardware state."
+      },
+      "emergency": {
+        "title": "Emergency Management",
+        "description": "Trigger emergency stops, block execution, and log restoration with confirmation."
+      },
+      "testing": {
+        "title": "Testing & Calibration",
+        "description": "Test effect channels, adjust intensity, and level seats before opening the room."
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Report incidents, schedule preventive maintenance, and track component lifecycle."
+      }
+    }
+  },
+  "about": {
+    "title": "About Kinemo",
+    "tagline": "Cinema that feels.",
+    "mission": "Kinemo democratizes access to immersive cinematic experiences, enabling cinema chains of any size to offer their audiences physical sensations synchronized with the content.",
+    "approach": "We combine affordable haptic hardware, specialized maintenance, and our own management software under a service model that removes the capital barrier that large chains impose on smaller operators.",
+    "startup-title": "VonNeuman New Men",
+    "startup-content": "We are a software engineering team from Universidad Peruana de Ciencias Aplicadas, building Kinemo as a solution to close the gap between large cinema chains with proprietary 4D technology and the small and medium chains that cannot compete on experience."
+  },
+  "footer": {
+    "tagline": "Cinema that feels.",
+    "about": "About",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "rights": "All rights reserved",
+    "built-with": "Built with",
+    "and": "and"
+  },
+  "page-not-found": {
+    "title": "Page not found",
+    "content": "The route \"{unavailable-route}\" does not exist or has been moved.",
+    "go-home": "Go to dashboard"
+  },
+  "common": {
+    "coming-soon": "This module is under construction."
+  }
+}
