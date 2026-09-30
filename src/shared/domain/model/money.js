@@ -80,7 +80,7 @@ export class Money {
      * @throws {ReferenceError} If the two instances have different currencies.
      */
     add(other) {
-
+        this.#assertMoney(other);
 
         if (other.getCurrency() !== this.#currency) {
             throw new ReferenceError('Both amounts must be in the same currency');
