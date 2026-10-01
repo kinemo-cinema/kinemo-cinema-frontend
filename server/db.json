@@ -1,0 +1,236 @@
+{
+  "genres": [
+    { "id": 1, "name": "Sci-Fi", "description": "Ciencia ficción y futuros distópicos" },
+    { "id": 2, "name": "Action", "description": "Acción y aventura" },
+    { "id": 3, "name": "Horror", "description": "Terror y suspenso" },
+    { "id": 4, "name": "Family", "description": "Apto para toda la familia" },
+    { "id": 5, "name": "Animation", "description": "Animación y fantasía" }
+  ],
+
+  "movies": [
+    { "id": 1, "title": "Inception", "durationMinutes": 148, "genreId": 1, "status": "ACTIVE", "originalMovieId": null, "createdAt": "2026-08-01T10:00:00Z", "updatedAt": "2026-08-01T10:00:00Z" },
+    { "id": 2, "title": "Dune: Part Two", "durationMinutes": 166, "genreId": 1, "status": "ACTIVE", "originalMovieId": null, "createdAt": "2026-08-02T11:30:00Z", "updatedAt": "2026-08-02T11:30:00Z" },
+    { "id": 3, "title": "Mad Max: Fury Road", "durationMinutes": 120, "genreId": 2, "status": "ACTIVE", "originalMovieId": null, "createdAt": "2026-08-03T09:15:00Z", "updatedAt": "2026-08-03T09:15:00Z" },
+    { "id": 4, "title": "A Quiet Place", "durationMinutes": 90, "genreId": 3, "status": "INACTIVE", "originalMovieId": null, "createdAt": "2026-08-04T14:00:00Z", "updatedAt": "2026-08-10T08:00:00Z" },
+    { "id": 5, "title": "Coco", "durationMinutes": 105, "genreId": 4, "status": "ACTIVE", "originalMovieId": null, "createdAt": "2026-08-05T16:45:00Z", "updatedAt": "2026-08-05T16:45:00Z" },
+    { "id": 6, "title": "Inception (Kids Edition)", "durationMinutes": 148, "genreId": 1, "status": "ACTIVE", "originalMovieId": 1, "createdAt": "2026-08-06T12:00:00Z", "updatedAt": "2026-08-06T12:00:00Z" }
+  ],
+
+  "sensoryFiles": [
+    { "id": 1, "movieId": 1, "fileName": "inception_4d_v1.track", "fileFormat": "TRACK", "filePath": "/assets/tracks/inception_4d_v1.track", "validationStatus": "VALIDATED", "uploadedAt": "2026-08-01T11:00:00Z" },
+    { "id": 2, "movieId": 2, "fileName": "dune_p2_4d.track", "fileFormat": "TRACK", "filePath": "/assets/tracks/dune_p2_4d.track", "validationStatus": "VALIDATED", "uploadedAt": "2026-08-02T12:00:00Z" },
+    { "id": 3, "movieId": 3, "fileName": "madmax_4d.track", "fileFormat": "TRACK", "filePath": "/assets/tracks/madmax_4d.track", "validationStatus": "PENDING", "uploadedAt": "2026-08-03T10:00:00Z" },
+    { "id": 4, "movieId": 5, "fileName": "coco_4d_soft.track", "fileFormat": "TRACK", "filePath": "/assets/tracks/coco_4d_soft.track", "validationStatus": "VALIDATED", "uploadedAt": "2026-08-05T17:30:00Z" }
+  ],
+
+  "sensoryTracks": [
+    { "id": 1, "sensoryFileId": 1, "trackType": "VIBRATION", "intensityLevel": 70, "trackStatus": "ENABLED" },
+    { "id": 2, "sensoryFileId": 1, "trackType": "MOTION", "intensityLevel": 80, "trackStatus": "ENABLED" },
+    { "id": 3, "sensoryFileId": 1, "trackType": "WIND", "intensityLevel": 45, "trackStatus": "ENABLED" },
+    { "id": 4, "sensoryFileId": 2, "trackType": "VIBRATION", "intensityLevel": 85, "trackStatus": "ENABLED" },
+    { "id": 5, "sensoryFileId": 2, "trackType": "WATER", "intensityLevel": 30, "trackStatus": "ENABLED" },
+    { "id": 6, "sensoryFileId": 3, "trackType": "MOTION", "intensityLevel": 95, "trackStatus": "PENDING" },
+    { "id": 7, "sensoryFileId": 4, "trackType": "WIND", "intensityLevel": 20, "trackStatus": "ENABLED" },
+    { "id": 8, "sensoryFileId": 4, "trackType": "MOTION", "intensityLevel": 35, "trackStatus": "ENABLED" }
+  ],
+
+  "configurationHistory": [
+    { "id": 1, "sensoryTrackId": 1, "previousIntensityLevel": 60, "changedAt": "2026-08-10T09:00:00Z", "restored": false },
+    { "id": 2, "sensoryTrackId": 4, "previousIntensityLevel": 75, "changedAt": "2026-08-12T14:30:00Z", "restored": true }
+  ],
+
+  "rooms": [
+    { "id": 1, "name": "Sala 4D - A1", "status": "AVAILABLE", "operationalStatus": "READY" },
+    { "id": 2, "name": "Sala 4D - A2", "status": "AVAILABLE", "operationalStatus": "READY" },
+    { "id": 3, "name": "Sala 4D - B1", "status": "MAINTENANCE", "operationalStatus": "MAINTENANCE" },
+    { "id": 4, "name": "Sala 4D - B2", "status": "AVAILABLE", "operationalStatus": "READY" }
+  ],
+
+  "shows": [
+    { "id": 1, "roomId": 1, "movieId": 1, "assignedProfessionalId": 101, "startTime": "2026-10-01T18:00:00Z", "endTime": "2026-10-01T20:28:00Z", "status": "SCHEDULED", "cancellationReason": null, "createdAt": "2026-09-25T10:00:00Z", "updatedAt": "2026-09-25T10:00:00Z" },
+    { "id": 2, "roomId": 2, "movieId": 2, "assignedProfessionalId": 102, "startTime": "2026-10-01T20:00:00Z", "endTime": "2026-10-01T22:46:00Z", "status": "SCHEDULED", "cancellationReason": null, "createdAt": "2026-09-25T11:00:00Z", "updatedAt": "2026-09-25T11:00:00Z" },
+    { "id": 3, "roomId": 4, "movieId": 5, "assignedProfessionalId": 103, "startTime": "2026-10-02T15:00:00Z", "endTime": "2026-10-02T16:45:00Z", "status": "SCHEDULED", "cancellationReason": null, "createdAt": "2026-09-26T09:00:00Z", "updatedAt": "2026-09-26T09:00:00Z" },
+    { "id": 4, "roomId": 1, "movieId": 3, "assignedProfessionalId": 101, "startTime": "2026-10-02T21:00:00Z", "endTime": "2026-10-02T23:00:00Z", "status": "RESCHEDULED", "cancellationReason": null, "createdAt": "2026-09-26T12:00:00Z", "updatedAt": "2026-09-28T08:00:00Z" },
+    { "id": 5, "roomId": 2, "movieId": 4, "assignedProfessionalId": 102, "startTime": "2026-10-03T19:00:00Z", "endTime": "2026-10-03T20:30:00Z", "status": "CANCELLED", "cancellationReason": "Falta de personal operativo", "createdAt": "2026-09-26T13:00:00Z", "updatedAt": "2026-09-29T10:00:00Z" }
+  ],
+
+  "maintenanceBlocks": [
+    { "id": 1, "roomId": 3, "startTime": "2026-10-01T08:00:00Z", "endTime": "2026-10-05T20:00:00Z", "description": "Reemplazo de actuadores de butacas zona C", "status": "ACTIVE" },
+    { "id": 2, "roomId": 1, "startTime": "2026-10-10T08:00:00Z", "endTime": "2026-10-10T14:00:00Z", "description": "Calibración preventiva de ventiladores", "status": "SCHEDULED" }
+  ],
+
+  "roomInspections": [
+    { "id": 1, "roomId": 1, "inspectorId": 101, "inspectionStatus": "APPROVED", "technicalReviewRequired": false, "inspectedAt": "2026-10-01T16:30:00Z" },
+    { "id": 2, "roomId": 2, "inspectorId": 102, "inspectionStatus": "APPROVED", "technicalReviewRequired": false, "inspectedAt": "2026-10-01T18:15:00Z" },
+    { "id": 3, "roomId": 4, "inspectorId": 103, "inspectionStatus": "PENDING", "technicalReviewRequired": true, "inspectedAt": "2026-10-02T13:00:00Z" }
+  ],
+
+  "resourceCalculations": [
+    { "id": 1, "showId": 1, "waterRequiredLiters": 12.5, "airRequiredUnits": 340, "calculationStatus": "CALCULATED", "calculatedAt": "2026-09-30T10:00:00Z" },
+    { "id": 2, "showId": 2, "waterRequiredLiters": 18.0, "airRequiredUnits": 420, "calculationStatus": "CALCULATED", "calculatedAt": "2026-09-30T10:30:00Z" },
+    { "id": 3, "showId": 3, "waterRequiredLiters": 0, "airRequiredUnits": 150, "calculationStatus": "NOT_REQUIRED", "calculatedAt": "2026-09-30T11:00:00Z" }
+  ],
+
+  "maintenanceLogs": [
+    { "id": 1, "roomId": 3, "technicianId": 201, "showId": null, "maintenanceStatus": "SCHEDULED", "startTime": "2026-10-01T08:00:00Z", "endTime": "2026-10-05T20:00:00Z", "resolutionNotes": null },
+    { "id": 2, "roomId": 1, "technicianId": 202, "showId": null, "maintenanceStatus": "COMPLETED", "startTime": "2026-09-20T08:00:00Z", "endTime": "2026-09-20T12:00:00Z", "resolutionNotes": "Reemplazo de correa en butaca 14B" }
+  ],
+
+  "ticketingConnections": [
+    { "id": 1, "systemName": "Cinepolis Ticketing API", "endpointUrl": "https://api.ticketing-provider.com/v1", "connectionStatus": "AVAILABLE", "lastVerifiedAt": "2026-09-30T09:00:00Z" },
+    { "id": 2, "systemName": "JoinMe Box Office", "endpointUrl": "https://api.joinme.com/v2", "connectionStatus": "RECONNECTING", "lastVerifiedAt": "2026-09-29T22:00:00Z" }
+  ],
+
+  "syncLogs": [
+    { "id": 1, "connectionId": 1, "operatorId": 101, "syncStatus": "COMPLETED", "recordsProcessed": 245, "startedAt": "2026-09-30T09:05:00Z", "completedAt": "2026-09-30T09:06:12Z", "errorDetails": null },
+    { "id": 2, "connectionId": 1, "operatorId": 101, "syncStatus": "COMPLETED", "recordsProcessed": 180, "startedAt": "2026-09-30T12:05:00Z", "completedAt": "2026-09-30T12:06:00Z", "errorDetails": null },
+    { "id": 3, "connectionId": 2, "operatorId": 102, "syncStatus": "FAILED", "recordsProcessed": 0, "startedAt": "2026-09-29T22:00:00Z", "completedAt": "2026-09-29T22:00:45Z", "errorDetails": "Timeout reaching external provider" }
+  ],
+
+  "showOccupancies": [
+    { "id": 1, "showId": 1, "lastSyncLogId": 1, "totalCapacity": 120, "occupiedSeats": 98, "lastUpdatedAt": "2026-09-30T09:06:12Z" },
+    { "id": 2, "showId": 2, "lastSyncLogId": 2, "totalCapacity": 120, "occupiedSeats": 76, "lastUpdatedAt": "2026-09-30T12:06:00Z" },
+    { "id": 3, "showId": 3, "lastSyncLogId": 2, "totalCapacity": 100, "occupiedSeats": 45, "lastUpdatedAt": "2026-09-30T12:06:00Z" }
+  ],
+
+  "seats": [
+    { "id": 1, "roomId": 1, "rowIdentifier": "A", "seatNumber": 1, "physicalStatus": "OPERATIONAL" },
+    { "id": 2, "roomId": 1, "rowIdentifier": "A", "seatNumber": 2, "physicalStatus": "OPERATIONAL" },
+    { "id": 3, "roomId": 1, "rowIdentifier": "A", "seatNumber": 3, "physicalStatus": "OUT_OF_SERVICE" },
+    { "id": 4, "roomId": 1, "rowIdentifier": "A", "seatNumber": 4, "physicalStatus": "OPERATIONAL" },
+    { "id": 5, "roomId": 1, "rowIdentifier": "B", "seatNumber": 1, "physicalStatus": "OPERATIONAL" },
+    { "id": 6, "roomId": 1, "rowIdentifier": "B", "seatNumber": 2, "physicalStatus": "OPERATIONAL" },
+    { "id": 7, "roomId": 2, "rowIdentifier": "A", "seatNumber": 1, "physicalStatus": "OPERATIONAL" },
+    { "id": 8, "roomId": 2, "rowIdentifier": "A", "seatNumber": 2, "physicalStatus": "OPERATIONAL" }
+  ],
+
+  "showSeats": [
+    { "id": 1, "showId": 1, "seatId": 1, "allocationStatus": "SOLD", "motionSignalStatus": "ENABLED", "activationMode": "AUTOMATIC", "updatedAt": "2026-10-01T18:00:00Z" },
+    { "id": 2, "showId": 1, "seatId": 2, "allocationStatus": "AVAILABLE", "motionSignalStatus": "DISABLED", "activationMode": "AUTOMATIC", "updatedAt": "2026-10-01T18:00:00Z" },
+    { "id": 3, "showId": 1, "seatId": 3, "allocationStatus": "EXCLUDED", "motionSignalStatus": "DISABLED", "activationMode": "AUTOMATIC", "updatedAt": "2026-10-01T17:00:00Z" },
+    { "id": 4, "showId": 1, "seatId": 4, "allocationStatus": "SOLD", "motionSignalStatus": "ENABLED", "activationMode": "MANUAL", "updatedAt": "2026-10-01T18:05:00Z" },
+    { "id": 5, "showId": 2, "seatId": 7, "allocationStatus": "SOLD", "motionSignalStatus": "ENABLED", "activationMode": "AUTOMATIC", "updatedAt": "2026-10-01T20:00:00Z" }
+  ],
+
+  "manualInterventions": [
+    { "id": 1, "showSeatId": 4, "operatorId": 101, "interventionType": "ACTIVATE", "reason": "Cliente reubicado por falla en butaca 3A", "executedAt": "2026-10-01T18:05:00Z" }
+  ],
+
+  "showExecutions": [
+    { "id": 1, "showId": 1, "operatorId": 101, "executionStatus": "CONCLUDED", "hardwareErrorDetected": false, "startedAt": "2026-10-01T18:00:00Z", "concludedAt": "2026-10-01T20:28:00Z" },
+    { "id": 2, "showId": 2, "operatorId": 102, "executionStatus": "RUNNING", "hardwareErrorDetected": false, "startedAt": "2026-10-01T20:00:00Z", "concludedAt": null }
+  ],
+
+  "sensorySequenceExecutions": [
+    { "id": 1, "showExecutionId": 1, "sensoryTrackId": 1, "playbackStatus": "CONCLUDED", "lastSyncPulseAt": "2026-10-01T20:27:55Z", "updatedAt": "2026-10-01T20:28:00Z" },
+    { "id": 2, "showExecutionId": 1, "sensoryTrackId": 2, "playbackStatus": "CONCLUDED", "lastSyncPulseAt": "2026-10-01T20:27:55Z", "updatedAt": "2026-10-01T20:28:00Z" },
+    { "id": 3, "showExecutionId": 2, "sensoryTrackId": 4, "playbackStatus": "RUNNING", "lastSyncPulseAt": "2026-10-01T20:15:00Z", "updatedAt": "2026-10-01T20:15:00Z" }
+  ],
+
+  "synchronizationEvents": [
+    { "id": 1, "sensorySequenceExecutionId": 3, "eventType": "SYNC_PULSE_RECEIVED", "driftMilliseconds": 12, "adjustmentApplied": false, "loggedAt": "2026-10-01T20:10:00Z" },
+    { "id": 2, "sensorySequenceExecutionId": 3, "eventType": "DRIFT_DETECTED", "driftMilliseconds": 85, "adjustmentApplied": true, "loggedAt": "2026-10-01T20:12:30Z" },
+    { "id": 3, "sensorySequenceExecutionId": 3, "eventType": "SYNC_ADJUSTED", "driftMilliseconds": 5, "adjustmentApplied": true, "loggedAt": "2026-10-01T20:12:32Z" }
+  ],
+
+  "hardwareExecutionLogs": [
+    { "id": 1, "showExecutionId": 1, "actionType": "START_EFFECTS", "details": "Inicio de secuencia 4D para Inception", "executedAt": "2026-10-01T18:00:00Z" },
+    { "id": 2, "showExecutionId": 1, "actionType": "BLOCK_EFFECTS", "details": "Bloqueo por verificación de seguridad", "executedAt": "2026-10-01T18:45:00Z" },
+    { "id": 3, "showExecutionId": 1, "actionType": "NEUTRAL_POSITION", "details": "Butacas a posición neutra al finalizar", "executedAt": "2026-10-01T20:28:00Z" }
+  ],
+
+  "emergencyEvents": [
+    { "id": 1, "showExecutionId": 1, "reportedByOperatorId": 101, "emergencyStatus": "RESOLVED", "validationCondition": "Todas las butacas confirmadas en posición segura", "activatedAt": "2026-10-01T19:30:00Z", "resolvedAt": "2026-10-01T19:33:00Z" }
+  ],
+
+  "executionBlocks": [
+    { "id": 1, "emergencyEventId": 1, "hardwareState": "SEATS_FROZEN", "blockReason": "Sismo leve detectado en la zona", "blockedAt": "2026-10-01T19:30:15Z" }
+  ],
+
+  "restorationLogs": [
+    { "id": 1, "emergencyEventId": 1, "authorizedByOperatorId": 101, "confirmationStatus": "VALID", "restorationNotes": "Verificación visual completada, sala asegurada", "executedAt": "2026-10-01T19:33:00Z" }
+  ],
+
+  "calibrationSessions": [
+    { "id": 1, "roomId": 1, "technicianId": 201, "sessionStatus": "COMPLETED", "startedAt": "2026-09-30T07:00:00Z", "completedAt": "2026-09-30T08:30:00Z" },
+    { "id": 2, "roomId": 2, "technicianId": 202, "sessionStatus": "IN_PROGRESS", "startedAt": "2026-10-01T07:00:00Z", "completedAt": null }
+  ],
+
+  "hardwareChannelTests": [
+    { "id": 1, "calibrationSessionId": 1, "channelType": "WIND", "testResult": "PASSED", "markedForReview": false, "testedAt": "2026-09-30T07:20:00Z" },
+    { "id": 2, "calibrationSessionId": 1, "channelType": "WATER", "testResult": "LOW_PRESSURE", "markedForReview": true, "testedAt": "2026-09-30T07:35:00Z" },
+    { "id": 3, "calibrationSessionId": 2, "channelType": "VIBRATION", "testResult": "PASSED", "markedForReview": false, "testedAt": "2026-10-01T07:15:00Z" }
+  ],
+
+  "intensityCalibrations": [
+    { "id": 1, "calibrationSessionId": 1, "effectType": "MOTION", "targetIntensityLevel": 80, "adjustmentStatus": "VALIDATED", "calibratedAt": "2026-09-30T07:45:00Z" },
+    { "id": 2, "calibrationSessionId": 1, "effectType": "WIND", "targetIntensityLevel": 50, "adjustmentStatus": "ATTENUATED", "calibratedAt": "2026-09-30T08:00:00Z" },
+    { "id": 3, "calibrationSessionId": 2, "effectType": "VIBRATION", "targetIntensityLevel": 75, "adjustmentStatus": "VALIDATED", "calibratedAt": "2026-10-01T07:30:00Z" }
+  ],
+
+  "seatAlignments": [
+    { "id": 1, "calibrationSessionId": 1, "seatId": 1, "alignmentStatus": "CONFIRMED", "retriesCount": 0, "verifiedAt": "2026-09-30T08:10:00Z" },
+    { "id": 2, "calibrationSessionId": 1, "seatId": 2, "alignmentStatus": "CONFIRMED", "retriesCount": 1, "verifiedAt": "2026-09-30T08:15:00Z" },
+    { "id": 3, "calibrationSessionId": 1, "seatId": 3, "alignmentStatus": "MISALIGNED", "retriesCount": 3, "verifiedAt": "2026-09-30T08:22:00Z" }
+  ],
+
+  "hardwareComponents": [
+    { "id": 1, "roomId": 1, "componentCode": "ACT-A1-001", "componentType": "ACTUATOR", "currentUsageCycles": 4820, "maxLifecycleCycles": 10000, "lifecycleStatus": "WITHIN_LIMIT" },
+    { "id": 2, "roomId": 1, "componentCode": "FAN-A1-003", "componentType": "FAN", "currentUsageCycles": 9200, "maxLifecycleCycles": 10000, "lifecycleStatus": "NEAR_LIMIT" },
+    { "id": 3, "roomId": 2, "componentCode": "WTR-B1-002", "componentType": "WATER_INJECTOR", "currentUsageCycles": 10500, "maxLifecycleCycles": 10000, "lifecycleStatus": "REPLACE_SUGGESTED" },
+    { "id": 4, "roomId": 3, "componentCode": "ACT-B1-014", "componentType": "ACTUATOR", "currentUsageCycles": 3100, "maxLifecycleCycles": 10000, "lifecycleStatus": "WITHIN_LIMIT" }
+  ],
+
+  "incidentReports": [
+    { "id": 1, "hardwareComponentId": 2, "reporterId": 101, "severityLevel": "Critical", "priorityLevel": "HIGH", "incidentStatus": "IN_REVIEW", "reportedAt": "2026-09-29T21:00:00Z" },
+    { "id": 2, "hardwareComponentId": 3, "reporterId": 102, "severityLevel": "Normal", "priorityLevel": "MEDIUM", "incidentStatus": "REPORTED", "reportedAt": "2026-09-28T15:00:00Z" },
+    { "id": 3, "hardwareComponentId": 1, "reporterId": 103, "severityLevel": "Normal", "priorityLevel": "LOW", "incidentStatus": "RESOLVED", "reportedAt": "2026-09-20T11:00:00Z" }
+  ],
+
+  "maintenanceOrders": [
+    { "id": 1, "hardwareComponentId": 2, "incidentReportId": 1, "technicianId": 201, "orderType": "CORRECTIVE", "executionStatus": "IN_PROGRESS", "technicalDescription": "Reemplazo de rodamientos del ventilador A1", "scheduledFor": "2026-10-02T08:00:00Z", "closedAt": null },
+    { "id": 2, "hardwareComponentId": 1, "incidentReportId": null, "technicianId": 202, "orderType": "PREVENTIVE", "executionStatus": "SCHEDULED", "technicalDescription": "Revisión trimestral de actuadores", "scheduledFor": "2026-10-15T08:00:00Z", "closedAt": null },
+    { "id": 3, "hardwareComponentId": 1, "incidentReportId": 3, "technicianId": 201, "orderType": "CORRECTIVE", "executionStatus": "CLOSED", "technicalDescription": "Ajuste de tornillería y prueba de respuesta", "scheduledFor": "2026-09-21T08:00:00Z", "closedAt": "2026-09-21T10:30:00Z" }
+  ],
+
+  "operationalReports": [
+    { "id": 1, "managerId": 301, "reportType": "CONSUMPTION", "reportStatus": "GENERATED", "hasCompleteData": true, "consolidatedData": { "water_liters": 120.5, "air_units": 3420 }, "generatedAt": "2026-09-30T23:00:00Z" },
+    { "id": 2, "managerId": 301, "reportType": "INCIDENT", "reportStatus": "GENERATED", "hasCompleteData": true, "consolidatedData": { "critical": 1, "normal": 2 }, "generatedAt": "2026-09-30T23:05:00Z" },
+    { "id": 3, "managerId": 302, "reportType": "CONSUMPTION", "reportStatus": "PENDING", "hasCompleteData": false, "consolidatedData": null, "generatedAt": "2026-09-30T23:10:00Z" }
+  ],
+
+  "calculatedMetrics": [
+    { "id": 1, "metricCategory": "SEAT_USAGE", "metricValue": 82.5, "calculatedAt": "2026-09-30T22:00:00Z" },
+    { "id": 2, "metricCategory": "AVG_OCCUPANCY", "metricValue": 68.4, "calculatedAt": "2026-09-30T22:00:00Z" },
+    { "id": 3, "metricCategory": "INCIDENT_RATE", "metricValue": 1.2, "calculatedAt": "2026-09-30T22:00:00Z" },
+    { "id": 4, "metricCategory": "AVG_SESSION_DURATION_MIN", "metricValue": 134, "calculatedAt": "2026-09-30T22:00:00Z" }
+  ],
+
+  "dashboardExports": [
+    { "id": 1, "managerId": 301, "operationalReportId": 1, "exportFormat": "PDF", "filePath": "/exports/consumption_2026-09.pdf", "exportedAt": "2026-09-30T23:15:00Z" },
+    { "id": 2, "managerId": 301, "operationalReportId": 2, "exportFormat": "CSV", "filePath": "/exports/incidents_2026-09.csv", "exportedAt": "2026-09-30T23:17:00Z" }
+  ],
+
+  "subscriptionPlans": [
+    { "id": 1, "planName": "Starter", "screenLimit": 3, "price": 490.00, "isAvailable": true },
+    { "id": 2, "planName": "Growth", "screenLimit": 12, "price": 1190.00, "isAvailable": true },
+    { "id": 3, "planName": "Enterprise", "screenLimit": 999, "price": 0.00, "isAvailable": true }
+  ],
+
+  "subscriptions": [
+    { "id": 1, "managerId": 301, "planId": 2, "subscriptionStatus": "ACTIVE", "startDate": "2026-07-01T00:00:00Z", "endDate": "2026-12-31T23:59:59Z" },
+    { "id": 2, "managerId": 302, "planId": 1, "subscriptionStatus": "PENDING_PAYMENT", "startDate": "2026-09-28T00:00:00Z", "endDate": "2027-03-28T23:59:59Z" },
+    { "id": 3, "managerId": 303, "planId": 1, "subscriptionStatus": "EXPIRED", "startDate": "2026-01-01T00:00:00Z", "endDate": "2026-06-30T23:59:59Z" }
+  ],
+
+  "paymentTransactions": [
+    { "id": 1, "subscriptionId": 1, "transactionStatus": "PROCESSED", "amount": 1190.00, "processedAt": "2026-07-01T10:15:00Z", "gatewayResponse": "APPROVED" },
+    { "id": 2, "subscriptionId": 2, "transactionStatus": "PENDING", "amount": 490.00, "processedAt": "2026-09-28T14:00:00Z", "gatewayResponse": "AWAITING_CONFIRMATION" },
+    { "id": 3, "subscriptionId": 3, "transactionStatus": "FAILED", "amount": 490.00, "processedAt": "2026-06-30T23:00:00Z", "gatewayResponse": "CARD_DECLINED" }
+  ],
+
+  "subscriptionUpgrades": [
+    { "id": 1, "subscriptionId": 1, "targetPlanId": 3, "upgradeStatus": "REQUESTED", "requestedAt": "2026-09-29T09:00:00Z", "appliedAt": null },
+    { "id": 2, "subscriptionId": 2, "targetPlanId": 2, "upgradeStatus": "APPLIED", "requestedAt": "2026-09-15T11:00:00Z", "appliedAt": "2026-09-16T08:00:00Z" }
+  ]
+}
