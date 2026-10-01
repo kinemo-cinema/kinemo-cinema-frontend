@@ -1,0 +1,16 @@
+{
+  "/api/catalog/*": "/$1",
+  "/api/sensory/*": "/$1",
+  "/api/scheduling/*": "/$1",
+  "/api/readiness/*": "/$1",
+  "/api/ticketing/*": "/$1",
+  "/api/seats/*": "/$1",
+  "/api/execution/*": "/$1",
+  "/api/emergency/*": "/$1",
+  "/api/calibration/*": "/$1",
+  "/api/maintenance/*": "/$1",
+  "/api/analytics/*": "/$1",
+  "/api/subscriptions/*": "/$1",
+
+  "/api/*": "/$1"
+}
