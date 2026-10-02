@@ -61,7 +61,7 @@ export class Movie {
     getGenre = () => this._genre;
 
     /** @returns {number|null} The identifier of the movie's genre. */
-    geGenreId = () => this._genreId;
+    getGenreId = () => this._genreId;
 
     /** @returns {MovieStatus} The current lifecycle status. */
     getStatus = () => this._status;

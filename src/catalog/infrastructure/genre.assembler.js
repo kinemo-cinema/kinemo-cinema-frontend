@@ -36,4 +36,18 @@ export class GenreAssembler {
         const resources = response.data instanceof Array ? response.data : response.data['genres'];
         return resources.map(resource => this.toEntityFromResource(resource));
     }
+
+    /**
+     * Converts a Genre entity to a resource for API submission.
+     * @static
+     * @param {Genre} genre - The Genre entity.
+     * @returns {Object} The genre resource.
+     */
+    static toResourceFromEntity(genre) {
+        return {
+            id: genre.id,
+            name: genre.name,
+            description: genre.description,
+        };
+    }
 }

@@ -43,4 +43,23 @@ export class MovieAssembler {
         const resources = response.data instanceof Array ? response.data : response.data['movies'];
         return resources.map(resource => this.toEntityFromResource(resource));
     }
+
+    /**
+     * Converts a Movie entity to a resource for API submission.
+     * @static
+     * @param {Movie} movie - The Movie entity.
+     * @returns {Object} The movie resource.
+     */
+    static toResourceFromEntity(movie) {
+        return {
+            id: movie.getId(),
+            title: movie.getTitle(),
+            durationMinutes: movie.getDuration().getMinutes(),
+            genreId: movie.getGenreId(),
+            status: movie.getStatusAsString(),
+            originalMovieId: movie.getOriginalMovieId(),
+            createdAt: movie.getCreatedAtFormated(),
+            updatedAt: movie.getUpdatedAtFormated(),
+        };
+    }
 }
