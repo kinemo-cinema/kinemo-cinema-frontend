@@ -226,3 +226,5 @@ const useCatalogStore = defineStore("catalog", () => {
     }
 
 });
+
+export default useCatalogStore;
