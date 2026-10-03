@@ -78,6 +78,8 @@ const useCatalogStore = defineStore("catalog", () => {
      * @returns {void}
      */
     function fetchGenres() {
+        errors.value = [];
+
         catalogApi.getGenres().then((response) => {
             genres.value = GenreAssembler.toEntitiesFromResponse(response);
             genresLoaded.value = true;
@@ -94,6 +96,8 @@ const useCatalogStore = defineStore("catalog", () => {
      */
 
     function fetchMovies() {
+        errors.value = [];
+
         catalogApi.getMovies().then((response) => {
             movies.value = MovieAssembler.toEntitiesFromResponse(response);
             moviesLoaded.value = true;
