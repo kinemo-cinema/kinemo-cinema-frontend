@@ -6,7 +6,9 @@ const moviesEndpointPath = `${catalogBasePath}/movies`;
 const genresEndpointPath = `${catalogBasePath}/genres`;
 
 /**
- * Infrastructure gateway for Catalog bounded-context endpoints.
+ * Infrastructure gateway for BC01 — Movie & Sensory Content Management.
+ * Exposes endpoints for movies, genres, sensory files, sensory tracks,
+ * and configuration history.
  *
  * @class CatalogApi
  * @extends BaseApi
