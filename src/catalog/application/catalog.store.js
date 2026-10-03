@@ -105,13 +105,24 @@ const useCatalogStore = defineStore("catalog", () => {
 
     /**
      * Finds a genre entity by identifier.
-     * @param {number|string} id - Category identifier.
-     * @returns {Genre|undefined} Matching category, if available.
+     * @param {number|string} id - Genre identifier.
+     * @returns {Genre|undefined} Matching genre, if available.
      */
 
     function getGenreById(id) {
         let idNum = parseInt(id);
         return genres.value.find(genre => genre.id === idNum);
+    }
+
+    /**
+     * Finds a genre entity by identifier.
+     * @param {number|string} id - movie identifier.
+     * @returns {Movie|undefined} Matching movie, if available.
+     */
+
+    function getMovieById(id) {
+        let idNum = parseInt(id);
+        return movies.value.find(m => m.getId() === idNum);
     }
 
     /**
@@ -217,6 +228,7 @@ const useCatalogStore = defineStore("catalog", () => {
         fetchGenres,
         fetchMovies,
         getGenreById,
+        getMovieById,
         addGenre,
         addMovie,
         updateMovie,
