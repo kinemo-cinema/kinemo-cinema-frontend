@@ -1,6 +1,7 @@
 /**
- * Application service store for the Catalog bounded context.
- * It coordinates Genre and Movie use cases and keeps UI-facing state.
+ * Application service store for BC01 — Movie & Sensory Content Management.
+ * Coordinates genre, movie, and  sensory-content use cases,
+ * and keeps UI-facing state.
  *
  * @module useCatalogStore
  */
