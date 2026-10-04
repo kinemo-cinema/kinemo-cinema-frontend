@@ -9,7 +9,7 @@ import FooterComponent from "./footer-component.vue";
     <header-component/>
 
     <main class="content-area">
-      <slot/>
+      <router-view/>
     </main>
 
     <footer-component/>
