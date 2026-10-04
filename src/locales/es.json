@@ -97,5 +97,110 @@
   },
   "common": {
     "coming-soon": "Este módulo está en construcción."
+  },
+  "genre": {
+    "new-title": "Nuevo Género",
+    "edit-title": "Editar Género",
+    "name": "Nombre",
+    "description": "Descripción",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "genres": {
+    "title": "Géneros",
+    "new": "Nuevo Género",
+    "id": "ID",
+    "name": "Nombre",
+    "actions": "Acciones",
+    "delete-header": "Confirmar eliminación",
+    "confirm-delete": "¿Seguro que quieres eliminar \"{name}\"?"
+  },
+  "movie": {
+    "new-title": "Nueva Película",
+    "edit-title": "Editar Película",
+    "title": "Título",
+    "duration": "Duración",
+    "genre": "Género",
+    "select-genre": "Selecciona un género",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "movies": {
+    "title": "Películas",
+    "new": "Nueva Película",
+    "id": "ID",
+    "minutes": "min",
+    "actions": "Acciones",
+    "delete-header": "Confirmar eliminación",
+    "confirm-delete": "¿Seguro que quieres eliminar \"{title}\"?",
+    "fields": {
+      "title": "Título",
+      "duration": "Duración",
+      "genre": "Género",
+      "status": "Estado"
+    }
+  },
+  "sensoryFile": {
+    "new-title": "Nuevo Archivo Sensorial",
+    "edit-title": "Editar Archivo Sensorial",
+    "fileName": "Nombre del archivo",
+    "movie": "Película",
+    "select-movie": "Selecciona una película",
+    "filePath": "Ruta del archivo",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "sensoryFiles": {
+    "title": "Archivos Sensoriales",
+    "new": "Nuevo Archivo Sensorial",
+    "id": "ID",
+    "actions": "Acciones",
+    "delete-header": "Confirmar eliminación",
+    "confirm-delete": "¿Seguro que quieres eliminar \"{fileName}\"?",
+    "fields": {
+      "fileName": "Nombre del archivo",
+      "movie": "Película",
+      "format": "Formato",
+      "status": "Estado"
+    }
+  },
+  "sensoryTrack": {
+    "new-title": "Nueva Pista Sensorial",
+    "edit-title": "Editar Pista Sensorial",
+    "sensoryFile": "Archivo sensorial",
+    "select-sensory-file": "Selecciona un archivo sensorial",
+    "trackType": "Tipo de pista",
+    "select-track-type": "Selecciona un tipo de pista",
+    "intensityLevel": "Nivel de intensidad",
+    "trackStatus": "Estado de la pista",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "sensoryTracks": {
+    "title": "Pistas Sensoriales",
+    "new": "Nueva Pista Sensorial",
+    "id": "ID",
+    "actions": "Acciones",
+    "delete-header": "Confirmar eliminación",
+    "confirm-delete": "¿Seguro que quieres eliminar la pista #{id}?",
+    "fields": {
+      "sensoryFile": "Archivo",
+      "trackType": "Tipo",
+      "intensityLevel": "Intensidad",
+      "status": "Estado"
+    }
+  },
+  "configurationHistory": {
+    "title": "Historial de Configuración",
+    "id": "ID",
+    "fields": {
+      "sensoryTrack": "Pista",
+      "previousIntensityLevel": "Intensidad anterior",
+      "changedAt": "Cambiado el",
+      "restored": "Restaurado"
+    }
+  },
+  "errors": {
+    "occurred": "Ocurrió un error"
   }
 }
