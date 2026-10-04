@@ -1,6 +1,7 @@
 <script setup>
 import {useRoute, useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
+import {storeToRefs} from "pinia";
 import useCatalogStore from "../../application/catalog.store.js";
 import {computed, onMounted, ref} from "vue";
 import {SensoryFile} from "../../domain/model/sensory-file.entity.js";
@@ -10,7 +11,11 @@ const route = useRoute();
 const router = useRouter();
 const store = useCatalogStore();
 
-const { errors, movies, addSensoryFile, updateSensoryFile, fetchMovies } = store;
+// State — reactive refs (must come from storeToRefs to stay in sync)
+const { errors, movies } = storeToRefs(store);
+
+// Actions — plain destructure is fine
+const { addSensoryFile, updateSensoryFile, fetchMovies } = store;
 
 const form = ref({
   fileName: '',
