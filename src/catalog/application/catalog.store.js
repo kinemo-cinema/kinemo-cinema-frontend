@@ -170,13 +170,18 @@ const useCatalogStore = defineStore("catalog", () => {
 
     /**
      * Creates a genre through infrastructure and appends it to local state.
+     *
+     * The entity is serialized through its assembler before reaching the
+     * API, because entities encapsulate state in non-enumerable fields
+     * that JSON.stringify would otherwise drop.
+     *
      * @param {Genre} genre - Genre entity to persist.
      * @returns {void}
      */
     function addGenre(genre) {
         errors.value = [];
 
-        catalogApi.createGenre(genre).then(response => {
+        catalogApi.createGenre(GenreAssembler.toResourceFromEntity(genre)).then(response => {
             const resource = response.data;
             const newGenre = GenreAssembler.toEntityFromResource(resource);
             genres.value.push(newGenre);
@@ -187,13 +192,17 @@ const useCatalogStore = defineStore("catalog", () => {
 
     /**
      * Updates an existing genre and synchronizes local state.
+     *
+     * The entity is serialized through its assembler before reaching the
+     * API (see addGenre).
+     *
      * @param {Genre} genre - Genre entity with updated data.
      * @returns {void}
      */
     function updateGenre(genre) {
         errors.value = [];
 
-        catalogApi.updateGenre(genre).then(response => {
+        catalogApi.updateGenre(GenreAssembler.toResourceFromEntity(genre)).then(response => {
             const resource = response.data;
             const updatedGenre = GenreAssembler.toEntityFromResource(resource);
             const index = genres.value.findIndex(g => g.id === updatedGenre.id);
@@ -250,13 +259,18 @@ const useCatalogStore = defineStore("catalog", () => {
 
     /**
      * Creates a movie through infrastructure and appends it to local state.
+     *
+     * The entity is serialized through its assembler before reaching the
+     * API, because entities encapsulate state in non-enumerable fields
+     * that JSON.stringify would otherwise drop.
+     *
      * @param {Movie} movie - Movie entity to persist.
      * @returns {void}
      */
     function addMovie(movie) {
         errors.value = [];
 
-        catalogApi.createMovie(movie).then(response => {
+        catalogApi.createMovie(MovieAssembler.toResourceFromEntity(movie)).then(response => {
             const resource = response.data;
             const newMovie = MovieAssembler.toEntityFromResource(resource);
             movies.value.push(newMovie);
@@ -267,13 +281,17 @@ const useCatalogStore = defineStore("catalog", () => {
 
     /**
      * Updates an existing movie and synchronizes local state.
+     *
+     * The entity is serialized through its assembler before reaching the
+     * API (see addMovie).
+     *
      * @param {Movie} movie - Movie entity with updated data.
      * @returns {void}
      */
     function updateMovie(movie) {
         errors.value = [];
 
-        catalogApi.updateMovie(movie).then(response => {
+        catalogApi.updateMovie(MovieAssembler.toResourceFromEntity(movie)).then(response => {
             const resource = response.data;
             const updatedMovie = MovieAssembler.toEntityFromResource(resource);
             const index = movies.value.findIndex(m => m.getId() === updatedMovie.getId());
@@ -340,13 +358,18 @@ const useCatalogStore = defineStore("catalog", () => {
 
     /**
      * Creates a sensory file through infrastructure and appends it to local state.
+     *
+     * The entity is serialized through its assembler before reaching the
+     * API, because entities encapsulate state in non-enumerable fields
+     * that JSON.stringify would otherwise drop.
+     *
      * @param {SensoryFile} sensoryFile - Sensory file entity to persist.
      * @returns {void}
      */
     function addSensoryFile(sensoryFile) {
         errors.value = [];
 
-        catalogApi.createSensoryFile(sensoryFile).then(response => {
+        catalogApi.createSensoryFile(SensoryFileAssembler.toResourceFromEntity(sensoryFile)).then(response => {
             const resource = response.data;
             const newFile = SensoryFileAssembler.toEntityFromResource(resource);
             sensoryFiles.value.push(newFile);
@@ -357,13 +380,17 @@ const useCatalogStore = defineStore("catalog", () => {
 
     /**
      * Updates an existing sensory file and synchronizes local state.
+     *
+     * The entity is serialized through its assembler before reaching the
+     * API (see addSensoryFile).
+     *
      * @param {SensoryFile} sensoryFile - Sensory file entity with updated data.
      * @returns {void}
      */
     function updateSensoryFile(sensoryFile) {
         errors.value = [];
 
-        catalogApi.updateSensoryFile(sensoryFile).then(response => {
+        catalogApi.updateSensoryFile(SensoryFileAssembler.toResourceFromEntity(sensoryFile)).then(response => {
             const resource = response.data;
             const updatedFile = SensoryFileAssembler.toEntityFromResource(resource);
             const index = sensoryFiles.value.findIndex(f => f.getId() === updatedFile.getId());
@@ -430,13 +457,18 @@ const useCatalogStore = defineStore("catalog", () => {
 
     /**
      * Creates a sensory track through infrastructure and appends it to local state.
+     *
+     * The entity is serialized through its assembler before reaching the
+     * API, because entities encapsulate state in non-enumerable fields
+     * that JSON.stringify would otherwise drop.
+     *
      * @param {SensoryTrack} sensoryTrack - Sensory track entity to persist.
      * @returns {void}
      */
     function addSensoryTrack(sensoryTrack) {
         errors.value = [];
 
-        catalogApi.createSensoryTrack(sensoryTrack).then(response => {
+        catalogApi.createSensoryTrack(SensoryTrackAssembler.toResourceFromEntity(sensoryTrack)).then(response => {
             const resource = response.data;
             const newTrack = SensoryTrackAssembler.toEntityFromResource(resource);
             sensoryTracks.value.push(newTrack);
@@ -447,13 +479,17 @@ const useCatalogStore = defineStore("catalog", () => {
 
     /**
      * Updates an existing sensory track and synchronizes local state.
+     *
+     * The entity is serialized through its assembler before reaching the
+     * API (see addSensoryTrack).
+     *
      * @param {SensoryTrack} sensoryTrack - Sensory track entity with updated data.
      * @returns {void}
      */
     function updateSensoryTrack(sensoryTrack) {
         errors.value = [];
 
-        catalogApi.updateSensoryTrack(sensoryTrack).then(response => {
+        catalogApi.updateSensoryTrack(SensoryTrackAssembler.toResourceFromEntity(sensoryTrack)).then(response => {
             const resource = response.data;
             const updatedTrack = SensoryTrackAssembler.toEntityFromResource(resource);
             const index = sensoryTracks.value.findIndex(t => t.getId() === updatedTrack.getId());
@@ -520,13 +556,18 @@ const useCatalogStore = defineStore("catalog", () => {
 
     /**
      * Creates a configuration history entry through infrastructure and appends it to local state.
+     *
+     * The entity is serialized through its assembler before reaching the
+     * API, because entities encapsulate state in non-enumerable fields
+     * that JSON.stringify would otherwise drop.
+     *
      * @param {ConfigurationHistory} entry - Configuration history entity to persist.
      * @returns {void}
      */
     function addConfigurationHistory(entry) {
         errors.value = [];
 
-        catalogApi.createConfigurationHistory(entry).then(response => {
+        catalogApi.createConfigurationHistory(ConfigurationHistoryAssembler.toResourceFromEntity(entry)).then(response => {
             const resource = response.data;
             const newEntry = ConfigurationHistoryAssembler.toEntityFromResource(resource);
             configurationHistory.value.push(newEntry);
@@ -537,13 +578,17 @@ const useCatalogStore = defineStore("catalog", () => {
 
     /**
      * Updates an existing configuration history entry and synchronizes local state.
+     *
+     * The entity is serialized through its assembler before reaching the
+     * API (see addConfigurationHistory).
+     *
      * @param {ConfigurationHistory} entry - Configuration history entity with updated data.
      * @returns {void}
      */
     function updateConfigurationHistory(entry) {
         errors.value = [];
 
-        catalogApi.updateConfigurationHistory(entry).then(response => {
+        catalogApi.updateConfigurationHistory(ConfigurationHistoryAssembler.toResourceFromEntity(entry)).then(response => {
             const resource = response.data;
             const updatedEntry = ConfigurationHistoryAssembler.toEntityFromResource(resource);
             const index = configurationHistory.value.findIndex(h => h.getId() === updatedEntry.getId());
