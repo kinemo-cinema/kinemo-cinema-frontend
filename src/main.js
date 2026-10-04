@@ -6,9 +6,22 @@ import pinia from "./pinia.js";
 import {router} from "./router.js";
 import PrimeVue from 'primevue/config';
 import Material from '@primeuix/themes/material';
+import ConfirmationService from 'primevue/confirmationservice'
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
-import {Avatar, Button, Card, Drawer, Menu, Menubar, Popover, SelectButton, Toolbar, Tooltip} from "primevue";
+import {
+    Avatar,
+    Button,
+    Card, Column, ConfirmDialog, DataTable,
+    Drawer, InputNumber,
+    InputText,
+    Menu,
+    Menubar,
+    Popover, Select,
+    SelectButton,
+    Toolbar,
+    Tooltip
+} from "primevue";
 
 const primeUiLicenseKey = import.meta.env.VITE_PRIME_UI_LICENSE_KEY;
 /**
@@ -22,6 +35,7 @@ createApp(App)
     .use(i18n)
     .use(pinia)
     .use(router)
+    .use(ConfirmationService)
     .use(PrimeVue, { ripple: true, theme: { preset: Material }, license: primeUiLicenseKey })
     .component('pv-button', Button)
     .component('pv-select-button', SelectButton)
@@ -32,5 +46,11 @@ createApp(App)
     .component('pv-menu', Menu)
     .component('pv-menubar', Menubar)
     .component('pv-popover', Popover)
+    .component('pv-input-text', InputText)
+    .component('pv-data-table', DataTable)
+    .component('pv-column', Column)
+    .component('pv-input-number', InputNumber)
+    .component('pv-select', Select)
+    .component('pv-confirm-dialog', ConfirmDialog)
     .directive('tooltip', Tooltip)
     .mount('#app')

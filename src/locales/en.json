@@ -97,5 +97,117 @@
   },
   "common": {
     "coming-soon": "This module is under construction."
+  },
+  "genre": {
+    "new-title": "New Genre",
+    "edit-title": "Edit Genre",
+    "name": "Name",
+    "description": "Description",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "genres": {
+    "title": "Genres",
+    "new": "New Genre",
+    "id": "ID",
+    "name": "Name",
+    "actions": "Actions",
+    "delete-header": "Confirm deletion",
+    "confirm-delete": "Are you sure you want to delete \"{name}\"?"
+  },
+  "movie": {
+    "new-title": "New Movie",
+    "edit-title": "Edit Movie",
+    "title": "Title",
+    "duration": "Duration",
+    "genre": "Genre",
+    "select-genre": "Select a genre",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "movies": {
+    "title": "Movies",
+    "new": "New Movie",
+    "id": "ID",
+    "minutes": "min",
+    "actions": "Actions",
+    "delete-header": "Confirm deletion",
+    "confirm-delete": "Are you sure you want to delete \"{title}\"?",
+    "fields": {
+      "title": "Title",
+      "duration": "Duration",
+      "genre": "Genre",
+      "status": "Status"
+    }
+  },
+  "sensoryFile": {
+    "new-title": "New Sensory File",
+    "edit-title": "Edit Sensory File",
+    "fileName": "File name",
+    "movie": "Movie",
+    "select-movie": "Select a movie",
+    "filePath": "File path",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "sensoryFiles": {
+    "title": "Sensory Files",
+    "new": "New Sensory File",
+    "id": "ID",
+    "actions": "Actions",
+    "delete-header": "Confirm deletion",
+    "confirm-delete": "Are you sure you want to delete \"{fileName}\"?",
+    "fields": {
+      "fileName": "File name",
+      "movie": "Movie",
+      "format": "Format",
+      "status": "Status"
+    }
+  },
+  "sensoryTrack": {
+    "new-title": "New Sensory Track",
+    "edit-title": "Edit Sensory Track",
+    "sensoryFile": "Sensory file",
+    "select-sensory-file": "Select a sensory file",
+    "trackType": "Track type",
+    "select-track-type": "Select a track type",
+    "intensityLevel": "Intensity level",
+    "trackStatus": "Track status",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "sensoryTracks": {
+    "title": "Sensory Tracks",
+    "new": "New Sensory Track",
+    "id": "ID",
+    "actions": "Actions",
+    "delete-header": "Confirm deletion",
+    "confirm-delete": "Are you sure you want to delete track #{id}?",
+    "fields": {
+      "sensoryFile": "File",
+      "trackType": "Type",
+      "intensityLevel": "Intensity",
+      "status": "Status"
+    }
+  },
+  "configurationHistory": {
+    "title": "Configuration History",
+    "id": "ID",
+    "fields": {
+      "sensoryTrack": "Track",
+      "previousIntensityLevel": "Previous intensity",
+      "changedAt": "Changed at",
+      "restored": "Restored"
+    }
+  },
+  "catalogNav": {
+    "movies": "Movies",
+    "genres": "Genres",
+    "sensoryFiles": "Sensory Files",
+    "sensoryTracks": "Sensory Tracks",
+    "configurationHistory": "Configuration History"
+  },
+  "errors": {
+    "occurred": "An error occurred"
   }
 }
