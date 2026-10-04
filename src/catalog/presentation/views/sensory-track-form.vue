@@ -1,6 +1,7 @@
 <script setup>
 import {useRoute, useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
+import {storeToRefs} from "pinia";
 import useCatalogStore from "../../application/catalog.store.js";
 import {computed, onMounted, ref} from "vue";
 import {SensoryTrack} from "../../domain/model/sensory-track.entity.js";
@@ -10,7 +11,11 @@ const route = useRoute();
 const router = useRouter();
 const store = useCatalogStore();
 
-const { errors, sensoryFiles, addSensoryTrack, updateSensoryTrack, fetchSensoryFiles } = store;
+// State — reactive refs (must come from storeToRefs to stay in sync)
+const { errors, sensoryFiles } = storeToRefs(store);
+
+// Actions — plain destructure is fine
+const { addSensoryTrack, updateSensoryTrack, fetchSensoryFiles } = store;
 
 const TRACK_TYPES = ['MOTION', 'WIND', 'WATER', 'VIBRATION'];
 const TRACK_STATUSES = ['ENABLED', 'DISABLED', 'PENDING'];
