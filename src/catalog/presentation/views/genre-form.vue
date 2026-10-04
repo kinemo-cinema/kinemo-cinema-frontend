@@ -12,22 +12,25 @@ const store = useCatalogStore();
 
 const {errors, addGenre, updateGenre} = store;
 
-const form = ref({name: '',description: ''});
+const form = ref({name: '', description: ''});
 const isEdit = computed(() => !!route.params.id);
 
 onMounted(() => {
-  console.log(route.params.id);
   if (isEdit.value) {
     const genre = getGenreById(route.params.id);
-    console.log(genre);
-    if (genre) form.value.name = genre.name; else router.push({name: 'catalog-genres'});
+    if (genre) {
+      form.value.name = genre.name;
+      form.value.description = genre.description;
+    } else {
+      router.push({name: 'catalog-genres'});
+    }
   }
 });
 
 /**
  * Retrieves a genre by its ID.
  * @param {string} id - The ID of the genre.
- * @returns {Genre|null} - The genre object if found, null otherwise.
+ * @returns {Genre|null} The genre object if found, null otherwise.
  */
 function getGenreById(id) {
   return store.getGenreById(id);
@@ -41,35 +44,43 @@ const saveGenre = () => {
     id: isEdit.value ? route.params.id : null,
     name: form.value.name,
     description: form.value.description,
-
   });
   if (isEdit.value) updateGenre(genre); else addGenre(genre);
   navigateBack();
 };
 
 /**
- * Navigates back to the catalog categories list.
+ * Navigates back to the catalog genres list.
  */
 const navigateBack = () => {
   router.push({name: 'catalog-genres'});
 };
-
 </script>
 
 <template>
   <div class="p-4">
     <h1>{{ isEdit ? t('genre.edit-title') : t('genre.new-title') }}</h1>
+
     <form @submit.prevent="saveGenre">
       <div class="field mb-3">
         <label for="name">{{ t('genre.name') }}</label>
         <pv-input-text id="name" v-model="form.name" class="w-full" required/>
-        <pv-input-text id="description" v-model="form.description" class="w-full" />
       </div>
-    </form>
-  </div>
 
+      <div class="field mb-3">
+        <label for="description">{{ t('genre.description') }}</label>
+        <pv-input-text id="description" v-model="form.description" class="w-full"/>
+      </div>
+
+      <pv-button type="submit" :label="t('genre.save')" icon="pi pi-save"/>
+      <pv-button :label="t('genre.cancel')" severity="secondary" class="ml-2" @click="navigateBack"/>
+    </form>
+
+    <div v-if="errors.length" class="text-red-500 mt-3">
+      {{ t('errors.occurred') }}: {{ errors.map(e => e.message).join(', ') }}
+    </div>
+  </div>
 </template>
 
 <style scoped>
-
 </style>
