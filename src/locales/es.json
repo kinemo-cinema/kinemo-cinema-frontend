@@ -200,6 +200,13 @@
       "restored": "Restaurado"
     }
   },
+  "catalogNav": {
+    "movies": "Películas",
+    "genres": "Géneros",
+    "sensoryFiles": "Archivos Sensoriales",
+    "sensoryTracks": "Pistas Sensoriales",
+    "configurationHistory": "Historial de Configuración"
+  },
   "errors": {
     "occurred": "Ocurrió un error"
   }
