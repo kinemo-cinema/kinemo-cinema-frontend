@@ -207,6 +207,38 @@
     "sensoryTracks": "Pistas Sensoriales",
     "configurationHistory": "Historial de Configuración"
   },
+  "schedulingNav": {
+    "shows": "Funciones"
+  },
+  "show": {
+    "new-title": "Nueva Función",
+    "edit-title": "Editar Función",
+    "movie": "Película",
+    "room": "Sala",
+    "select-movie": "Selecciona una película",
+    "select-room": "Selecciona una sala",
+    "start-time": "Hora de inicio",
+    "end-time": "Hora de fin",
+    "assigned-professional": "ID del profesional asignado",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "invalid-window": "La hora de fin debe ser posterior a la hora de inicio.",
+    "room-conflict": "La sala ya está reservada en ese horario. Funciones en conflicto: {conflicts}"
+  },
+  "shows": {
+    "title": "Funciones",
+    "new": "Nueva Función",
+    "id": "ID",
+    "actions": "Acciones",
+    "delete-header": "Confirmar eliminación",
+    "confirm-delete": "¿Seguro que quieres eliminar la función #{id}?",
+    "fields": {
+      "movie": "Película",
+      "room": "Sala",
+      "schedule": "Horario",
+      "status": "Estado"
+    }
+  },
   "errors": {
     "occurred": "Ocurrió un error"
   }

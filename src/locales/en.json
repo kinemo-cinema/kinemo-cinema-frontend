@@ -207,6 +207,38 @@
     "sensoryTracks": "Sensory Tracks",
     "configurationHistory": "Configuration History"
   },
+  "schedulingNav": {
+    "shows": "Shows"
+  },
+  "show": {
+    "new-title": "New Show",
+    "edit-title": "Edit Show",
+    "movie": "Movie",
+    "room": "Room",
+    "select-movie": "Select a movie",
+    "select-room": "Select a room",
+    "start-time": "Start time",
+    "end-time": "End time",
+    "assigned-professional": "Assigned professional ID",
+    "save": "Save",
+    "cancel": "Cancel",
+    "invalid-window": "The end time must be after the start time.",
+    "room-conflict": "The room is already booked for this window. Conflicting shows: {conflicts}"
+  },
+  "shows": {
+    "title": "Shows",
+    "new": "New Show",
+    "id": "ID",
+    "actions": "Actions",
+    "delete-header": "Confirm deletion",
+    "confirm-delete": "Are you sure you want to delete show #{id}?",
+    "fields": {
+      "movie": "Movie",
+      "room": "Room",
+      "schedule": "Schedule",
+      "status": "Status"
+    }
+  },
   "errors": {
     "occurred": "An error occurred"
   }
