@@ -239,6 +239,85 @@
       "status": "Estado"
     }
   },
+  "readinessNav": {
+    "rooms": "Salas"
+  },
+  "room": {
+    "new-title": "Nueva Sala",
+    "edit-title": "Editar Sala",
+    "name": "Nombre",
+    "capacity": "Capacidad",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "rooms": {
+    "title": "Salas",
+    "new": "Nueva Sala",
+    "id": "ID",
+    "actions": "Acciones",
+    "filter-status": "Filtrar por estado",
+    "delete-header": "Confirmar eliminación",
+    "confirm-delete": "¿Seguro que quieres eliminar \"{name}\"?",
+    "fields": {
+      "name": "Nombre",
+      "capacity": "Capacidad",
+      "status": "Estado",
+      "ready": "Lista"
+    }
+  },
+  "roomDetail": {
+    "back": "Volver a Salas",
+    "not-found": "Sala no encontrada.",
+    "ready-label": "Lista para operar",
+    "release-confirm": "¿Liberar esta sala de su bloqueo actual?",
+    "release-header": "Liberar Sala",
+    "transitions": {
+      "prepare": "Iniciar Preparación",
+      "mark-ready": "Marcar Lista",
+      "maintenance": "Enviar a Mantenimiento",
+      "complete-maintenance": "Completar Mantenimiento",
+      "release": "Liberar Bloqueo"
+    },
+    "inspections": {
+      "title": "Inspecciones",
+      "add": "Nueva Inspección"
+    },
+    "blocks": {
+      "title": "Bloqueos",
+      "add": "Nuevo Bloqueo"
+    }
+  },
+  "inspection": {
+    "inspector": "ID del Inspector",
+    "technical-review": "Requiere revisión técnica",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "inspections": {
+    "id": "ID",
+    "actions": "Acciones",
+    "fields": {
+      "inspector": "Inspector",
+      "status": "Estado",
+      "inspected-at": "Inspeccionado el",
+      "tech-review": "Revisión técnica"
+    }
+  },
+  "block": {
+    "reason": "Motivo",
+    "start-time": "Hora de inicio",
+    "end-time": "Hora de fin",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "blocks": {
+    "id": "ID",
+    "fields": {
+      "reason": "Motivo",
+      "window": "Ventana",
+      "status": "Estado"
+    }
+  },
   "errors": {
     "occurred": "Ocurrió un error"
   }
