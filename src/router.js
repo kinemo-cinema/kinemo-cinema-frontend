@@ -25,10 +25,10 @@ const routes = [
         children: SchedulingRoutes,
     },
     {
-        path: '/readiness',
+        path: '/room-readiness',   
         component: ReadinessLayout,
         children: ReadinessRoutes,
-    },
+    },,
     { path: '/:pathMatch(.*)*', name: 'not-found', component: PageNotFoundView },
 ];
 
