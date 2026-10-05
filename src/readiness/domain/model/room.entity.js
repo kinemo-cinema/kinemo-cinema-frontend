@@ -284,7 +284,7 @@ export class Room {
             throw new Error(`Cannot prepare a room in status ${this._status.toString()}`);
         }
         this._status = RoomStatus.preparing();
-        this.#touch();
+        this._updatedAt = DateTime.now();
     }
 
     /**
@@ -299,7 +299,7 @@ export class Room {
             throw new Error(`Cannot mark a room ready from status ${this._status.toString()}`);
         }
         this._status = RoomStatus.ready();
-        this.#touch();
+        this._updatedAt = DateTime.now();
     }
 
     /**
@@ -321,7 +321,7 @@ export class Room {
         }
         this.addBlock(block);
         this._status = RoomStatus.blocked();
-        this.#touch();
+        this._updatedAt = DateTime.now();
     }
 
     /**
@@ -340,7 +340,7 @@ export class Room {
             blocking[blocking.length - 1].release();
         }
         this._status = RoomStatus.available();
-        this.#touch();
+        this._updatedAt = DateTime.now();
     }
 
     /**
@@ -355,7 +355,7 @@ export class Room {
             throw new Error(`Cannot send a room to maintenance from status ${this._status.toString()}`);
         }
         this._status = RoomStatus.maintenance();
-        this.#touch();
+        this._updatedAt = DateTime.now();
     }
 
     /**
@@ -369,20 +369,6 @@ export class Room {
             throw new Error(`Cannot complete maintenance from status ${this._status.toString()}`);
         }
         this._status = RoomStatus.available();
-        this.#touch();
-    }
-
-    // --------------------------------------------------------------------
-    // Private helpers
-    // --------------------------------------------------------------------
-
-    /**
-     * Sets `updatedAt` to the current time. Called after every state change.
-     *
-     * @private
-     * @returns {void}
-     */
-    #touch() {
         this._updatedAt = DateTime.now();
     }
 }
