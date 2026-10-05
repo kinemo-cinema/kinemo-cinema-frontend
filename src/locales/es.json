@@ -13,63 +13,38 @@
       "logout": "Cerrar sesión"
     }
   },
-  "hub": {
+  "home": {
     "title": "Bienvenido a Kinemo",
-    "subtitle": "Selecciona un módulo para gestionar las operaciones de tu cine 4D.",
-    "sections": {
-      "manager": "Módulos Comerciales y Analíticos",
-      "technician": "Módulos Operativos y Técnicos"
+    "subtitle": "Elige cómo quieres trabajar hoy.",
+    "continue": "Continuar"
+  },
+  "roles": {
+    "manager": {
+      "title": "Gerente de Cine",
+      "description": "Módulos comerciales y analíticos: catálogo, programación, boletería, analítica y suscripción."
     },
-    "modules": {
-      "catalog": {
-        "title": "Catálogo de Películas",
-        "description": "Registra películas 4D, asocia archivos de efectos y gestiona el catálogo disponible para programar."
-      },
-      "sensory": {
-        "title": "Contenido Sensorial",
-        "description": "Sube y valida pistas sensoriales, asigna niveles de intensidad y gestiona el historial de configuración."
-      },
-      "scheduling": {
-        "title": "Programación",
-        "description": "Programa funciones 4D, gestiona la disponibilidad de salas y bloquea horarios por mantenimiento."
-      },
-      "analytics": {
-        "title": "Analítica",
-        "description": "Consulta ocupación, consumo de insumos y métricas de rendimiento por sala."
-      },
-      "ticketing": {
-        "title": "Integración de Boletería",
-        "description": "Monitorea la conexión con tu sistema externo de boletería y revisa la ocupación sincronizada."
-      },
-      "subscription": {
-        "title": "Suscripción",
-        "description": "Gestiona tu plan Kinemo, métodos de pago, límite de pantallas y renovaciones."
-      },
-      "room-readiness": {
-        "title": "Preparación de Sala",
-        "description": "Verifica el estado de la sala, calcula requerimientos de agua y aire, y registra inspecciones antes de cada función."
-      },
-      "seat-control": {
-        "title": "Asignación de Butacas",
-        "description": "Visualiza el mapa de butacas, activa asientos vendidos y bloquea butacas individuales para servicio."
-      },
-      "execution": {
-        "title": "Ejecución 4D",
-        "description": "Inicia, pausa y concluye secuencias de efectos; monitorea sincronización y estado del hardware."
-      },
-      "emergency": {
-        "title": "Gestión de Emergencias",
-        "description": "Activa paradas de emergencia, bloquea la ejecución y registra el restablecimiento con confirmación."
-      },
-      "testing": {
-        "title": "Pruebas y Calibración",
-        "description": "Prueba canales de efectos, ajusta intensidad y nivela butacas antes de abrir la sala."
-      },
-      "maintenance": {
-        "title": "Mantenimiento",
-        "description": "Reporta incidencias, programa mantenimiento preventivo y controla la vida útil de los componentes."
-      }
+    "technician": {
+      "title": "Técnico de Mantenimiento",
+      "description": "Módulos operativos y técnicos: preparación de sala, control de butacas, ejecución 4D y mantenimiento."
     }
+  },
+  "profile": {
+    "eyebrow": "Sesión iniciada como",
+    "placeholder": "La información detallada del perfil aparecerá aquí en una versión futura."
+  },
+  "sidebar": {
+    "role-label": "Rol"
+  },
+  "modules": {
+    "catalog":        { "title": "Catálogo y Sensorial" },
+    "scheduling":     { "title": "Programación" },
+    "ticketing":      { "title": "Boletería" },
+    "analytics":      { "title": "Analítica" },
+    "subscription":   { "title": "Suscripción" },
+    "room-readiness": { "title": "Preparación de Sala" },
+    "seat-control":   { "title": "Control de Butacas" },
+    "execution":      { "title": "Ejecución 4D" },
+    "maintenance":    { "title": "Mantenimiento" }
   },
   "about": {
     "title": "Sobre Kinemo",
