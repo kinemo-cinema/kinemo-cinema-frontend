@@ -1,7 +1,7 @@
 import {BaseApi} from "../../shared/infrastructure/base-api.js";
 import {BaseEndpoint} from "../../shared/infrastructure/base-endpoint.js";
 
-const integrationsEndpointPath = import.meta.env.VITE_TICKETING_INTEGRATIONS_ENDPOINT_PATH;
+const integrationsEndpointPath = import.meta.env.VITE_TICKETING_CONNECTIONS_ENDPOINT_PATH;
 const syncLogsEndpointPath = import.meta.env.VITE_SYNC_LOGS_ENDPOINT_PATH;
 const occupanciesEndpointPath = import.meta.env.VITE_SHOW_OCCUPANCIES_ENDPOINT_PATH;
 
