@@ -25,7 +25,7 @@ const managerModules = [
 /** @type {Array<{key: string, icon: string, route: string}>} */
 const technicianModules = [
   { key: 'room-readiness', icon: 'pi pi-home',        route: '/room-readiness' },
-  { key: 'seat-control',   icon: 'pi pi-th-large',    route: '/seat-control' },
+  { key: 'seat-control', icon: 'pi pi-th-large', route: '/seat-allocation' },
   { key: 'execution',      icon: 'pi pi-play-circle', route: '/execution' },
   { key: 'emergency',      icon: 'pi pi-exclamation-triangle', route: '/emergency' },
   { key: 'testing',        icon: 'pi pi-wrench',      route: '/testing' },
