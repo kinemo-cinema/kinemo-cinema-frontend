@@ -1,19 +1,37 @@
 import { createRouter, createWebHistory } from 'vue-router';
+
 import CatalogRoutes from "./catalog/presentation/catalog-routes.js";
 import SchedulingRoutes from "./scheduling/presentation/scheduling-routes.js";
 import ReadinessRoutes from "./readiness/presentation/readiness-routes.js";
+import SeatAllocationRoutes from "./seat-allocation/presentation/seat-allocation-routes.js";
 
 const HomeView = () => import('./shared/presentation/views/home.vue');
 const AboutView = () => import('./shared/presentation/views/about.vue');
 const PageNotFoundView = () => import('./shared/presentation/views/page-not-found.vue');
 
-const CatalogLayout = () => import('./catalog/presentation/views/catalog-layout.vue');
-const SchedulingLayout = () => import('./scheduling/presentation/views/scheduling-layout.vue');
-const ReadinessLayout = () => import('./readiness/presentation/views/readiness-layout.vue');
+const CatalogLayout = () =>
+    import('./catalog/presentation/views/catalog-layout.vue');
+
+const SchedulingLayout = () =>
+    import('./scheduling/presentation/views/scheduling-layout.vue');
+
+const ReadinessLayout = () =>
+    import('./readiness/presentation/views/readiness-layout.vue');
+
+const SeatAllocationLayout = () =>
+    import('./seat-allocation/presentation/views/seat-allocation-layout.vue');
 
 const routes = [
-    { path: '/', name: 'home', component: HomeView },
-    { path: '/about', name: 'about', component: AboutView },
+    {
+        path: '/',
+        name: 'home',
+        component: HomeView
+    },
+    {
+        path: '/about',
+        name: 'about',
+        component: AboutView
+    },
     {
         path: '/catalog',
         component: CatalogLayout,
@@ -25,11 +43,20 @@ const routes = [
         children: SchedulingRoutes,
     },
     {
-        path: '/room-readiness',   
+        path: '/room-readiness',
         component: ReadinessLayout,
         children: ReadinessRoutes,
-    },,
-    { path: '/:pathMatch(.*)*', name: 'not-found', component: PageNotFoundView },
+    },
+    {
+        path: '/seat-allocation',
+        component: SeatAllocationLayout,
+        children: SeatAllocationRoutes,
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'not-found',
+        component: PageNotFoundView
+    },
 ];
 
 export const router = createRouter({
