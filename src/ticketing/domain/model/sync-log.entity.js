@@ -1,139 +1,119 @@
-import { SyncStatus } from './sync-status.value-object.js';
+import {SyncStatus} from './sync-status.value-object.js';
 
 /**
- * Represents a synchronization attempt performed between Kinemo
- * and an external ticketing provider.
+ * Represents a synchronization process executed between Kinemo
+ * and an external ticketing connection.
  */
 export class SyncLog {
 
-    /**
-     * Creates a new SyncLog entity.
-     *
-     * @param {Object} props
-     * @param {string|null} [props.syncLogId] - Unique identifier of the synchronization log.
-     * @param {string|null} [props.showId] - Identifier of the synchronized show.
-     * @param {Date|string|null} [props.executedAt] - Date and time when synchronization was executed.
-     * @param {SyncStatus|string|null} [props.status] - Current synchronization status.
-     * @param {string} [props.errorDetails] - Details of the synchronization error.
-     */
     constructor({
-                    syncLogId = null,
-                    showId = null,
-                    executedAt = null,
-                    status = null,
-                    errorDetails = ''
+                    id = null,
+                    connectionId = null,
+                    operatorId = null,
+                    syncStatus = 'PENDING',
+                    recordsProcessed = 0,
+                    startedAt = null,
+                    completedAt = null,
+                    errorDetails = null
                 } = {}) {
-        this._syncLogId = syncLogId;
-        this._showId = showId;
+        this._id = id;
+        this._connectionId = connectionId;
+        this._operatorId = operatorId;
 
-        this._executedAt = executedAt instanceof Date
-            ? executedAt
-            : executedAt
-                ? new Date(executedAt)
-                : new Date();
+        this._syncStatus =
+            syncStatus instanceof SyncStatus
+                ? syncStatus
+                : new SyncStatus(syncStatus);
 
-        this._status = status instanceof SyncStatus
-            ? status
-            : new SyncStatus(status ?? 'PENDING');
+        this._recordsProcessed =
+            Number(recordsProcessed);
+
+        this._startedAt = startedAt instanceof Date
+            ? startedAt
+            : startedAt
+                ? new Date(startedAt)
+                : null;
+
+        this._completedAt = completedAt instanceof Date
+            ? completedAt
+            : completedAt
+                ? new Date(completedAt)
+                : null;
 
         this._errorDetails = errorDetails;
     }
 
-    // --------------------------------------------------------------------
-    // Identity & attributes
-    // --------------------------------------------------------------------
-
-    /**
-     * Returns the synchronization log identifier.
-     *
-     * @returns {string|null}
-     */
     getId() {
-        return this._syncLogId;
+        return this._id;
     }
 
-    /**
-     * Returns the show identifier.
-     *
-     * @returns {string|null}
-     */
-    getShowId() {
-        return this._showId;
+    getConnectionId() {
+        return this._connectionId;
     }
 
-    /**
-     * Returns the date and time when synchronization was executed.
-     *
-     * @returns {Date}
-     */
-    getExecutedAt() {
-        return this._executedAt;
+    getOperatorId() {
+        return this._operatorId;
     }
 
-    /**
-     * Returns the synchronization status.
-     *
-     * @returns {SyncStatus}
-     */
-    getStatus() {
-        return this._status;
+    getSyncStatus() {
+        return this._syncStatus;
     }
 
-    /**
-     * Returns the synchronization status as a string.
-     *
-     * @returns {string}
-     */
     getStatusAsString() {
-        return this._status.toString();
+        return this._syncStatus.toString();
     }
 
-    /**
-     * Returns synchronization error details.
-     *
-     * @returns {string}
-     */
+    getRecordsProcessed() {
+        return this._recordsProcessed;
+    }
+
+    getStartedAt() {
+        return this._startedAt;
+    }
+
+    getCompletedAt() {
+        return this._completedAt;
+    }
+
     getErrorDetails() {
         return this._errorDetails;
     }
 
-    // --------------------------------------------------------------------
-    // Synchronization lifecycle
-    // --------------------------------------------------------------------
+    markCompleted(recordsProcessed = 0) {
+        this._syncStatus =
+            SyncStatus.completed();
 
-    /**
-     * Marks the synchronization as successful.
-     *
-     * @returns {void}
-     */
-    markSuccessful() {
-        this._status = SyncStatus.successful();
-        this._errorDetails = '';
+        this._recordsProcessed =
+            Number(recordsProcessed);
+
+        this._completedAt = new Date();
+        this._errorDetails = null;
     }
 
-    /**
-     * Marks the synchronization as incomplete.
-     *
-     * @returns {void}
-     */
-    markIncomplete() {
-        this._status = SyncStatus.incomplete();
-    }
-
-    /**
-     * Marks the synchronization as failed.
-     *
-     * @param {string} details - Details describing the synchronization failure.
-     * @returns {void}
-     */
-    markFailed(details) {
-        if (!details || !String(details).trim()) {
+    markFailed(errorDetails) {
+        if (
+            !errorDetails ||
+            !String(errorDetails).trim()
+        ) {
             throw new Error(
                 'Error details are required when synchronization fails.'
             );
         }
 
-        this._status = SyncStatus.failed();
-        this._errorDetails = String(details).trim();
+        this._syncStatus =
+            SyncStatus.failed();
+
+        this._completedAt = new Date();
+        this._errorDetails =
+            String(errorDetails).trim();
+    }
+
+    markInProgress() {
+        this._syncStatus =
+            SyncStatus.inProgress();
+
+        this._startedAt = new Date();
+        this._completedAt = null;
+        this._errorDetails = null;
     }
 }
