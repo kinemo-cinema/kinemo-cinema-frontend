@@ -1,178 +1,141 @@
 /**
- * Represents the synchronized occupancy information of a cinema show.
+ * Represents the occupancy information synchronized for a show.
  */
 export class ShowOccupancy {
 
-    /**
-     * Creates a new ShowOccupancy entity.
-     *
-     * @param {Object} props
-     * @param {string|null} [props.occupancyId] - Unique identifier of the occupancy record.
-     * @param {string|null} [props.showId] - Identifier of the show.
-     * @param {number} [props.totalSeats] - Total number of seats for the show.
-     * @param {number} [props.occupiedSeats] - Number of occupied seats.
-     * @param {Date|string|null} [props.lastUpdatedAt] - Last synchronization date and time.
-     */
     constructor({
-                    occupancyId = null,
+                    id = null,
                     showId = null,
-                    totalSeats = 0,
+                    lastSyncLogId = null,
+                    totalCapacity = 0,
                     occupiedSeats = 0,
                     lastUpdatedAt = null
                 } = {}) {
-        this._occupancyId = occupancyId;
+        this._id = id;
         this._showId = showId;
-        this._totalSeats = Number(totalSeats);
+        this._lastSyncLogId = lastSyncLogId;
+        this._totalCapacity = Number(totalCapacity);
         this._occupiedSeats = Number(occupiedSeats);
 
         this._lastUpdatedAt = lastUpdatedAt instanceof Date
             ? lastUpdatedAt
             : lastUpdatedAt
                 ? new Date(lastUpdatedAt)
-                : new Date();
+                : null;
 
         this.validateOccupancy();
     }
 
-    // --------------------------------------------------------------------
-    // Identity & attributes
-    // --------------------------------------------------------------------
-
-    /**
-     * Returns the occupancy identifier.
-     *
-     * @returns {string|null}
-     */
     getId() {
-        return this._occupancyId;
+        return this._id;
     }
 
-    /**
-     * Returns the show identifier.
-     *
-     * @returns {string|null}
-     */
     getShowId() {
         return this._showId;
     }
 
-    /**
-     * Returns the total number of seats.
-     *
-     * @returns {number}
-     */
-    getTotalSeats() {
-        return this._totalSeats;
+    getLastSyncLogId() {
+        return this._lastSyncLogId;
     }
 
-    /**
-     * Returns the number of occupied seats.
-     *
-     * @returns {number}
-     */
+    getTotalCapacity() {
+        return this._totalCapacity;
+    }
+
     getOccupiedSeats() {
         return this._occupiedSeats;
     }
 
-    /**
-     * Returns the number of available seats.
-     *
-     * @returns {number}
-     */
     getAvailableSeats() {
-        return this._totalSeats - this._occupiedSeats;
+        return this._totalCapacity - this._occupiedSeats;
     }
 
-    /**
-     * Returns the last update date and time.
-     *
-     * @returns {Date}
-     */
     getLastUpdatedAt() {
         return this._lastUpdatedAt;
     }
 
-    /**
-     * Returns the occupancy percentage.
-     *
-     * @returns {number}
-     */
     getOccupancyPercentage() {
-        if (this._totalSeats === 0) {
+        if (this._totalCapacity === 0) {
             return 0;
         }
 
-        return (this._occupiedSeats / this._totalSeats) * 100;
+        return (
+            this._occupiedSeats /
+            this._totalCapacity
+        ) * 100;
     }
 
-    // --------------------------------------------------------------------
-    // Occupancy behavior
-    // --------------------------------------------------------------------
+    updateOccupancy(
+        occupiedSeats,
+        lastSyncLogId = null
+    ) {
+        const normalizedOccupiedSeats =
+            Number(occupiedSeats);
 
-    /**
-     * Updates the number of occupied seats.
-     *
-     * @param {number} occupiedSeats - New number of occupied seats.
-     * @returns {void}
-     */
-    updateOccupancy(occupiedSeats) {
-        const newOccupiedSeats = Number(occupiedSeats);
-
-        if (!Number.isInteger(newOccupiedSeats) || newOccupiedSeats < 0) {
+        if (
+            !Number.isInteger(normalizedOccupiedSeats) ||
+            normalizedOccupiedSeats < 0
+        ) {
             throw new Error(
                 'Occupied seats must be a non-negative integer.'
             );
         }
 
-        if (newOccupiedSeats > this._totalSeats) {
+        if (
+            normalizedOccupiedSeats >
+            this._totalCapacity
+        ) {
             throw new Error(
-                'Occupied seats cannot exceed total seats.'
+                'Occupied seats cannot exceed total capacity.'
             );
         }
 
-        this._occupiedSeats = newOccupiedSeats;
+        this._occupiedSeats =
+            normalizedOccupiedSeats;
+
+        if (lastSyncLogId !== null) {
+            this._lastSyncLogId =
+                lastSyncLogId;
+        }
+
         this._lastUpdatedAt = new Date();
     }
 
-    /**
-     * Updates the total number of seats.
-     *
-     * @param {number} totalSeats - New total number of seats.
-     * @returns {void}
-     */
-    updateTotalSeats(totalSeats) {
-        const newTotalSeats = Number(totalSeats);
+    updateTotalCapacity(totalCapacity) {
+        const normalizedCapacity =
+            Number(totalCapacity);
 
-        if (!Number.isInteger(newTotalSeats) || newTotalSeats < 0) {
+        if (
+            !Number.isInteger(normalizedCapacity) ||
+            normalizedCapacity < 0
+        ) {
             throw new Error(
-                'Total seats must be a non-negative integer.'
+                'Total capacity must be a non-negative integer.'
             );
         }
 
-        if (newTotalSeats < this._occupiedSeats) {
+        if (
+            normalizedCapacity <
+            this._occupiedSeats
+        ) {
             throw new Error(
-                'Total seats cannot be lower than occupied seats.'
+                'Total capacity cannot be lower than occupied seats.'
             );
         }
 
-        this._totalSeats = newTotalSeats;
+        this._totalCapacity =
+            normalizedCapacity;
+
         this._lastUpdatedAt = new Date();
     }
 
-    // --------------------------------------------------------------------
-    // Validation
-    // --------------------------------------------------------------------
-
-    /**
-     * Validates occupancy values.
-     *
-     * @private
-     * @returns {void}
-     */
     validateOccupancy() {
-        if (!Number.isInteger(this._totalSeats) || this._totalSeats < 0) {
+        if (
+            !Number.isInteger(this._totalCapacity) ||
+            this._totalCapacity < 0
+        ) {
             throw new Error(
-                'Total seats must be a non-negative integer.'
+                'Total capacity must be a non-negative integer.'
             );
         }
 
@@ -185,9 +148,12 @@ export class ShowOccupancy {
             );
         }
 
-        if (this._occupiedSeats > this._totalSeats) {
+        if (
+            this._occupiedSeats >
+            this._totalCapacity
+        ) {
             throw new Error(
-                'Occupied seats cannot exceed total seats.'
+                'Occupied seats cannot exceed total capacity.'
             );
         }
     }
