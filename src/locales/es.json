@@ -73,6 +73,56 @@
   "common": {
     "coming-soon": "Este módulo está en construcción."
   },
+  "maintenance": {
+    "title": "Pruebas de Recursos y Mantenimiento",
+    "subtitle": "Monitorea pruebas de hardware 4D, incidentes, componentes y órdenes de mantenimiento.",
+    "refresh": "Actualizar",
+    "failed-tests": "Pruebas Fallidas / En Revisión",
+    "open-incidents": "Incidentes Abiertos",
+    "pending-maintenance": "Mantenimiento Pendiente",
+    "components": "Componentes",
+    "channel-tests": "Pruebas de Canal",
+    "hardware-components": "Componentes de Hardware",
+    "incidents": "Incidentes",
+    "maintenance-orders": "Órdenes de Mantenimiento",
+    "monitoring": "Monitoreo",
+    "operations": "Operaciones",
+    "fields": {
+      "id": "ID",
+      "channel": "Canal",
+      "result": "Resultado",
+      "review": "Revisión",
+      "code": "Código",
+      "type": "Tipo",
+      "lifecycle": "Ciclo de Vida",
+      "usage": "Uso",
+      "severity": "Severidad",
+      "priority": "Prioridad",
+      "status": "Estado",
+      "description": "Descripción"
+    },
+    "values": {
+      "yes": "Sí",
+      "no": "No"
+    },
+    "status": {
+      "PASSED": "Aprobado",
+      "FAILED": "Fallido",
+      "LOW_PRESSURE": "Baja Presión",
+      "REQUIRES_REVIEW": "Requiere Revisión",
+      "WITHIN_LIMIT": "Dentro del Límite",
+      "NEAR_LIMIT": "Cerca del Límite",
+      "EXCEEDED": "Límite Excedido",
+      "REPLACE_SUGGESTED": "Reemplazo Sugerido",
+      "REPORTED": "Reportado",
+      "IN_REVIEW": "En Revisión",
+      "RESOLVED": "Resuelto",
+      "CLOSED": "Cerrado",
+      "IN_PROGRESS": "En Progreso",
+      "SCHEDULED": "Programado",
+      "COMPLETED": "Completado"
+    }
+  },
   "genre": {
     "new-title": "Nuevo Género",
     "edit-title": "Editar Género",

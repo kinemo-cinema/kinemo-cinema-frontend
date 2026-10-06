@@ -73,6 +73,56 @@
   "common": {
     "coming-soon": "This module is under construction."
   },
+  "maintenance": {
+    "title": "Resource Testing & Maintenance",
+    "subtitle": "Monitor 4D hardware tests, incidents, components and maintenance orders.",
+    "refresh": "Refresh",
+    "failed-tests": "Failed / Review Tests",
+    "open-incidents": "Open Incidents",
+    "pending-maintenance": "Pending Maintenance",
+    "components": "Components",
+    "channel-tests": "Channel Tests",
+    "hardware-components": "Hardware Components",
+    "incidents": "Incidents",
+    "maintenance-orders": "Maintenance Orders",
+    "monitoring": "Monitoring",
+    "operations": "Operations",
+    "fields": {
+      "id": "ID",
+      "channel": "Channel",
+      "result": "Result",
+      "review": "Review",
+      "code": "Code",
+      "type": "Type",
+      "lifecycle": "Lifecycle",
+      "usage": "Usage",
+      "severity": "Severity",
+      "priority": "Priority",
+      "status": "Status",
+      "description": "Description"
+    },
+    "values": {
+      "yes": "Yes",
+      "no": "No"
+    },
+    "status": {
+      "PASSED": "Passed",
+      "FAILED": "Failed",
+      "LOW_PRESSURE": "Low Pressure",
+      "REQUIRES_REVIEW": "Requires Review",
+      "WITHIN_LIMIT": "Within Limit",
+      "NEAR_LIMIT": "Near Limit",
+      "EXCEEDED": "Exceeded",
+      "REPLACE_SUGGESTED": "Replacement Suggested",
+      "REPORTED": "Reported",
+      "IN_REVIEW": "In Review",
+      "RESOLVED": "Resolved",
+      "CLOSED": "Closed",
+      "IN_PROGRESS": "In Progress",
+      "SCHEDULED": "Scheduled",
+      "COMPLETED": "Completed"
+    }
+  },
   "genre": {
     "new-title": "New Genre",
     "edit-title": "Edit Genre",
