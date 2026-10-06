@@ -19,13 +19,16 @@ export class ShowOccupancyAssembler {
 
     static toEntitiesFromResponse(response) {
         if (response.status !== 200) {
-            console.error(`${response.status}: ${response.statusText}`);
+            console.error(
+                `${response.status}: ${response.statusText}`
+            );
             return [];
         }
 
-        const resources = response.data instanceof Array
-            ? response.data
-            : response.data['showOccupancies'];
+        const resources =
+            response.data instanceof Array
+                ? response.data
+                : response.data?.showOccupancies ?? [];
 
         return resources.map(resource =>
             this.toEntityFromResource(resource)
@@ -40,7 +43,9 @@ export class ShowOccupancyAssembler {
             totalCapacity: occupancy.getTotalCapacity(),
             occupiedSeats: occupancy.getOccupiedSeats(),
             lastUpdatedAt:
-                occupancy.getLastUpdatedAt()?.toISOString() ?? null,
+                occupancy
+                    .getLastUpdatedAt()
+                    ?.toISOString() ?? null,
         };
     }
 }

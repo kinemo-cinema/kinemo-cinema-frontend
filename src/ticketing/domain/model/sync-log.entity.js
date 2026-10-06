@@ -16,9 +16,19 @@ export class SyncLog {
                     completedAt = null,
                     errorDetails = null
                 } = {}) {
-        this._id = id;
-        this._connectionId = connectionId;
-        this._operatorId = operatorId;
+
+        this._id =
+            id !== null ? Number(id) : null;
+
+        this._connectionId =
+            connectionId !== null
+                ? Number(connectionId)
+                : null;
+
+        this._operatorId =
+            operatorId !== null
+                ? Number(operatorId)
+                : null;
 
         this._syncStatus =
             syncStatus instanceof SyncStatus
@@ -28,19 +38,31 @@ export class SyncLog {
         this._recordsProcessed =
             Number(recordsProcessed);
 
-        this._startedAt = startedAt instanceof Date
-            ? startedAt
-            : startedAt
-                ? new Date(startedAt)
-                : null;
+        if (
+            !Number.isInteger(this._recordsProcessed) ||
+            this._recordsProcessed < 0
+        ) {
+            throw new Error(
+                'Records processed must be a non-negative integer.'
+            );
+        }
 
-        this._completedAt = completedAt instanceof Date
-            ? completedAt
-            : completedAt
-                ? new Date(completedAt)
-                : null;
+        this._startedAt =
+            startedAt instanceof Date
+                ? startedAt
+                : startedAt
+                    ? new Date(startedAt)
+                    : null;
 
-        this._errorDetails = errorDetails;
+        this._completedAt =
+            completedAt instanceof Date
+                ? completedAt
+                : completedAt
+                    ? new Date(completedAt)
+                    : null;
+
+        this._errorDetails =
+            errorDetails;
     }
 
     getId() {
@@ -80,14 +102,29 @@ export class SyncLog {
     }
 
     markCompleted(recordsProcessed = 0) {
+        const normalizedRecords =
+            Number(recordsProcessed);
+
+        if (
+            !Number.isInteger(normalizedRecords) ||
+            normalizedRecords < 0
+        ) {
+            throw new Error(
+                'Records processed must be a non-negative integer.'
+            );
+        }
+
         this._syncStatus =
             SyncStatus.completed();
 
         this._recordsProcessed =
-            Number(recordsProcessed);
+            normalizedRecords;
 
-        this._completedAt = new Date();
-        this._errorDetails = null;
+        this._completedAt =
+            new Date();
+
+        this._errorDetails =
+            null;
     }
 
     markFailed(errorDetails) {
@@ -103,7 +140,9 @@ export class SyncLog {
         this._syncStatus =
             SyncStatus.failed();
 
-        this._completedAt = new Date();
+        this._completedAt =
+            new Date();
+
         this._errorDetails =
             String(errorDetails).trim();
     }
@@ -112,8 +151,13 @@ export class SyncLog {
         this._syncStatus =
             SyncStatus.inProgress();
 
-        this._startedAt = new Date();
-        this._completedAt = null;
-        this._errorDetails = null;
+        this._startedAt =
+            new Date();
+
+        this._completedAt =
+            null;
+
+        this._errorDetails =
+            null;
     }
 }

@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, reactive} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
 import Button from "primevue/button";
@@ -13,289 +13,167 @@ const route = useRoute();
 const router = useRouter();
 const ticketingStore = useTicketingStore();
 
-/**
- * Determines whether the form is being used for edition.
- */
-const isEditMode = computed(
-    () => Boolean(route.params.id)
-);
-
-/**
- * Available connection statuses.
- */
-const statusOptions = [
-  {
-    label: "Connected",
-    value: "CONNECTED"
-  },
-  {
-    label: "Disconnected",
-    value: "DISCONNECTED"
-  },
-  {
-    label: "Reconnecting",
-    value: "RECONNECTING"
-  }
-];
-
-/**
- * Form state.
- */
-const form = reactive({
-  cinemaId: "",
-  providerName: "",
-  status: "DISCONNECTED"
+const form = ref({
+  systemName: "",
+  endpointUrl: "",
+  connectionStatus: "AVAILABLE"
 });
 
-/**
- * Loads the integration information when editing.
- */
-onMounted(async () => {
-  if (!isEditMode.value) {
-    return;
-  }
+const statusOptions = [
+  {label: "Available", value: "AVAILABLE"},
+  {label: "Reconnecting", value: "RECONNECTING"},
+  {label: "Unavailable", value: "UNAVAILABLE"}
+];
 
+const isEdit = computed(() => !!route.params.id);
+
+onMounted(() => {
   if (!ticketingStore.ticketingIntegrationsLoaded) {
     ticketingStore.fetchTicketingIntegrations();
   }
 
-  const integration =
-      ticketingStore.getTicketingIntegrationById(
-          route.params.id
-      );
+  if (isEdit.value) {
+    const integration = getIntegrationById(route.params.id);
 
-  if (!integration) {
-    return;
+    if (integration) {
+      form.value.systemName = integration.getSystemName();
+      form.value.endpointUrl = integration.getEndpointUrl();
+      form.value.connectionStatus =
+          integration.getConnectionStatusAsString();
+    }
   }
-
-  form.cinemaId = integration.getCinemaId() ?? "";
-  form.providerName = integration.getProviderName();
-  form.status = integration.getStatusAsString();
 });
 
-/**
- * Validates the required form fields.
- *
- * @returns {boolean}
- */
+function getIntegrationById(id) {
+  return ticketingStore.getTicketingIntegrationById(id);
+}
+
 function isFormValid() {
   return (
-      String(form.cinemaId).trim() !== "" &&
-      form.providerName.trim() !== ""
+      form.value.systemName.trim() !== "" &&
+      form.value.endpointUrl.trim() !== ""
   );
 }
 
-/**
- * Creates or updates the ticketing integration.
- */
-function saveIntegration() {
-  if (!isFormValid()) {
-    return;
-  }
+const saveIntegration = () => {
+  if (!isFormValid()) return;
 
-  if (isEditMode.value) {
-    updateIntegration();
-    return;
-  }
+  const existing =
+      isEdit.value
+          ? getIntegrationById(route.params.id)
+          : null;
 
-  createIntegration();
-}
-
-/**
- * Creates a new ticketing integration.
- */
-function createIntegration() {
   const integration = new TicketingIntegration({
-    cinemaId: String(form.cinemaId).trim(),
-    providerName: form.providerName.trim(),
-    status: form.status
+    id: existing ? existing.getId() : null,
+    systemName: form.value.systemName.trim(),
+    endpointUrl: form.value.endpointUrl.trim(),
+    connectionStatus: form.value.connectionStatus,
+    lastVerifiedAt: existing
+        ? existing.getLastVerifiedAt()
+        : null
   });
 
-  ticketingStore.addTicketingIntegration(integration);
+  if (isEdit.value) {
+    ticketingStore.updateTicketingIntegration(integration);
+  } else {
+    ticketingStore.addTicketingIntegration(integration);
+  }
 
+  navigateBack();
+};
+
+const navigateBack = () => {
   router.push({
     name: "ticketing-integrations"
   });
-}
-
-/**
- * Updates an existing ticketing integration.
- */
-function updateIntegration() {
-  const currentIntegration =
-      ticketingStore.getTicketingIntegrationById(
-          route.params.id
-      );
-
-  if (!currentIntegration) {
-    return;
-  }
-
-  const integration = new TicketingIntegration({
-    integrationId: currentIntegration.getId(),
-    cinemaId: String(form.cinemaId).trim(),
-    providerName: form.providerName.trim(),
-    status: form.status
-  });
-
-  ticketingStore.updateTicketingIntegration(integration);
-
-  router.push({
-    name: "ticketing-integration-detail",
-    params: {
-      id: integration.getId()
-    }
-  });
-}
-
-/**
- * Returns to the integration list.
- */
-function cancel() {
-  router.push({
-    name: "ticketing-integrations"
-  });
-}
+};
 </script>
 
 <template>
-  <section class="ticketing-integration-form">
+  <div class="p-4">
 
-    <div class="ticketing-integration-form__header">
-      <div>
-        <h1>
-          {{
-            isEditMode
-                ? "Edit Ticketing Integration"
-                : "New Ticketing Integration"
-          }}
-        </h1>
+    <h1>
+      {{
+        isEdit
+            ? "Edit Ticketing Integration"
+            : "New Ticketing Integration"
+      }}
+    </h1>
 
-        <p>
-          Configure the connection between Kinemo
-          and an external ticketing provider.
-        </p>
-      </div>
-    </div>
+    <p class="mb-4">
+      Configure the connection between Kinemo
+      and an external ticketing system.
+    </p>
 
-    <form
-        class="ticketing-integration-form__content"
-        @submit.prevent="saveIntegration"
-    >
+    <form @submit.prevent="saveIntegration">
 
-      <div class="ticketing-integration-form__field">
-        <label for="cinemaId">
-          Cinema ID
+      <div class="field mb-3">
+        <label for="systemName">
+          System Name
         </label>
 
         <InputText
-            id="cinemaId"
-            v-model="form.cinemaId"
-            placeholder="Enter cinema ID"
-            fluid
+            id="systemName"
+            v-model="form.systemName"
+            class="w-full"
+            placeholder="Enter ticketing system name"
+            required
         />
       </div>
 
-      <div class="ticketing-integration-form__field">
-        <label for="providerName">
-          Provider Name
+      <div class="field mb-3">
+        <label for="endpointUrl">
+          Endpoint URL
         </label>
 
         <InputText
-            id="providerName"
-            v-model="form.providerName"
-            placeholder="Enter ticketing provider"
-            fluid
+            id="endpointUrl"
+            v-model="form.endpointUrl"
+            class="w-full"
+            placeholder="https://api.provider.com"
+            required
         />
       </div>
 
-      <div class="ticketing-integration-form__field">
-        <label for="status">
+      <div class="field mb-3">
+        <label for="connectionStatus">
           Connection Status
         </label>
 
         <Select
-            id="status"
-            v-model="form.status"
+            id="connectionStatus"
+            v-model="form.connectionStatus"
             :options="statusOptions"
             optionLabel="label"
             optionValue="value"
+            class="w-full"
             placeholder="Select status"
-            fluid
         />
       </div>
 
-      <div class="ticketing-integration-form__actions">
-        <Button
-            type="button"
-            label="Cancel"
-            severity="secondary"
-            outlined
-            @click="cancel"
-        />
+      <Button
+          type="submit"
+          :label="
+            isEdit
+                ? 'Save Changes'
+                : 'Create Integration'
+          "
+          icon="pi pi-save"
+          :disabled="!isFormValid()"
+      />
 
-        <Button
-            type="submit"
-            :label="isEditMode ? 'Save Changes' : 'Create Integration'"
-            icon="pi pi-check"
-            :disabled="!isFormValid()"
-        />
-      </div>
+      <Button
+          type="button"
+          label="Cancel"
+          severity="secondary"
+          class="ml-2"
+          @click="navigateBack"
+      />
 
     </form>
 
-  </section>
+  </div>
 </template>
 
 <style scoped>
-.ticketing-integration-form {
-  padding: 2rem;
-}
-
-.ticketing-integration-form__header {
-  margin-bottom: 2rem;
-}
-
-.ticketing-integration-form__header h1 {
-  margin: 0 0 0.5rem;
-}
-
-.ticketing-integration-form__header p {
-  margin: 0;
-}
-
-.ticketing-integration-form__content {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  max-width: 40rem;
-}
-
-.ticketing-integration-form__field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.ticketing-integration-form__field label {
-  font-weight: 600;
-}
-
-.ticketing-integration-form__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-  margin-top: 1rem;
-}
-
-@media (max-width: 768px) {
-  .ticketing-integration-form {
-    padding: 1rem;
-  }
-
-  .ticketing-integration-form__actions {
-    justify-content: stretch;
-    flex-direction: column-reverse;
-  }
-}
 </style>

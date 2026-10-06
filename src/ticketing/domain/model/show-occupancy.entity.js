@@ -11,19 +11,32 @@ export class ShowOccupancy {
                     occupiedSeats = 0,
                     lastUpdatedAt = null
                 } = {}) {
-        this._id = id;
-        this._showId = showId;
-        this._lastSyncLogId = lastSyncLogId;
-        this._totalCapacity = Number(totalCapacity);
-        this._occupiedSeats = Number(occupiedSeats);
 
-        this._lastUpdatedAt = lastUpdatedAt instanceof Date
-            ? lastUpdatedAt
-            : lastUpdatedAt
-                ? new Date(lastUpdatedAt)
+        this._id =
+            id !== null ? Number(id) : null;
+
+        this._showId =
+            showId !== null ? Number(showId) : null;
+
+        this._lastSyncLogId =
+            lastSyncLogId !== null
+                ? Number(lastSyncLogId)
                 : null;
 
-        this.validateOccupancy();
+        this._totalCapacity =
+            Number(totalCapacity);
+
+        this._occupiedSeats =
+            Number(occupiedSeats);
+
+        this._lastUpdatedAt =
+            lastUpdatedAt instanceof Date
+                ? lastUpdatedAt
+                : lastUpdatedAt
+                    ? new Date(lastUpdatedAt)
+                    : null;
+
+        this._validateOccupancy();
     }
 
     getId() {
@@ -47,7 +60,10 @@ export class ShowOccupancy {
     }
 
     getAvailableSeats() {
-        return this._totalCapacity - this._occupiedSeats;
+        return (
+            this._totalCapacity -
+            this._occupiedSeats
+        );
     }
 
     getLastUpdatedAt() {
@@ -73,7 +89,9 @@ export class ShowOccupancy {
             Number(occupiedSeats);
 
         if (
-            !Number.isInteger(normalizedOccupiedSeats) ||
+            !Number.isInteger(
+                normalizedOccupiedSeats
+            ) ||
             normalizedOccupiedSeats < 0
         ) {
             throw new Error(
@@ -95,10 +113,11 @@ export class ShowOccupancy {
 
         if (lastSyncLogId !== null) {
             this._lastSyncLogId =
-                lastSyncLogId;
+                Number(lastSyncLogId);
         }
 
-        this._lastUpdatedAt = new Date();
+        this._lastUpdatedAt =
+            new Date();
     }
 
     updateTotalCapacity(totalCapacity) {
@@ -106,7 +125,9 @@ export class ShowOccupancy {
             Number(totalCapacity);
 
         if (
-            !Number.isInteger(normalizedCapacity) ||
+            !Number.isInteger(
+                normalizedCapacity
+            ) ||
             normalizedCapacity < 0
         ) {
             throw new Error(
@@ -126,12 +147,15 @@ export class ShowOccupancy {
         this._totalCapacity =
             normalizedCapacity;
 
-        this._lastUpdatedAt = new Date();
+        this._lastUpdatedAt =
+            new Date();
     }
 
-    validateOccupancy() {
+    _validateOccupancy() {
         if (
-            !Number.isInteger(this._totalCapacity) ||
+            !Number.isInteger(
+                this._totalCapacity
+            ) ||
             this._totalCapacity < 0
         ) {
             throw new Error(
@@ -140,7 +164,9 @@ export class ShowOccupancy {
         }
 
         if (
-            !Number.isInteger(this._occupiedSeats) ||
+            !Number.isInteger(
+                this._occupiedSeats
+            ) ||
             this._occupiedSeats < 0
         ) {
             throw new Error(

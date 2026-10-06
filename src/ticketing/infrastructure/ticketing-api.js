@@ -40,13 +40,22 @@ export class TicketingApi extends BaseApi {
         super();
 
         this.#integrationsEndpoint =
-            new BaseEndpoint(this, integrationsEndpointPath);
+            new BaseEndpoint(
+                this,
+                integrationsEndpointPath
+            );
 
         this.#syncLogsEndpoint =
-            new BaseEndpoint(this, syncLogsEndpointPath);
+            new BaseEndpoint(
+                this,
+                syncLogsEndpointPath
+            );
 
         this.#occupanciesEndpoint =
-            new BaseEndpoint(this, occupanciesEndpointPath);
+            new BaseEndpoint(
+                this,
+                occupanciesEndpointPath
+            );
     }
 
     // --------------------------------------------------------------------
@@ -79,13 +88,15 @@ export class TicketingApi extends BaseApi {
      * @returns {Promise<import('axios').AxiosResponse>}
      */
     createTicketingIntegration(resource) {
-        return this.#integrationsEndpoint.create(resource);
+        return this.#integrationsEndpoint.create(
+            resource
+        );
     }
 
     /**
      * Updates a ticketing integration resource.
      *
-     * @param {Object} resource - Ticketing integration resource.
+     * @param {Object} resource - Ticketing integration resource (must include id).
      * @returns {Promise<import('axios').AxiosResponse>}
      */
     updateTicketingIntegration(resource) {
@@ -135,13 +146,15 @@ export class TicketingApi extends BaseApi {
      * @returns {Promise<import('axios').AxiosResponse>}
      */
     createSyncLog(resource) {
-        return this.#syncLogsEndpoint.create(resource);
+        return this.#syncLogsEndpoint.create(
+            resource
+        );
     }
 
     /**
      * Updates a synchronization log resource.
      *
-     * @param {Object} resource - Synchronization log resource.
+     * @param {Object} resource - Synchronization log resource (must include id).
      * @returns {Promise<import('axios').AxiosResponse>}
      */
     updateSyncLog(resource) {
@@ -191,13 +204,15 @@ export class TicketingApi extends BaseApi {
      * @returns {Promise<import('axios').AxiosResponse>}
      */
     createShowOccupancy(resource) {
-        return this.#occupanciesEndpoint.create(resource);
+        return this.#occupanciesEndpoint.create(
+            resource
+        );
     }
 
     /**
      * Updates a show occupancy resource.
      *
-     * @param {Object} resource - Show occupancy resource.
+     * @param {Object} resource - Show occupancy resource (must include id).
      * @returns {Promise<import('axios').AxiosResponse>}
      */
     updateShowOccupancy(resource) {

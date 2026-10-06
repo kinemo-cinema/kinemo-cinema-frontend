@@ -11,20 +11,25 @@ export class TicketingIntegrationAssembler {
             id: resource.id ?? null,
             systemName: resource.systemName ?? '',
             endpointUrl: resource.endpointUrl ?? '',
-            connectionStatus: resource.connectionStatus ?? 'AVAILABLE',
-            lastVerifiedAt: resource.lastVerifiedAt ?? null,
+            connectionStatus:
+                resource.connectionStatus ?? 'AVAILABLE',
+            lastVerifiedAt:
+                resource.lastVerifiedAt ?? null,
         });
     }
 
     static toEntitiesFromResponse(response) {
         if (response.status !== 200) {
-            console.error(`${response.status}: ${response.statusText}`);
+            console.error(
+                `${response.status}: ${response.statusText}`
+            );
             return [];
         }
 
-        const resources = response.data instanceof Array
-            ? response.data
-            : response.data['ticketingConnections'];
+        const resources =
+            response.data instanceof Array
+                ? response.data
+                : response.data?.ticketingConnections ?? [];
 
         return resources.map(resource =>
             this.toEntityFromResource(resource)
@@ -39,7 +44,9 @@ export class TicketingIntegrationAssembler {
             connectionStatus:
                 integration.getConnectionStatusAsString(),
             lastVerifiedAt:
-                integration.getLastVerifiedAt()?.toISOString() ?? null,
+                integration
+                    .getLastVerifiedAt()
+                    ?.toISOString() ?? null,
         };
     }
 }

@@ -13,20 +13,27 @@ export class TicketingIntegration {
                     connectionStatus = 'AVAILABLE',
                     lastVerifiedAt = null
                 } = {}) {
-        this._id = id;
-        this._systemName = systemName;
-        this._endpointUrl = endpointUrl;
+
+        this._id =
+            id !== null ? Number(id) : null;
+
+        this._systemName =
+            String(systemName).trim();
+
+        this._endpointUrl =
+            String(endpointUrl).trim();
 
         this._connectionStatus =
             connectionStatus instanceof ConnectionStatus
                 ? connectionStatus
                 : new ConnectionStatus(connectionStatus);
 
-        this._lastVerifiedAt = lastVerifiedAt instanceof Date
-            ? lastVerifiedAt
-            : lastVerifiedAt
-                ? new Date(lastVerifiedAt)
-                : null;
+        this._lastVerifiedAt =
+            lastVerifiedAt instanceof Date
+                ? lastVerifiedAt
+                : lastVerifiedAt
+                    ? new Date(lastVerifiedAt)
+                    : null;
     }
 
     getId() {
@@ -61,11 +68,16 @@ export class TicketingIntegration {
         return this._connectionStatus.isReconnecting();
     }
 
+    isUnavailable() {
+        return this._connectionStatus.isUnavailable();
+    }
+
     markAvailable() {
         this._connectionStatus =
             ConnectionStatus.available();
 
-        this._lastVerifiedAt = new Date();
+        this._lastVerifiedAt =
+            new Date();
     }
 
     markReconnecting() {

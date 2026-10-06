@@ -14,39 +14,20 @@ const route = useRoute();
 const router = useRouter();
 const ticketingStore = useTicketingStore();
 
-/**
- * Current integration identifier.
- */
-const integrationId = computed(
-    () => route.params.id
+const integrationId = computed(() => route.params.id);
+
+const integration = computed(() =>
+    ticketingStore.getTicketingIntegrationById(integrationId.value)
 );
 
-/**
- * Current ticketing integration.
- */
-const integration = computed(
-    () => ticketingStore.getTicketingIntegrationById(
-        integrationId.value
-    )
+const syncLogs = computed(() =>
+    ticketingStore.getSyncLogsByConnectionId(integrationId.value)
 );
 
-/**
- * Synchronization logs loaded in the store.
- */
-const syncLogs = computed(
-    () => ticketingStore.syncLogs
+const showOccupancies = computed(() =>
+    ticketingStore.getShowOccupanciesByConnectionId(integrationId.value)
 );
 
-/**
- * Show occupancies loaded in the store.
- */
-const showOccupancies = computed(
-    () => ticketingStore.showOccupancies
-);
-
-/**
- * Loads the resources required by the detail view.
- */
 onMounted(() => {
   if (!ticketingStore.ticketingIntegrationsLoaded) {
     ticketingStore.fetchTicketingIntegrations();
@@ -61,151 +42,71 @@ onMounted(() => {
   }
 });
 
-/**
- * Navigates to the integration edit form.
- */
 function editIntegration() {
   router.push({
     name: "ticketing-integration-edit",
-    params: {
-      id: integrationId.value
-    }
+    params: {id: integrationId.value}
   });
 }
 
-/**
- * Returns to the list of ticketing integrations.
- */
 function goBack() {
   router.push({
     name: "ticketing-integrations"
   });
 }
 
-/**
- * Connects the current integration.
- */
-function connectIntegration() {
-  if (!integration.value) {
-    return;
-  }
-
-  ticketingStore.connectIntegration(
-      integration.value
-  );
-}
-
-/**
- * Disconnects the current integration.
- */
-function disconnectIntegration() {
-  if (!integration.value) {
-    return;
-  }
-
-  ticketingStore.disconnectIntegration(
-      integration.value
-  );
-}
-
-/**
- * Starts a reconnection attempt.
- */
-function reconnectIntegration() {
-  if (!integration.value) {
-    return;
-  }
-
-  ticketingStore.reconnectIntegration(
-      integration.value
-  );
-}
-
-/**
- * Returns the PrimeVue severity for a connection status.
- *
- * @param {string} status
- * @returns {string}
- */
 function getConnectionSeverity(status) {
   switch (status) {
-    case "CONNECTED":
+    case "AVAILABLE":
       return "success";
-
     case "RECONNECTING":
       return "warn";
-
-    case "DISCONNECTED":
+    case "UNAVAILABLE":
       return "danger";
-
     default:
       return "secondary";
   }
 }
 
-/**
- * Returns the PrimeVue severity for a synchronization status.
- *
- * @param {string} status
- * @returns {string}
- */
 function getSyncSeverity(status) {
   switch (status) {
-    case "SUCCESSFUL":
+    case "COMPLETED":
       return "success";
-
-    case "INCOMPLETE":
-      return "warn";
-
+    case "IN_PROGRESS":
+      return "info";
     case "FAILED":
       return "danger";
-
-    case "PENDING":
-      return "info";
-
     default:
       return "secondary";
   }
 }
 
-/**
- * Formats a date for display.
- *
- * @param {Date|string|null} value
- * @returns {string}
- */
 function formatDate(value) {
-  if (!value) {
-    return "-";
-  }
+  if (!value) return "-";
 
   const date =
       value instanceof Date
           ? value
           : new Date(value);
 
-  if (Number.isNaN(date.getTime())) {
-    return "-";
-  }
-
-  return date.toLocaleString();
+  return Number.isNaN(date.getTime())
+      ? "-"
+      : date.toLocaleString();
 }
 </script>
 
 <template>
-  <section class="ticketing-integration-detail">
+  <section class="ticketing-detail">
 
-    <div class="ticketing-integration-detail__header">
+    <div class="ticketing-detail__header">
       <div>
         <h1>Ticketing Integration Detail</h1>
-
         <p>
-          Review the connection, synchronization activity
-          and show occupancy information.
+          Review connection, synchronization and occupancy information.
         </p>
       </div>
 
-      <div class="ticketing-integration-detail__header-actions">
+      <div class="ticketing-detail__actions">
         <Button
             label="Back"
             icon="pi pi-arrow-left"
@@ -215,6 +116,7 @@ function formatDate(value) {
         />
 
         <Button
+            v-if="integration"
             label="Edit"
             icon="pi pi-pencil"
             @click="editIntegration"
@@ -222,125 +124,77 @@ function formatDate(value) {
       </div>
     </div>
 
-    <template v-if="integration">
+    <Card
+        v-if="!ticketingStore.ticketingIntegrationsLoaded"
+        class="ticketing-detail__card"
+    >
+      <template #content>
+        Loading ticketing integration...
+      </template>
+    </Card>
 
-      <Card class="ticketing-integration-detail__card">
+    <template v-else-if="integration">
+
+      <Card class="ticketing-detail__card">
         <template #title>
           Integration Information
         </template>
 
         <template #content>
-          <div class="ticketing-integration-detail__grid">
+          <div class="ticketing-detail__grid">
 
             <div>
-                            <span class="field-label">
-                                Integration ID
-                            </span>
-
-              <span>
-                                {{ integration.getId() }}
-                            </span>
+              <strong>ID</strong>
+              <span>{{ integration.getId() }}</span>
             </div>
 
             <div>
-                            <span class="field-label">
-                                Cinema ID
-                            </span>
-
-              <span>
-                                {{ integration.getCinemaId() }}
-                            </span>
+              <strong>System</strong>
+              <span>{{ integration.getSystemName() }}</span>
             </div>
 
             <div>
-                            <span class="field-label">
-                                Provider
-                            </span>
-
-              <span>
-                                {{ integration.getProviderName() }}
-                            </span>
+              <strong>Endpoint</strong>
+              <span>{{ integration.getEndpointUrl() }}</span>
             </div>
 
             <div>
-                            <span class="field-label">
-                                Status
-                            </span>
-
+              <strong>Status</strong>
               <Tag
-                  :value="integration.getStatusAsString()"
-                  :severity="
-                                    getConnectionSeverity(
-                                        integration.getStatusAsString()
-                                    )
-                                "
+                  :value="integration.getConnectionStatusAsString()"
+                  :severity="getConnectionSeverity(
+                      integration.getConnectionStatusAsString()
+                  )"
               />
             </div>
 
-          </div>
-
-          <div class="ticketing-integration-detail__connection-actions">
-
-            <Button
-                v-if="
-                                integration.getStatusAsString()
-                                    === 'DISCONNECTED'
-                            "
-                label="Connect"
-                icon="pi pi-link"
-                @click="connectIntegration"
-            />
-
-            <Button
-                v-if="
-                                integration.getStatusAsString()
-                                    === 'CONNECTED'
-                            "
-                label="Disconnect"
-                icon="pi pi-times"
-                severity="danger"
-                @click="disconnectIntegration"
-            />
-
-            <Button
-                v-if="
-                                integration.getStatusAsString()
-                                    === 'RECONNECTING'
-                            "
-                label="Reconnect"
-                icon="pi pi-refresh"
-                severity="warn"
-                @click="reconnectIntegration"
-            />
+            <div>
+              <strong>Last Verified</strong>
+              <span>
+                {{ formatDate(integration.getLastVerifiedAt()) }}
+              </span>
+            </div>
 
           </div>
         </template>
       </Card>
 
-      <Card class="ticketing-integration-detail__card">
+      <Card class="ticketing-detail__card">
         <template #title>
           Synchronization Logs
         </template>
 
         <template #content>
-
           <DataTable
               :value="syncLogs"
-              dataKey="id"
               stripedRows
               responsiveLayout="scroll"
               emptyMessage="No synchronization logs found."
           >
 
-            <Column header="Show">
+            <Column header="Operator">
               <template #body="{data}">
-                {{ data.getShowId() }}
-              </template>
-            </Column>
-
-            <Column header="Executed At">
-              <template #body="{data}">
-                {{ formatDate(data.getExecutedAt()) }}
+                {{ data.getOperatorId() }}
               </template>
             </Column>
 
@@ -348,42 +202,50 @@ function formatDate(value) {
               <template #body="{data}">
                 <Tag
                     :value="data.getStatusAsString()"
-                    :severity="
-                                        getSyncSeverity(
-                                            data.getStatusAsString()
-                                        )
-                                    "
+                    :severity="getSyncSeverity(data.getStatusAsString())"
                 />
               </template>
             </Column>
 
-            <Column header="Error Details">
+            <Column header="Records">
               <template #body="{data}">
-                {{
-                  data.getErrorDetails()
-                  || "-"
-                }}
+                {{ data.getRecordsProcessed() }}
+              </template>
+            </Column>
+
+            <Column header="Started">
+              <template #body="{data}">
+                {{ formatDate(data.getStartedAt()) }}
+              </template>
+            </Column>
+
+            <Column header="Completed">
+              <template #body="{data}">
+                {{ formatDate(data.getCompletedAt()) }}
+              </template>
+            </Column>
+
+            <Column header="Error">
+              <template #body="{data}">
+                {{ data.getErrorDetails() || "-" }}
               </template>
             </Column>
 
           </DataTable>
-
         </template>
       </Card>
 
-      <Card class="ticketing-integration-detail__card">
+      <Card class="ticketing-detail__card">
         <template #title>
           Show Occupancy
         </template>
 
         <template #content>
-
           <DataTable
               :value="showOccupancies"
-              dataKey="id"
               stripedRows
               responsiveLayout="scroll"
-              emptyMessage="No show occupancy information found."
+              emptyMessage="No occupancy information found."
           >
 
             <Column header="Show">
@@ -392,19 +254,19 @@ function formatDate(value) {
               </template>
             </Column>
 
-            <Column header="Total Seats">
+            <Column header="Capacity">
               <template #body="{data}">
-                {{ data.getTotalSeats() }}
+                {{ data.getTotalCapacity() }}
               </template>
             </Column>
 
-            <Column header="Occupied Seats">
+            <Column header="Occupied">
               <template #body="{data}">
                 {{ data.getOccupiedSeats() }}
               </template>
             </Column>
 
-            <Column header="Available Seats">
+            <Column header="Available">
               <template #body="{data}">
                 {{ data.getAvailableSeats() }}
               </template>
@@ -412,32 +274,26 @@ function formatDate(value) {
 
             <Column header="Occupancy">
               <template #body="{data}">
-                {{
-                  data
-                      .getOccupancyPercentage()
-                      .toFixed(1)
-                }}%
+                {{ data.getOccupancyPercentage().toFixed(1) }}%
               </template>
             </Column>
 
-            <Column header="Last Updated">
+            <Column header="Updated">
               <template #body="{data}">
-                {{
-                  formatDate(
-                      data.getLastUpdatedAt()
-                  )
-                }}
+                {{ formatDate(data.getLastUpdatedAt()) }}
               </template>
             </Column>
 
           </DataTable>
-
         </template>
       </Card>
 
     </template>
 
-    <Card v-else>
+    <Card
+        v-else
+        class="ticketing-detail__card"
+    >
       <template #content>
         Ticketing integration not found.
       </template>
@@ -447,11 +303,11 @@ function formatDate(value) {
 </template>
 
 <style scoped>
-.ticketing-integration-detail {
+.ticketing-detail {
   padding: 2rem;
 }
 
-.ticketing-integration-detail__header {
+.ticketing-detail__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -459,63 +315,48 @@ function formatDate(value) {
   margin-bottom: 2rem;
 }
 
-.ticketing-integration-detail__header h1 {
+.ticketing-detail__header h1 {
   margin: 0 0 0.5rem;
 }
 
-.ticketing-integration-detail__header p {
+.ticketing-detail__header p {
   margin: 0;
 }
 
-.ticketing-integration-detail__header-actions {
+.ticketing-detail__actions {
   display: flex;
   gap: 0.75rem;
 }
 
-.ticketing-integration-detail__card {
+.ticketing-detail__card {
   margin-bottom: 1.5rem;
 }
 
-.ticketing-integration-detail__grid {
+.ticketing-detail__grid {
   display: grid;
   grid-template-columns:
-        repeat(auto-fit, minmax(12rem, 1fr));
+      repeat(auto-fit, minmax(12rem, 1fr));
   gap: 1.5rem;
 }
 
-.ticketing-integration-detail__grid > div {
+.ticketing-detail__grid > div {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
 }
 
-.field-label {
-  font-weight: 600;
-}
-
-.ticketing-integration-detail__connection-actions {
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 2rem;
-}
-
 @media (max-width: 768px) {
-  .ticketing-integration-detail {
+  .ticketing-detail {
     padding: 1rem;
   }
 
-  .ticketing-integration-detail__header {
+  .ticketing-detail__header {
+    flex-direction: column;
     align-items: flex-start;
-    flex-direction: column;
   }
 
-  .ticketing-integration-detail__header-actions {
+  .ticketing-detail__actions {
     width: 100%;
-    flex-direction: column-reverse;
-  }
-
-  .ticketing-integration-detail__connection-actions {
-    flex-direction: column;
   }
 }
 </style>

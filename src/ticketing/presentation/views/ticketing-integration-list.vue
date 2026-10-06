@@ -12,126 +12,73 @@ import useTicketingStore from "../../application/ticketing.store.js";
 const router = useRouter();
 const ticketingStore = useTicketingStore();
 
-/**
- * Ticketing integrations exposed by the application store.
- */
 const integrations = computed(
     () => ticketingStore.ticketingIntegrations
 );
 
-/**
- * Whether the store has already loaded the integrations.
- */
-const loaded = computed(
-    () => ticketingStore.ticketingIntegrationsLoaded
-);
-
-/**
- * Loads ticketing integrations when the view is mounted.
- */
 onMounted(() => {
-  if (!loaded.value) {
+  if (!ticketingStore.ticketingIntegrationsLoaded) {
     ticketingStore.fetchTicketingIntegrations();
   }
 });
 
-/**
- * Navigates to the form used to create a new integration.
- */
 function createIntegration() {
   router.push({
     name: "ticketing-integration-new"
   });
 }
 
-/**
- * Navigates to the integration detail view.
- *
- * @param {TicketingIntegration} integration
- */
 function viewIntegration(integration) {
   router.push({
     name: "ticketing-integration-detail",
-    params: {
-      id: integration.getId()
-    }
+    params: {id: integration.getId()}
   });
 }
 
-/**
- * Navigates to the integration edit form.
- *
- * @param {TicketingIntegration} integration
- */
 function editIntegration(integration) {
   router.push({
     name: "ticketing-integration-edit",
-    params: {
-      id: integration.getId()
-    }
+    params: {id: integration.getId()}
   });
 }
 
-/**
- * Connects an integration through the application store.
- *
- * @param {TicketingIntegration} integration
- */
-function connectIntegration(integration) {
-  ticketingStore.connectIntegration(integration);
-}
-
-/**
- * Disconnects an integration through the application store.
- *
- * @param {TicketingIntegration} integration
- */
-function disconnectIntegration(integration) {
-  ticketingStore.disconnectIntegration(integration);
-}
-
-/**
- * Starts a reconnection attempt through the application store.
- *
- * @param {TicketingIntegration} integration
- */
-function reconnectIntegration(integration) {
-  ticketingStore.reconnectIntegration(integration);
-}
-
-/**
- * Returns the PrimeVue severity associated with a connection status.
- *
- * @param {string} status
- * @returns {string}
- */
 function getStatusSeverity(status) {
   switch (status) {
-    case "CONNECTED":
+    case "AVAILABLE":
       return "success";
 
     case "RECONNECTING":
       return "warn";
 
-    case "DISCONNECTED":
+    case "UNAVAILABLE":
       return "danger";
 
     default:
       return "secondary";
   }
 }
+
+function formatDate(value) {
+  if (!value) return "-";
+
+  const date =
+      value instanceof Date
+          ? value
+          : new Date(value);
+
+  return Number.isNaN(date.getTime())
+      ? "-"
+      : date.toLocaleString();
+}
 </script>
 
 <template>
-  <section class="ticketing-integration-list">
+  <div class="p-4">
 
-    <div class="ticketing-integration-list__header">
+    <div class="header">
       <div>
         <h1>Ticketing Integrations</h1>
-        <p>
-          Manage the connections between Kinemo and external
-          ticketing providers.
-        </p>
+        <p>Manage external ticketing system connections.</p>
       </div>
 
       <Button
@@ -143,42 +90,43 @@ function getStatusSeverity(status) {
 
     <DataTable
         :value="integrations"
-        dataKey="id"
         stripedRows
         responsiveLayout="scroll"
         emptyMessage="No ticketing integrations found."
     >
 
-      <Column header="Provider">
+      <Column header="System">
         <template #body="{data}">
-          {{ data.getProviderName() }}
+          {{ data.getSystemName() }}
         </template>
       </Column>
 
-      <Column header="Cinema">
+      <Column header="Endpoint">
         <template #body="{data}">
-          {{ data.getCinemaId() }}
+          {{ data.getEndpointUrl() }}
         </template>
       </Column>
 
       <Column header="Status">
         <template #body="{data}">
           <Tag
-              :value="data.getStatusAsString()"
+              :value="data.getConnectionStatusAsString()"
               :severity="getStatusSeverity(
-                            data.getStatusAsString()
-                        )"
+                  data.getConnectionStatusAsString()
+              )"
           />
         </template>
       </Column>
 
-      <Column
-          header="Actions"
-          style="min-width: 20rem"
-      >
+      <Column header="Last Verified">
         <template #body="{data}">
+          {{ formatDate(data.getLastVerifiedAt()) }}
+        </template>
+      </Column>
 
-          <div class="ticketing-integration-list__actions">
+      <Column header="Actions">
+        <template #body="{data}">
+          <div class="actions">
 
             <Button
                 icon="pi pi-eye"
@@ -198,48 +146,17 @@ function getStatusSeverity(status) {
                 @click="editIntegration(data)"
             />
 
-            <Button
-                v-if="data.getStatusAsString() === 'DISCONNECTED'"
-                label="Connect"
-                icon="pi pi-link"
-                size="small"
-                @click="connectIntegration(data)"
-            />
-
-            <Button
-                v-if="data.getStatusAsString() === 'CONNECTED'"
-                label="Disconnect"
-                icon="pi pi-times"
-                severity="danger"
-                size="small"
-                @click="disconnectIntegration(data)"
-            />
-
-            <Button
-                v-if="data.getStatusAsString() === 'RECONNECTING'"
-                label="Reconnect"
-                icon="pi pi-refresh"
-                severity="warn"
-                size="small"
-                @click="reconnectIntegration(data)"
-            />
-
           </div>
-
         </template>
       </Column>
 
     </DataTable>
 
-  </section>
+  </div>
 </template>
 
 <style scoped>
-.ticketing-integration-list {
-  padding: 2rem;
-}
-
-.ticketing-integration-list__header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -247,29 +164,23 @@ function getStatusSeverity(status) {
   margin-bottom: 2rem;
 }
 
-.ticketing-integration-list__header h1 {
+.header h1 {
   margin: 0 0 0.5rem;
 }
 
-.ticketing-integration-list__header p {
+.header p {
   margin: 0;
 }
 
-.ticketing-integration-list__actions {
+.actions {
   display: flex;
-  align-items: center;
   gap: 0.5rem;
-  flex-wrap: wrap;
 }
 
 @media (max-width: 768px) {
-  .ticketing-integration-list {
-    padding: 1rem;
-  }
-
-  .ticketing-integration-list__header {
-    align-items: flex-start;
+  .header {
     flex-direction: column;
+    align-items: flex-start;
   }
 }
 </style>
