@@ -85,18 +85,15 @@ const technicianModules = [
 <template>
   <section class="hub">
 
-    <!-- Header -->
     <header class="hub-header">
-      <h1>
-        {{ t('hub.title') }}
-      </h1>
+      <h1>{{ t('hub.title') }}</h1>
 
       <p class="hub-subtitle">
         {{ t('hub.subtitle') }}
       </p>
     </header>
 
-    <!-- Management modules -->
+    <!-- Commercial and analytical modules -->
     <div class="hub-section">
 
       <h2 class="hub-section-title">
@@ -112,6 +109,7 @@ const technicianModules = [
             :to="mod.route"
             class="module-card"
         >
+
           <pv-card>
 
             <template #content>
@@ -140,13 +138,15 @@ const technicianModules = [
             </template>
 
           </pv-card>
+
         </router-link>
 
       </div>
 
     </div>
 
-    <!-- Technical modules -->
+
+    <!-- Operational and technical modules -->
     <div class="hub-section">
 
       <h2 class="hub-section-title">
@@ -162,6 +162,7 @@ const technicianModules = [
             :to="mod.route"
             class="module-card"
         >
+
           <pv-card>
 
             <template #content>
@@ -190,6 +191,7 @@ const technicianModules = [
             </template>
 
           </pv-card>
+
         </router-link>
 
       </div>
@@ -250,8 +252,6 @@ const technicianModules = [
 .module-card:hover {
   transform: translateY(-2px);
 }
-
-/* Icon + BC number */
 
 .module-top {
   display: flex;

@@ -13,63 +13,38 @@
       "logout": "Log out"
     }
   },
-  "hub": {
+  "home": {
     "title": "Welcome to Kinemo",
-    "subtitle": "Select a module to manage your 4D cinema operations.",
-    "sections": {
-      "manager": "Commercial & Analytical Modules",
-      "technician": "Operational & Technical Modules"
+    "subtitle": "Choose how you want to work today.",
+    "continue": "Continue"
+  },
+  "roles": {
+    "manager": {
+      "title": "Cinema Manager",
+      "description": "Commercial and analytical modules: catalog, scheduling, ticketing, analytics, and subscription."
     },
-    "modules": {
-      "catalog": {
-        "title": "Movie Catalog",
-        "description": "Register 4D movies, associate effects files, and manage the catalog available for scheduling."
-      },
-      "sensory": {
-        "title": "Sensory Content",
-        "description": "Upload and validate sensory tracks, assign intensity levels, and manage configuration history."
-      },
-      "scheduling": {
-        "title": "Scheduling",
-        "description": "Program 4D shows, manage room availability, and block time slots for maintenance."
-      },
-      "analytics": {
-        "title": "Analytics",
-        "description": "View occupancy, resource consumption, and per-room performance metrics."
-      },
-      "ticketing": {
-        "title": "Ticketing Integration",
-        "description": "Monitor the connection to your external ticketing system and review synced occupancy data."
-      },
-      "subscription": {
-        "title": "Subscription",
-        "description": "Manage your Kinemo plan, payment methods, screen limits, and renewals."
-      },
-      "room-readiness": {
-        "title": "Room Readiness",
-        "description": "Verify room status, calculate water and air requirements, and log inspections before each show."
-      },
-      "seat-control": {
-        "title": "Seat Allocation",
-        "description": "View the seat map, activate sold seats, and block individual seats for service."
-      },
-      "execution": {
-        "title": "4D Execution",
-        "description": "Start, pause, and conclude effect sequences; monitor synchronization and hardware state."
-      },
-      "emergency": {
-        "title": "Emergency Management",
-        "description": "Trigger emergency stops, block execution, and log restoration with confirmation."
-      },
-      "testing": {
-        "title": "Testing & Calibration",
-        "description": "Test effect channels, adjust intensity, and level seats before opening the room."
-      },
-      "maintenance": {
-        "title": "Maintenance",
-        "description": "Report incidents, schedule preventive maintenance, and track component lifecycle."
-      }
+    "technician": {
+      "title": "Maintenance Technician",
+      "description": "Operational and technical modules: room readiness, seat control, 4D execution, and maintenance."
     }
+  },
+  "profile": {
+    "eyebrow": "Signed in as",
+    "placeholder": "Detailed profile information will appear here in a future version."
+  },
+  "sidebar": {
+    "role-label": "Role"
+  },
+  "modules": {
+    "catalog":        { "title": "Catalog & Sensory" },
+    "scheduling":     { "title": "Scheduling" },
+    "ticketing":      { "title": "Ticketing" },
+    "analytics":      { "title": "Analytics" },
+    "subscription":   { "title": "Subscription" },
+    "room-readiness": { "title": "Room Readiness" },
+    "seat-control":   { "title": "Seat Control" },
+    "execution":      { "title": "4D Execution" },
+    "maintenance":    { "title": "Maintenance" }
   },
   "about": {
     "title": "About Kinemo",
@@ -97,6 +72,56 @@
   },
   "common": {
     "coming-soon": "This module is under construction."
+  },
+  "maintenance": {
+    "title": "Resource Testing & Maintenance",
+    "subtitle": "Monitor 4D hardware tests, incidents, components and maintenance orders.",
+    "refresh": "Refresh",
+    "failed-tests": "Failed / Review Tests",
+    "open-incidents": "Open Incidents",
+    "pending-maintenance": "Pending Maintenance",
+    "components": "Components",
+    "channel-tests": "Channel Tests",
+    "hardware-components": "Hardware Components",
+    "incidents": "Incidents",
+    "maintenance-orders": "Maintenance Orders",
+    "monitoring": "Monitoring",
+    "operations": "Operations",
+    "fields": {
+      "id": "ID",
+      "channel": "Channel",
+      "result": "Result",
+      "review": "Review",
+      "code": "Code",
+      "type": "Type",
+      "lifecycle": "Lifecycle",
+      "usage": "Usage",
+      "severity": "Severity",
+      "priority": "Priority",
+      "status": "Status",
+      "description": "Description"
+    },
+    "values": {
+      "yes": "Yes",
+      "no": "No"
+    },
+    "status": {
+      "PASSED": "Passed",
+      "FAILED": "Failed",
+      "LOW_PRESSURE": "Low Pressure",
+      "REQUIRES_REVIEW": "Requires Review",
+      "WITHIN_LIMIT": "Within Limit",
+      "NEAR_LIMIT": "Near Limit",
+      "EXCEEDED": "Exceeded",
+      "REPLACE_SUGGESTED": "Replacement Suggested",
+      "REPORTED": "Reported",
+      "IN_REVIEW": "In Review",
+      "RESOLVED": "Resolved",
+      "CLOSED": "Closed",
+      "IN_PROGRESS": "In Progress",
+      "SCHEDULED": "Scheduled",
+      "COMPLETED": "Completed"
+    }
   },
   "genre": {
     "new-title": "New Genre",
@@ -236,6 +261,85 @@
       "movie": "Movie",
       "room": "Room",
       "schedule": "Schedule",
+      "status": "Status"
+    }
+  },
+  "readinessNav": {
+    "rooms": "Rooms"
+  },
+  "room": {
+    "new-title": "New Room",
+    "edit-title": "Edit Room",
+    "name": "Name",
+    "capacity": "Capacity",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "rooms": {
+    "title": "Rooms",
+    "new": "New Room",
+    "id": "ID",
+    "actions": "Actions",
+    "filter-status": "Filter by status",
+    "delete-header": "Confirm deletion",
+    "confirm-delete": "Are you sure you want to delete \"{name}\"?",
+    "fields": {
+      "name": "Name",
+      "capacity": "Capacity",
+      "status": "Status",
+      "ready": "Ready"
+    }
+  },
+  "roomDetail": {
+    "back": "Back to Rooms",
+    "not-found": "Room not found.",
+    "ready-label": "Ready to host",
+    "release-confirm": "Release this room from its current block?",
+    "release-header": "Release Room",
+    "transitions": {
+      "prepare": "Start Preparation",
+      "mark-ready": "Mark Ready",
+      "maintenance": "Send to Maintenance",
+      "complete-maintenance": "Complete Maintenance",
+      "release": "Release Block"
+    },
+    "inspections": {
+      "title": "Inspections",
+      "add": "New Inspection"
+    },
+    "blocks": {
+      "title": "Blocks",
+      "add": "New Block"
+    }
+  },
+  "inspection": {
+    "inspector": "Inspector ID",
+    "technical-review": "Technical review required",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "inspections": {
+    "id": "ID",
+    "actions": "Actions",
+    "fields": {
+      "inspector": "Inspector",
+      "status": "Status",
+      "inspected-at": "Inspected at",
+      "tech-review": "Tech review"
+    }
+  },
+  "block": {
+    "reason": "Reason",
+    "start-time": "Start time",
+    "end-time": "End time",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "blocks": {
+    "id": "ID",
+    "fields": {
+      "reason": "Reason",
+      "window": "Window",
       "status": "Status"
     }
   },
