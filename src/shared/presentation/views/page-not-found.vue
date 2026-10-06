@@ -19,8 +19,8 @@ const unavailableRoute = router.currentRoute.value.fullPath;
       </p>
 
       <div class="not-found-actions">
-        <router-link to="/" class="not-found-link">
-          <pv-button :label="t('page-not-found.go-home')" class="cta-home"/>
+        <router-link to="/dashboard">
+          Go to dashboard
         </router-link>
       </div>
     </div>

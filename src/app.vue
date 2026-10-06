@@ -1,9 +1,21 @@
 <script setup lang="js">
-import Layout from './shared/presentation/components/layout.vue';
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import Layout from './shared/presentation/components/layout.vue'
+
+const route = useRoute()
+
+const useLayout = computed(() => {
+  return route.meta.layout !== false
+})
 </script>
 
 <template>
-  <Layout>
-    <router-view/>
+  <!-- Páginas normales de Kinemo -->
+  <Layout v-if="useLayout">
+    <router-view />
   </Layout>
+
+  <!-- Login u otras páginas sin navbar -->
+  <router-view v-else />
 </template>

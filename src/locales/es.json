@@ -241,5 +241,116 @@
   },
   "errors": {
     "occurred": "Ocurrió un error"
+  },
+  "auth": {
+    "language": {
+      "english": "EN",
+      "spanish": "ES"
+    },
+    "login": {
+      "title": "Bienvenido de nuevo",
+      "subtitle": "Inicia sesión para gestionar la experiencia 4D de tu cine.",
+      "email": "Correo electrónico",
+      "email-placeholder": "nombre@cine.com",
+      "password": "Contraseña",
+      "password-placeholder": "Ingresa tu contraseña",
+      "forgot-password": "¿Olvidaste tu contraseña?",
+      "show": "Mostrar",
+      "hide": "Ocultar",
+      "sign-in": "Iniciar sesión",
+      "required-error": "Ingresa tu correo electrónico y contraseña.",
+      "or": "O",
+      "new-to-kinemo": "¿Aún no utilizas Kinemo?",
+      "subscription-description": "Elige un plan y comienza a gestionar tu cine 4D con Kinemo.",
+      "subscribe-now": "Suscríbete ahora",
+      "footer": "© 2026 Kinemo. Tecnología para cines 4D."
+    }
+  },
+  "subscriptionFlow": {
+    "header": {
+      "already-account": "¿Ya tienes una cuenta?",
+      "sign-in": "Iniciar sesión"
+    },
+    "steps": {
+      "choose-plan": "Elegir plan",
+      "information": "Tus datos"
+    },
+    "plans": {
+      "eyebrow": "PLANES KINEMO",
+      "title": "Elige el plan ideal para tu cine",
+      "subtitle": "Selecciona la opción que mejor se adapte a tu operación. Podrás ampliar tu plan a medida que tu cine crezca.",
+      "popular": "MÁS POPULAR",
+      "per-month": "/mes",
+      "starter": {
+        "name": "Starter",
+        "description": "Para cines pequeños que están iniciando su experiencia 4D.",
+        "button": "Elegir Starter",
+        "features": [
+          "Hasta 3 pantallas conectadas",
+          "Sincronización básica",
+          "Panel de control unificado",
+          "Soporte por correo en 48 h",
+          "Reportes analíticos mensuales"
+        ]
+      },
+      "growth": {
+        "name": "Growth",
+        "description": "Para operadores de cine en crecimiento que necesitan herramientas avanzadas.",
+        "button": "Elegir Growth",
+        "features": [
+          "Hasta 12 pantallas conectadas",
+          "Sincronización avanzada por fotogramas",
+          "Gestión de incidencias y telemetría",
+          "Soporte prioritario en 4 h",
+          "Analítica en tiempo real",
+          "API de integración completa"
+        ]
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Personalizado",
+        "description": "Para grandes cadenas de cine con múltiples ubicaciones.",
+        "button": "Solicitar Enterprise",
+        "features": [
+          "Pantallas conectadas ilimitadas",
+          "SLA garantizado del 99.9%",
+          "Integraciones personalizadas",
+          "Gerente de cuenta dedicado",
+          "Implementación presencial",
+          "Contratos flexibles"
+        ]
+      }
+    },
+    "information": {
+      "eyebrow": "TUS DATOS",
+      "title": "Cuéntanos sobre tu cine",
+      "subtitle": "Completa tus datos y nuestro equipo se pondrá en contacto contigo para continuar con tu suscripción a Kinemo.",
+      "first-name": "Nombre",
+      "first-name-placeholder": "Andrea",
+      "last-name": "Apellido",
+      "last-name-placeholder": "Correa",
+      "email": "Correo empresarial",
+      "email-placeholder": "nombre@cine.com",
+      "company": "Nombre del cine o empresa",
+      "company-placeholder": "Empresa de cine",
+      "phone": "Número de teléfono",
+      "phone-placeholder": "+51 999 999 999",
+      "required-error": "Completa todos los campos obligatorios.",
+      "submit": "Enviar solicitud de suscripción",
+      "back": "Volver a los planes",
+      "selected-plan": "PLAN SELECCIONADO",
+      "change-plan": "Cambiar plan"
+    },
+    "success": {
+      "eyebrow": "SOLICITUD RECIBIDA",
+      "title": "¡Gracias por elegir Kinemo!",
+      "request-text": "Hemos recibido tu solicitud de suscripción para el plan {plan}.",
+      "contact-text": "Nuestro equipo revisará tus datos y se pondrá en contacto contigo pronto para continuar con la activación de tu cuenta Kinemo.",
+      "plan": "Plan",
+      "company": "Empresa",
+      "contact": "Contacto",
+      "back-login": "Volver al inicio de sesión",
+      "simulation": "No se ha procesado ningún pago."
+    }
   }
 }

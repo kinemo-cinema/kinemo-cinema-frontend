@@ -241,5 +241,116 @@
   },
   "errors": {
     "occurred": "An error occurred"
+  },
+  "auth": {
+    "language": {
+      "english": "EN",
+      "spanish": "ES"
+    },
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to manage your 4D cinema experience.",
+      "email": "Email address",
+      "email-placeholder": "name@cinema.com",
+      "password": "Password",
+      "password-placeholder": "Enter your password",
+      "forgot-password": "Forgot password?",
+      "show": "Show",
+      "hide": "Hide",
+      "sign-in": "Sign In",
+      "required-error": "Please enter your email and password.",
+      "or": "OR",
+      "new-to-kinemo": "New to Kinemo?",
+      "subscription-description": "Choose a plan and start managing your 4D cinema with Kinemo.",
+      "subscribe-now": "Subscribe now",
+      "footer": "© 2026 Kinemo. 4D Cinema Technology."
+    }
+  },
+  "subscriptionFlow": {
+    "header": {
+      "already-account": "Already have an account?",
+      "sign-in": "Sign In"
+    },
+    "steps": {
+      "choose-plan": "Choose plan",
+      "information": "Your information"
+    },
+    "plans": {
+      "eyebrow": "KINEMO PLANS",
+      "title": "Choose the plan that fits your cinema",
+      "subtitle": "Select the option that best fits your operation. You can scale your plan as your cinema grows.",
+      "popular": "MOST POPULAR",
+      "per-month": "/month",
+      "starter": {
+        "name": "Starter",
+        "description": "For small cinemas starting their 4D experience.",
+        "button": "Choose Starter",
+        "features": [
+          "Up to 3 connected screens",
+          "Basic synchronization",
+          "Unified control panel",
+          "Email support within 48h",
+          "Monthly analytics reports"
+        ]
+      },
+      "growth": {
+        "name": "Growth",
+        "description": "For growing cinema operators that need advanced tools.",
+        "button": "Choose Growth",
+        "features": [
+          "Up to 12 connected screens",
+          "Advanced frame synchronization",
+          "Incident and telemetry management",
+          "Priority support within 4h",
+          "Real-time analytics",
+          "Full integration API"
+        ]
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Custom",
+        "description": "For large cinema chains with multiple locations.",
+        "button": "Request Enterprise",
+        "features": [
+          "Unlimited connected screens",
+          "99.9% guaranteed SLA",
+          "Custom system integrations",
+          "Dedicated account manager",
+          "On-site onboarding",
+          "Flexible contracts"
+        ]
+      }
+    },
+    "information": {
+      "eyebrow": "YOUR INFORMATION",
+      "title": "Tell us about your cinema",
+      "subtitle": "Complete your information and our team will contact you to continue with your Kinemo subscription.",
+      "first-name": "First name",
+      "first-name-placeholder": "Andrea",
+      "last-name": "Last name",
+      "last-name-placeholder": "Correa",
+      "email": "Business email",
+      "email-placeholder": "name@cinema.com",
+      "company": "Cinema or company name",
+      "company-placeholder": "Cinema company",
+      "phone": "Phone number",
+      "phone-placeholder": "+51 999 999 999",
+      "required-error": "Please complete all required fields.",
+      "submit": "Submit subscription request",
+      "back": "Back to plans",
+      "selected-plan": "SELECTED PLAN",
+      "change-plan": "Change plan"
+    },
+    "success": {
+      "eyebrow": "REQUEST RECEIVED",
+      "title": "Thanks for choosing Kinemo!",
+      "request-text": "We've received your subscription request for the {plan} plan.",
+      "contact-text": "Our team will review your information and contact you soon to continue with the activation of your Kinemo account.",
+      "plan": "Plan",
+      "company": "Company",
+      "contact": "Contact",
+      "back-login": "Back to Sign In",
+      "simulation": "No payment has been processed."
+    }
   }
 }
