@@ -39,7 +39,7 @@ const toggleUserMenu = (event) => {
 
         <nav class="primary-nav" aria-label="Primary navigation">
           <router-link to="/" class="nav-link">{{ t('header.nav.dashboard') }}</router-link>
-          <router-link to="/operations" class="nav-link">{{ t('header.nav.operations') }}</router-link>
+          <router-link to="/execution" class="nav-link">{{ t('header.nav.operations') }}</router-link>
           <router-link to="/maintenance" class="nav-link">{{ t('header.nav.maintenance') }}</router-link>
           <router-link to="/analytics" class="nav-link">{{ t('header.nav.analytics') }}</router-link>
         </nav>

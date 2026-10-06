@@ -295,5 +295,9 @@
   },
   "errors": {
     "occurred": "Ocurrió un error"
+  },
+
+  "executionNav": {
+    "executions": "Ejecución 4D"
   }
 }

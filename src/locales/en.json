@@ -295,5 +295,10 @@
   },
   "errors": {
     "occurred": "An error occurred"
+  },
+
+  "executionNav": {
+    "executions": "4D Execution"
   }
+
 }

@@ -28,13 +28,8 @@ function openExecution(execution) {
   <section>
 
     <header class="page-header">
-      <div>
-        <h1>4D Execution</h1>
-
-        <p>
-          Monitor and control active 4D experiences.
-        </p>
-      </div>
+      <h1>4D Execution</h1>
+      <p>Monitor and control active 4D experiences.</p>
     </header>
 
     <div
@@ -96,15 +91,18 @@ function openExecution(execution) {
 
 <style scoped>
 .page-header {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .page-header h1 {
-  margin: 0;
+  margin: 0 0 0.5rem;
+  font-size: 2.5rem;
 }
 
 .page-header p {
+  margin: 0;
   opacity: 0.7;
+  font-size: 1rem;
 }
 
 .execution-grid {
