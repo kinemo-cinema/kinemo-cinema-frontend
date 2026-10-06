@@ -16,6 +16,19 @@ import {EmergencyEventAssembler}
 export class ShowExecutionAssembler {
 
     static toEntityFromResource(resource) {
+
+        const rawStatus =
+            resource.status ??
+            resource.executionStatus ??
+            "READY";
+
+        const normalizedStatus = {
+            CONCLUDED: "COMPLETED",
+            STARTED: "RUNNING",
+            IN_PROGRESS: "RUNNING",
+            EMERGENCY: "EMERGENCY_STOPPED"
+        }[rawStatus] ?? rawStatus;
+
         return new ShowExecution({
             id: resource.id ?? null,
 
@@ -24,10 +37,7 @@ export class ShowExecutionAssembler {
             sensoryContentId:
                 resource.sensoryContentId ?? null,
 
-            status:
-                resource.status ??
-                resource.executionStatus ??
-                "READY",
+            status: normalizedStatus,
 
             startedAt:
                 resource.startedAt ?? null,
@@ -40,64 +50,79 @@ export class ShowExecutionAssembler {
             sequences:
                 Array.isArray(resource.sequences)
                     ? resource.sequences.map(
-                        SensorySequenceExecutionAssembler
-                            .toEntityFromResource
+                        resourceItem =>
+                            SensorySequenceExecutionAssembler
+                                .toEntityFromResource(resourceItem)
                     )
                     : [],
 
             synchronizationEvents:
                 Array.isArray(resource.synchronizationEvents)
                     ? resource.synchronizationEvents.map(
-                        SynchronizationEventAssembler
-                            .toEntityFromResource
+                        resourceItem =>
+                            SynchronizationEventAssembler
+                                .toEntityFromResource(resourceItem)
                     )
                     : [],
 
             hardwareLogs:
                 Array.isArray(resource.hardwareLogs)
                     ? resource.hardwareLogs.map(
-                        HardwareExecutionLogAssembler
-                            .toEntityFromResource
+                        resourceItem =>
+                            HardwareExecutionLogAssembler
+                                .toEntityFromResource(resourceItem)
                     )
                     : [],
 
             emergencyEvents:
                 Array.isArray(resource.emergencyEvents)
                     ? resource.emergencyEvents.map(
-                        EmergencyEventAssembler
-                            .toEntityFromResource
+                        resourceItem =>
+                            EmergencyEventAssembler
+                                .toEntityFromResource(resourceItem)
                     )
                     : []
         });
     }
 
     static toEntitiesFromResponse(response) {
+
         if (response.status !== 200) {
             console.error(
                 `${response.status}: ${response.statusText}`
             );
+
             return [];
         }
 
-        const resources = response.data instanceof Array
-            ? response.data
-            : response.data["showExecutions"];
+        const resources =
+            response.data instanceof Array
+                ? response.data
+                : response.data["showExecutions"] ?? [];
 
         return resources.map(
-            resource => this.toEntityFromResource(resource)
+            resource =>
+                this.toEntityFromResource(resource)
         );
     }
 
     static toResourceFromEntity(execution) {
+
         const resource = {
             id: execution.getId(),
-            showId: execution.getShowId(),
+
+            showId:
+                execution.getShowId(),
+
             sensoryContentId:
                 execution.getSensoryContentId(),
+
             status:
                 execution.getStatusAsString(),
+
             startedAt:
                 execution.getStartedAtFormatted(),
+
             finishedAt:
                 execution.getFinishedAtFormatted()
         };
@@ -105,8 +130,9 @@ export class ShowExecutionAssembler {
         if (execution.getSequences().length > 0) {
             resource.sequences =
                 execution.getSequences().map(
-                    SensorySequenceExecutionAssembler
-                        .toResourceFromEntity
+                    sequence =>
+                        SensorySequenceExecutionAssembler
+                            .toResourceFromEntity(sequence)
                 );
         }
 
@@ -119,24 +145,27 @@ export class ShowExecutionAssembler {
                 execution
                     .getSynchronizationEvents()
                     .map(
-                        SynchronizationEventAssembler
-                            .toResourceFromEntity
+                        event =>
+                            SynchronizationEventAssembler
+                                .toResourceFromEntity(event)
                     );
         }
 
         if (execution.getHardwareLogs().length > 0) {
             resource.hardwareLogs =
                 execution.getHardwareLogs().map(
-                    HardwareExecutionLogAssembler
-                        .toResourceFromEntity
+                    log =>
+                        HardwareExecutionLogAssembler
+                            .toResourceFromEntity(log)
                 );
         }
 
         if (execution.getEmergencyEvents().length > 0) {
             resource.emergencyEvents =
                 execution.getEmergencyEvents().map(
-                    EmergencyEventAssembler
-                        .toResourceFromEntity
+                    event =>
+                        EmergencyEventAssembler
+                            .toResourceFromEntity(event)
                 );
         }
 
