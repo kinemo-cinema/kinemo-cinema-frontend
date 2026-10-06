@@ -1,14 +1,13 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import { TicketingService } from '../infrastructure/ticketing.service.js';
-
+import { TicketingApi } from '../infrastructure/ticketing-api.js';
 /**
  * Holds Ticketing Integration application state and orchestrates
  * synchronization and connection flows.
  */
 export const useTicketingStore = defineStore('ticketing', () => {
 
-    const ticketingApi = new TicketingService();
+    const ticketingApi = new TicketingApi();
 
     // --------------------------------------------------------------------
     // State
