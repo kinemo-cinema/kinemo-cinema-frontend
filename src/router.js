@@ -9,6 +9,9 @@ import SchedulingRoutes
 import ReadinessRoutes
     from "./readiness/presentation/readiness-routes.js";
 
+import SeatAllocationRoutes
+    from "./seat-allocation/presentation/seat-allocation-routes.js";
+
 import ExecutionRoutes
     from "./execution/presentation/execution-routes.js";
 
@@ -33,6 +36,9 @@ const SchedulingLayout = () =>
 const ReadinessLayout = () =>
     import('./readiness/presentation/views/readiness-layout.vue');
 
+const SeatAllocationLayout = () =>
+    import('./seat-allocation/presentation/views/seat-allocation-layout.vue');
+
 const ExecutionLayout = () =>
     import('./execution/presentation/views/execution-layout.vue');
 
@@ -42,43 +48,41 @@ const routes = [
         name: 'home',
         component: HomeView
     },
-
     {
         path: '/about',
         name: 'about',
         component: AboutView
     },
-
     {
         path: '/profile/:role',
         name: 'profile',
         component: ProfileView
     },
-
     {
         path: '/catalog',
         component: CatalogLayout,
         children: CatalogRoutes
     },
-
     {
         path: '/scheduling',
         component: SchedulingLayout,
         children: SchedulingRoutes
     },
-
     {
         path: '/room-readiness',
         component: ReadinessLayout,
         children: ReadinessRoutes
     },
-
+    {
+        path: '/seat-allocation',
+        component: SeatAllocationLayout,
+        children: SeatAllocationRoutes
+    },
     {
         path: '/execution',
         component: ExecutionLayout,
         children: ExecutionRoutes
     },
-
     {
         path: '/:pathMatch(.*)*',
         name: 'not-found',
