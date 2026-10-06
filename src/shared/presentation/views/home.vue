@@ -2,161 +2,124 @@
 import { useI18n } from 'vue-i18n';
 
 /**
- * Application hub view.
+ * Role selection view.
  *
  * @remarks
- * Presents the bounded contexts of the Kinemo platform as navigable
- * module cards, grouped by the two primary personas: the Cinema Manager
- * (commercial and analytical modules) and the Maintenance Technician
- * (operational and technical modules).
+ * Presents the two personas of the Kinemo platform as plain links to
+ * the profile route. Role state lives entirely in the URL, so no store
+ * or session logic is involved at this stage.
  */
 const { t } = useI18n();
 
-/** @type {Array<{key: string, icon: string, route: string}>} */
-const managerModules = [
-  { key: 'catalog',     icon: 'pi pi-video',         route: '/catalog' },
-  { key: 'sensory',     icon: 'pi pi-sliders-h',     route: '/sensory' },
-  { key: 'scheduling',  icon: 'pi pi-calendar',      route: '/scheduling' },
-  { key: 'analytics',   icon: 'pi pi-chart-bar',     route: '/analytics' },
-  { key: 'ticketing',   icon: 'pi pi-ticket',        route: '/ticketing' },
-  { key: 'subscription', icon: 'pi pi-credit-card',  route: '/subscription' },
-];
-
-/** @type {Array<{key: string, icon: string, route: string}>} */
-const technicianModules = [
-  { key: 'room-readiness', icon: 'pi pi-home',        route: '/room-readiness' },
-  { key: 'seat-control',   icon: 'pi pi-th-large',    route: '/seat-control' },
-  { key: 'execution',      icon: 'pi pi-play-circle', route: '/execution' },
-  { key: 'emergency',      icon: 'pi pi-exclamation-triangle', route: '/emergency' },
-  { key: 'testing',        icon: 'pi pi-wrench',      route: '/testing' },
-  { key: 'maintenance',    icon: 'pi pi-cog',         route: '/maintenance' },
+const roles = [
+  { key: 'manager',    icon: 'pi pi-briefcase' },
+  { key: 'technician', icon: 'pi pi-wrench' },
 ];
 </script>
 
 <template>
-  <section class="hub">
-    <header class="hub-header">
-      <h1>{{ t('hub.title') }}</h1>
-      <p class="hub-subtitle">{{ t('hub.subtitle') }}</p>
+  <section class="role-selection">
+    <header class="selection-header">
+      <h1>{{ t('home.title') }}</h1>
+      <p class="selection-subtitle">{{ t('home.subtitle') }}</p>
     </header>
 
-    <div class="hub-section">
-      <h2 class="hub-section-title">
-        <i class="pi pi-briefcase"/>
-        {{ t('hub.sections.manager') }}
-      </h2>
-      <div class="hub-grid">
-        <router-link
-            v-for="mod in managerModules"
-            :key="mod.key"
-            :to="mod.route"
-            class="module-card">
-          <pv-card>
-            <template #content>
-              <i :class="mod.icon" class="module-icon"/>
-              <h3 class="module-title">{{ t(`hub.modules.${mod.key}.title`) }}</h3>
-              <p class="module-description">{{ t(`hub.modules.${mod.key}.description`) }}</p>
-            </template>
-          </pv-card>
-        </router-link>
-      </div>
-    </div>
-
-    <div class="hub-section">
-      <h2 class="hub-section-title">
-        <i class="pi pi-wrench"/>
-        {{ t('hub.sections.technician') }}
-      </h2>
-      <div class="hub-grid">
-        <router-link
-            v-for="mod in technicianModules"
-            :key="mod.key"
-            :to="mod.route"
-            class="module-card">
-          <pv-card>
-            <template #content>
-              <i :class="mod.icon" class="module-icon"/>
-              <h3 class="module-title">{{ t(`hub.modules.${mod.key}.title`) }}</h3>
-              <p class="module-description">{{ t(`hub.modules.${mod.key}.description`) }}</p>
-            </template>
-          </pv-card>
-        </router-link>
-      </div>
+    <div class="role-grid">
+      <router-link
+          v-for="role in roles"
+          :key="role.key"
+          :to="{ name: 'profile', params: { role: role.key } }"
+          class="role-card">
+        <i :class="role.icon" class="role-icon"/>
+        <h2 class="role-title">{{ t(`roles.${role.key}.title`) }}</h2>
+        <p class="role-description">{{ t(`roles.${role.key}.description`) }}</p>
+        <span class="role-cta">
+          {{ t('home.continue') }}
+          <i class="pi pi-arrow-right"/>
+        </span>
+      </router-link>
     </div>
   </section>
 </template>
 
 <style scoped>
-.hub {
-  padding: 1rem 0;
+.role-selection {
+  padding: 3rem 0;
+  max-width: 60rem;
+  margin: 0 auto;
 }
 
-.hub-header h1 {
-  font-size: 1.75rem;
+.selection-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.selection-header h1 {
+  font-size: 2rem;
   margin: 0;
 }
 
-.hub-subtitle {
-  margin-top: 0.5rem;
+.selection-subtitle {
+  margin-top: 0.75rem;
   opacity: 0.75;
 }
 
-.hub-section {
-  margin-top: 2.5rem;
-}
-
-.hub-section-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.1rem;
-  margin: 0 0 1rem;
-  opacity: 0.85;
-}
-
-.hub-grid {
+.role-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
-.module-card {
+.role-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(127, 127, 127, 0.2);
   text-decoration: none;
   color: inherit;
-  display: block;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.module-card:hover {
-  transform: translateY(-2px);
+.role-card:hover {
+  transform: translateY(-3px);
+  border-color: #8B5CF6;
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
 }
 
-.module-icon {
-  font-size: 1.75rem;
+.role-icon {
+  font-size: 2.25rem;
   color: #8B5CF6;
 }
 
-.module-title {
-  font-size: 1rem;
-  margin: 0.75rem 0 0.35rem;
-}
-
-.module-description {
-  font-size: 0.85rem;
-  line-height: 1.5;
-  opacity: 0.7;
+.role-title {
+  font-size: 1.35rem;
   margin: 0;
 }
 
-@media screen and (min-width: 700px) {
-  .hub-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.role-description {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  opacity: 0.75;
+  margin: 0;
+  flex: 1;
 }
 
-@media screen and (min-width: 1100px) {
-  .hub-grid {
-    grid-template-columns: repeat(3, 1fr);
+.role-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #8B5CF6;
+}
+
+@media screen and (min-width: 700px) {
+  .role-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 </style>

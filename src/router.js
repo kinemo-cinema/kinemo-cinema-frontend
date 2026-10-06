@@ -6,6 +6,7 @@ import TicketingRoutes from "./ticketing/presentation/ticketing-routes.js";
 
 const HomeView = () => import('./shared/presentation/views/home.vue');
 const AboutView = () => import('./shared/presentation/views/about.vue');
+const ProfileView = () => import('./shared/presentation/views/profile.vue');
 const PageNotFoundView = () => import('./shared/presentation/views/page-not-found.vue');
 
 const CatalogLayout = () => import('./catalog/presentation/views/catalog-layout.vue');
@@ -15,6 +16,7 @@ const TicketingLayout = () => import('./ticketing/presentation/views/ticketing-l
 const routes = [
     { path: '/', name: 'home', component: HomeView },
     { path: '/about', name: 'about', component: AboutView },
+    { path: '/profile/:role', name: 'profile', component: ProfileView },
     {
         path: '/catalog',
         component: CatalogLayout,
@@ -26,7 +28,7 @@ const routes = [
         children: SchedulingRoutes,
     },
     {
-        path: '/room-readiness',   
+        path: '/room-readiness',
         component: ReadinessLayout,
         children: ReadinessRoutes,
     },
