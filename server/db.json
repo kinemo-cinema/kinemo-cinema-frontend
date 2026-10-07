@@ -277,6 +277,48 @@
       "endpointUrl": "https://api.joinme.com/v2",
       "connectionStatus": "RECONNECTING",
       "lastVerifiedAt": "2026-09-29T22:00:00Z"
+    },
+    {
+      "id": 3,
+      "systemName": "prueba",
+      "endpointUrl": "https://prueba.com",
+      "connectionStatus": "AVAILABLE",
+      "lastVerifiedAt": null
+    },
+    {
+      "id": 4,
+      "systemName": "prueba",
+      "endpointUrl": "https://prueba.com",
+      "connectionStatus": "AVAILABLE",
+      "lastVerifiedAt": null
+    },
+    {
+      "id": 5,
+      "systemName": "prueba",
+      "endpointUrl": "https://prueba.com",
+      "connectionStatus": "AVAILABLE",
+      "lastVerifiedAt": null
+    },
+    {
+      "id": 6,
+      "systemName": "prueba",
+      "endpointUrl": "https://prueba.com",
+      "connectionStatus": "AVAILABLE",
+      "lastVerifiedAt": null
+    },
+    {
+      "id": 7,
+      "systemName": "prueba",
+      "endpointUrl": "https://prueba.com",
+      "connectionStatus": "AVAILABLE",
+      "lastVerifiedAt": null
+    },
+    {
+      "id": 8,
+      "systemName": "prueba",
+      "endpointUrl": "https://prueba.com",
+      "connectionStatus": "AVAILABLE",
+      "lastVerifiedAt": null
     }
   ],
   "syncLogs": [
@@ -446,14 +488,6 @@
       "playbackStatus": "CONCLUDED",
       "lastSyncPulseAt": "2026-10-01T20:27:55Z",
       "updatedAt": "2026-10-01T20:28:00Z"
-    },
-    {
-      "id": 3,
-      "showExecutionId": 2,
-      "sensoryTrackId": 4,
-      "playbackStatus": "RUNNING",
-      "lastSyncPulseAt": "2026-10-01T20:15:00Z",
-      "updatedAt": "2026-10-01T20:15:00Z"
     }
   ],
   "synchronizationEvents": [
