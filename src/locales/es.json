@@ -1,0 +1,460 @@
+{
+  "header": {
+    "nav": {
+      "dashboard": "Panel",
+      "operations": "Operaciones",
+      "maintenance": "Mantenimiento",
+      "analytics": "Analítica"
+    },
+    "user": {
+      "placeholder-name": "Gerente de Cine",
+      "placeholder-role": "UVK Multicines",
+      "subscription": "Suscripción",
+      "logout": "Cerrar sesión"
+    }
+  },
+  "home": {
+    "title": "Bienvenido a Kinemo",
+    "subtitle": "Elige cómo quieres trabajar hoy.",
+    "continue": "Continuar"
+  },
+  "roles": {
+    "manager": {
+      "title": "Gerente de Cine",
+      "description": "Módulos comerciales y analíticos: catálogo, programación, boletería, analítica y suscripción."
+    },
+    "technician": {
+      "title": "Técnico de Mantenimiento",
+      "description": "Módulos operativos y técnicos: preparación de sala, control de butacas, ejecución 4D y mantenimiento."
+    }
+  },
+  "profile": {
+    "eyebrow": "Sesión iniciada como",
+    "placeholder": "La información detallada del perfil aparecerá aquí en una versión futura."
+  },
+  "sidebar": {
+    "role-label": "Rol"
+  },
+  "modules": {
+    "catalog":        { "title": "Catálogo y Sensorial" },
+    "scheduling":     { "title": "Programación" },
+    "ticketing":      { "title": "Boletería" },
+    "analytics":      { "title": "Analítica" },
+    "subscription":   { "title": "Suscripción" },
+    "room-readiness": { "title": "Preparación de Sala" },
+    "seat-control":   { "title": "Control de Butacas" },
+    "execution":      { "title": "Ejecución 4D" },
+    "maintenance":    { "title": "Mantenimiento" }
+  },
+  "about": {
+    "title": "Sobre Kinemo",
+    "tagline": "Cine que se siente.",
+    "mission": "Kinemo democratiza el acceso a experiencias cinematográficas inmersivas, permitiendo que cadenas de cine de cualquier tamaño ofrezcan a sus espectadores sensaciones físicas sincronizadas con el contenido.",
+    "approach": "Combinamos hardware háptico accesible, mantenimiento especializado y un software de gestión propio bajo un modelo de servicio que elimina la barrera de capital que las grandes cadenas imponen a los operadores más pequeños.",
+    "startup-title": "VonNeuman New Men",
+    "startup-content": "Somos un equipo de ingeniería de software de la Universidad Peruana de Ciencias Aplicadas, desarrollando Kinemo como una solución que cierra la brecha entre las grandes cadenas con tecnología 4D propietaria y las cadenas pequeñas y medianas que no pueden competir en experiencia."
+  },
+  "footer": {
+    "tagline": "Cine que se siente.",
+    "about": "Nosotros",
+    "pricing": "Precios",
+    "contact": "Contacto",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "rights": "Todos los derechos reservados",
+    "built-with": "Construido con",
+    "and": "y"
+  },
+  "page-not-found": {
+    "title": "Página no encontrada",
+    "content": "La ruta \"{unavailable-route}\" no existe o fue movida.",
+    "go-home": "Ir al panel"
+  },
+  "common": {
+    "coming-soon": "Este módulo está en construcción."
+  },
+  "maintenance": {
+    "title": "Pruebas de Recursos y Mantenimiento",
+    "subtitle": "Monitorea pruebas de hardware 4D, incidentes, componentes y órdenes de mantenimiento.",
+    "refresh": "Actualizar",
+    "failed-tests": "Pruebas Fallidas / En Revisión",
+    "open-incidents": "Incidentes Abiertos",
+    "pending-maintenance": "Mantenimiento Pendiente",
+    "components": "Componentes",
+    "channel-tests": "Pruebas de Canal",
+    "hardware-components": "Componentes de Hardware",
+    "incidents": "Incidentes",
+    "maintenance-orders": "Órdenes de Mantenimiento",
+    "monitoring": "Monitoreo",
+    "operations": "Operaciones",
+    "fields": {
+      "id": "ID",
+      "channel": "Canal",
+      "result": "Resultado",
+      "review": "Revisión",
+      "code": "Código",
+      "type": "Tipo",
+      "lifecycle": "Ciclo de Vida",
+      "usage": "Uso",
+      "severity": "Severidad",
+      "priority": "Prioridad",
+      "status": "Estado",
+      "description": "Descripción"
+    },
+    "values": {
+      "yes": "Sí",
+      "no": "No"
+    },
+    "status": {
+      "PASSED": "Aprobado",
+      "FAILED": "Fallido",
+      "LOW_PRESSURE": "Baja Presión",
+      "REQUIRES_REVIEW": "Requiere Revisión",
+      "WITHIN_LIMIT": "Dentro del Límite",
+      "NEAR_LIMIT": "Cerca del Límite",
+      "EXCEEDED": "Límite Excedido",
+      "REPLACE_SUGGESTED": "Reemplazo Sugerido",
+      "REPORTED": "Reportado",
+      "IN_REVIEW": "En Revisión",
+      "RESOLVED": "Resuelto",
+      "CLOSED": "Cerrado",
+      "IN_PROGRESS": "En Progreso",
+      "SCHEDULED": "Programado",
+      "COMPLETED": "Completado"
+    }
+  },
+  "genre": {
+    "new-title": "Nuevo Género",
+    "edit-title": "Editar Género",
+    "name": "Nombre",
+    "description": "Descripción",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "genres": {
+    "title": "Géneros",
+    "new": "Nuevo Género",
+    "id": "ID",
+    "name": "Nombre",
+    "actions": "Acciones",
+    "delete-header": "Confirmar eliminación",
+    "confirm-delete": "¿Seguro que quieres eliminar \"{name}\"?"
+  },
+  "movie": {
+    "new-title": "Nueva Película",
+    "edit-title": "Editar Película",
+    "title": "Título",
+    "duration": "Duración",
+    "genre": "Género",
+    "select-genre": "Selecciona un género",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "movies": {
+    "title": "Películas",
+    "new": "Nueva Película",
+    "id": "ID",
+    "minutes": "min",
+    "actions": "Acciones",
+    "delete-header": "Confirmar eliminación",
+    "confirm-delete": "¿Seguro que quieres eliminar \"{title}\"?",
+    "fields": {
+      "title": "Título",
+      "duration": "Duración",
+      "genre": "Género",
+      "status": "Estado"
+    }
+  },
+  "sensoryFile": {
+    "new-title": "Nuevo Archivo Sensorial",
+    "edit-title": "Editar Archivo Sensorial",
+    "fileName": "Nombre del archivo",
+    "movie": "Película",
+    "select-movie": "Selecciona una película",
+    "filePath": "Ruta del archivo",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "sensoryFiles": {
+    "title": "Archivos Sensoriales",
+    "new": "Nuevo Archivo Sensorial",
+    "id": "ID",
+    "actions": "Acciones",
+    "delete-header": "Confirmar eliminación",
+    "confirm-delete": "¿Seguro que quieres eliminar \"{fileName}\"?",
+    "fields": {
+      "fileName": "Nombre del archivo",
+      "movie": "Película",
+      "format": "Formato",
+      "status": "Estado"
+    }
+  },
+  "sensoryTrack": {
+    "new-title": "Nueva Pista Sensorial",
+    "edit-title": "Editar Pista Sensorial",
+    "sensoryFile": "Archivo sensorial",
+    "select-sensory-file": "Selecciona un archivo sensorial",
+    "trackType": "Tipo de pista",
+    "select-track-type": "Selecciona un tipo de pista",
+    "intensityLevel": "Nivel de intensidad",
+    "trackStatus": "Estado de la pista",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "sensoryTracks": {
+    "title": "Pistas Sensoriales",
+    "new": "Nueva Pista Sensorial",
+    "id": "ID",
+    "actions": "Acciones",
+    "delete-header": "Confirmar eliminación",
+    "confirm-delete": "¿Seguro que quieres eliminar la pista #{id}?",
+    "fields": {
+      "sensoryFile": "Archivo",
+      "trackType": "Tipo",
+      "intensityLevel": "Intensidad",
+      "status": "Estado"
+    }
+  },
+  "configurationHistory": {
+    "title": "Historial de Configuración",
+    "id": "ID",
+    "fields": {
+      "sensoryTrack": "Pista",
+      "previousIntensityLevel": "Intensidad anterior",
+      "changedAt": "Cambiado el",
+      "restored": "Restaurado"
+    }
+  },
+  "catalogNav": {
+    "movies": "Películas",
+    "genres": "Géneros",
+    "sensoryFiles": "Archivos Sensoriales",
+    "sensoryTracks": "Pistas Sensoriales",
+    "configurationHistory": "Historial de Configuración"
+  },
+  "schedulingNav": {
+    "shows": "Funciones"
+  },
+  "show": {
+    "new-title": "Nueva Función",
+    "edit-title": "Editar Función",
+    "movie": "Película",
+    "room": "Sala",
+    "select-movie": "Selecciona una película",
+    "select-room": "Selecciona una sala",
+    "start-time": "Hora de inicio",
+    "end-time": "Hora de fin",
+    "assigned-professional": "ID del profesional asignado",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "invalid-window": "La hora de fin debe ser posterior a la hora de inicio.",
+    "room-conflict": "La sala ya está reservada en ese horario. Funciones en conflicto: {conflicts}"
+  },
+  "shows": {
+    "title": "Funciones",
+    "new": "Nueva Función",
+    "id": "ID",
+    "actions": "Acciones",
+    "delete-header": "Confirmar eliminación",
+    "confirm-delete": "¿Seguro que quieres eliminar la función #{id}?",
+    "fields": {
+      "movie": "Película",
+      "room": "Sala",
+      "schedule": "Horario",
+      "status": "Estado"
+    }
+  },
+  "readinessNav": {
+    "rooms": "Salas"
+  },
+  "room": {
+    "new-title": "Nueva Sala",
+    "edit-title": "Editar Sala",
+    "name": "Nombre",
+    "capacity": "Capacidad",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "rooms": {
+    "title": "Salas",
+    "new": "Nueva Sala",
+    "id": "ID",
+    "actions": "Acciones",
+    "filter-status": "Filtrar por estado",
+    "delete-header": "Confirmar eliminación",
+    "confirm-delete": "¿Seguro que quieres eliminar \"{name}\"?",
+    "fields": {
+      "name": "Nombre",
+      "capacity": "Capacidad",
+      "status": "Estado",
+      "ready": "Lista"
+    }
+  },
+  "roomDetail": {
+    "back": "Volver a Salas",
+    "not-found": "Sala no encontrada.",
+    "ready-label": "Lista para operar",
+    "release-confirm": "¿Liberar esta sala de su bloqueo actual?",
+    "release-header": "Liberar Sala",
+    "transitions": {
+      "prepare": "Iniciar Preparación",
+      "mark-ready": "Marcar Lista",
+      "maintenance": "Enviar a Mantenimiento",
+      "complete-maintenance": "Completar Mantenimiento",
+      "release": "Liberar Bloqueo"
+    },
+    "inspections": {
+      "title": "Inspecciones",
+      "add": "Nueva Inspección"
+    },
+    "blocks": {
+      "title": "Bloqueos",
+      "add": "Nuevo Bloqueo"
+    }
+  },
+  "inspection": {
+    "inspector": "ID del Inspector",
+    "technical-review": "Requiere revisión técnica",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "inspections": {
+    "id": "ID",
+    "actions": "Acciones",
+    "fields": {
+      "inspector": "Inspector",
+      "status": "Estado",
+      "inspected-at": "Inspeccionado el",
+      "tech-review": "Revisión técnica"
+    }
+  },
+  "block": {
+    "reason": "Motivo",
+    "start-time": "Hora de inicio",
+    "end-time": "Hora de fin",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "blocks": {
+    "id": "ID",
+    "fields": {
+      "reason": "Motivo",
+      "window": "Ventana",
+      "status": "Estado"
+    }
+  },
+  "errors": {
+    "occurred": "Ocurrió un error"
+  },
+  "auth": {
+    "language": {
+      "english": "EN",
+      "spanish": "ES"
+    },
+    "login": {
+      "title": "Bienvenido de nuevo",
+      "subtitle": "Inicia sesión para gestionar la experiencia 4D de tu cine.",
+      "email": "Correo electrónico",
+      "email-placeholder": "nombre@cine.com",
+      "password": "Contraseña",
+      "password-placeholder": "Ingresa tu contraseña",
+      "forgot-password": "¿Olvidaste tu contraseña?",
+      "show": "Mostrar",
+      "hide": "Ocultar",
+      "sign-in": "Iniciar sesión",
+      "required-error": "Ingresa tu correo electrónico y contraseña.",
+      "or": "O",
+      "new-to-kinemo": "¿Aún no utilizas Kinemo?",
+      "subscription-description": "Elige un plan y comienza a gestionar tu cine 4D con Kinemo.",
+      "subscribe-now": "Suscríbete ahora",
+      "footer": "© 2026 Kinemo. Tecnología para cines 4D."
+    }
+  },
+  "subscriptionFlow": {
+    "header": {
+      "already-account": "¿Ya tienes una cuenta?",
+      "sign-in": "Iniciar sesión"
+    },
+    "steps": {
+      "choose-plan": "Elegir plan",
+      "information": "Tus datos"
+    },
+    "plans": {
+      "eyebrow": "PLANES KINEMO",
+      "title": "Elige el plan ideal para tu cine",
+      "subtitle": "Selecciona la opción que mejor se adapte a tu operación. Podrás ampliar tu plan a medida que tu cine crezca.",
+      "popular": "MÁS POPULAR",
+      "per-month": "/mes",
+      "starter": {
+        "name": "Starter",
+        "description": "Para cines pequeños que están iniciando su experiencia 4D.",
+        "button": "Elegir Starter",
+        "features": [
+          "Hasta 3 pantallas conectadas",
+          "Sincronización básica",
+          "Panel de control unificado",
+          "Soporte por correo en 48 h",
+          "Reportes analíticos mensuales"
+        ]
+      },
+      "growth": {
+        "name": "Growth",
+        "description": "Para operadores de cine en crecimiento que necesitan herramientas avanzadas.",
+        "button": "Elegir Growth",
+        "features": [
+          "Hasta 12 pantallas conectadas",
+          "Sincronización avanzada por fotogramas",
+          "Gestión de incidencias y telemetría",
+          "Soporte prioritario en 4 h",
+          "Analítica en tiempo real",
+          "API de integración completa"
+        ]
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Personalizado",
+        "description": "Para grandes cadenas de cine con múltiples ubicaciones.",
+        "button": "Solicitar Enterprise",
+        "features": [
+          "Pantallas conectadas ilimitadas",
+          "SLA garantizado del 99.9%",
+          "Integraciones personalizadas",
+          "Gerente de cuenta dedicado",
+          "Implementación presencial",
+          "Contratos flexibles"
+        ]
+      }
+    },
+    "information": {
+      "eyebrow": "TUS DATOS",
+      "title": "Cuéntanos sobre tu cine",
+      "subtitle": "Completa tus datos y nuestro equipo se pondrá en contacto contigo para continuar con tu suscripción a Kinemo.",
+      "first-name": "Nombre",
+      "first-name-placeholder": "Andrea",
+      "last-name": "Apellido",
+      "last-name-placeholder": "Correa",
+      "email": "Correo empresarial",
+      "email-placeholder": "nombre@cine.com",
+      "company": "Nombre del cine o empresa",
+      "company-placeholder": "Empresa de cine",
+      "phone": "Número de teléfono",
+      "phone-placeholder": "+51 999 999 999",
+      "required-error": "Completa todos los campos obligatorios.",
+      "submit": "Enviar solicitud de suscripción",
+      "back": "Volver a los planes",
+      "selected-plan": "PLAN SELECCIONADO",
+      "change-plan": "Cambiar plan"
+    },
+    "success": {
+      "eyebrow": "SOLICITUD RECIBIDA",
+      "title": "¡Gracias por elegir Kinemo!",
+      "request-text": "Hemos recibido tu solicitud de suscripción para el plan {plan}.",
+      "contact-text": "Nuestro equipo revisará tus datos y se pondrá en contacto contigo pronto para continuar con la activación de tu cuenta Kinemo.",
+      "plan": "Plan",
+      "company": "Empresa",
+      "contact": "Contacto",
+      "back-login": "Volver al inicio de sesión",
+      "simulation": "No se ha procesado ningún pago."
+    }
+  }
+}

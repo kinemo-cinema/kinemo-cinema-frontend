@@ -1,0 +1,460 @@
+{
+  "header": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "operations": "Operations",
+      "maintenance": "Maintenance",
+      "analytics": "Analytics"
+    },
+    "user": {
+      "placeholder-name": "Cinema Manager",
+      "placeholder-role": "UVK Multicines",
+      "subscription": "Subscription",
+      "logout": "Log out"
+    }
+  },
+  "home": {
+    "title": "Welcome to Kinemo",
+    "subtitle": "Choose how you want to work today.",
+    "continue": "Continue"
+  },
+  "roles": {
+    "manager": {
+      "title": "Cinema Manager",
+      "description": "Commercial and analytical modules: catalog, scheduling, ticketing, analytics, and subscription."
+    },
+    "technician": {
+      "title": "Maintenance Technician",
+      "description": "Operational and technical modules: room readiness, seat control, 4D execution, and maintenance."
+    }
+  },
+  "profile": {
+    "eyebrow": "Signed in as",
+    "placeholder": "Detailed profile information will appear here in a future version."
+  },
+  "sidebar": {
+    "role-label": "Role"
+  },
+  "modules": {
+    "catalog":        { "title": "Catalog & Sensory" },
+    "scheduling":     { "title": "Scheduling" },
+    "ticketing":      { "title": "Ticketing" },
+    "analytics":      { "title": "Analytics" },
+    "subscription":   { "title": "Subscription" },
+    "room-readiness": { "title": "Room Readiness" },
+    "seat-control":   { "title": "Seat Control" },
+    "execution":      { "title": "4D Execution" },
+    "maintenance":    { "title": "Maintenance" }
+  },
+  "about": {
+    "title": "About Kinemo",
+    "tagline": "Cinema that feels.",
+    "mission": "Kinemo democratizes access to immersive cinematic experiences, enabling cinema chains of any size to offer their audiences physical sensations synchronized with the content.",
+    "approach": "We combine affordable haptic hardware, specialized maintenance, and our own management software under a service model that removes the capital barrier that large chains impose on smaller operators.",
+    "startup-title": "VonNeuman New Men",
+    "startup-content": "We are a software engineering team from Universidad Peruana de Ciencias Aplicadas, building Kinemo as a solution to close the gap between large cinema chains with proprietary 4D technology and the small and medium chains that cannot compete on experience."
+  },
+  "footer": {
+    "tagline": "Cinema that feels.",
+    "about": "About",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "rights": "All rights reserved",
+    "built-with": "Built with",
+    "and": "and"
+  },
+  "page-not-found": {
+    "title": "Page not found",
+    "content": "The route \"{unavailable-route}\" does not exist or has been moved.",
+    "go-home": "Go to dashboard"
+  },
+  "common": {
+    "coming-soon": "This module is under construction."
+  },
+  "maintenance": {
+    "title": "Resource Testing & Maintenance",
+    "subtitle": "Monitor 4D hardware tests, incidents, components and maintenance orders.",
+    "refresh": "Refresh",
+    "failed-tests": "Failed / Review Tests",
+    "open-incidents": "Open Incidents",
+    "pending-maintenance": "Pending Maintenance",
+    "components": "Components",
+    "channel-tests": "Channel Tests",
+    "hardware-components": "Hardware Components",
+    "incidents": "Incidents",
+    "maintenance-orders": "Maintenance Orders",
+    "monitoring": "Monitoring",
+    "operations": "Operations",
+    "fields": {
+      "id": "ID",
+      "channel": "Channel",
+      "result": "Result",
+      "review": "Review",
+      "code": "Code",
+      "type": "Type",
+      "lifecycle": "Lifecycle",
+      "usage": "Usage",
+      "severity": "Severity",
+      "priority": "Priority",
+      "status": "Status",
+      "description": "Description"
+    },
+    "values": {
+      "yes": "Yes",
+      "no": "No"
+    },
+    "status": {
+      "PASSED": "Passed",
+      "FAILED": "Failed",
+      "LOW_PRESSURE": "Low Pressure",
+      "REQUIRES_REVIEW": "Requires Review",
+      "WITHIN_LIMIT": "Within Limit",
+      "NEAR_LIMIT": "Near Limit",
+      "EXCEEDED": "Exceeded",
+      "REPLACE_SUGGESTED": "Replacement Suggested",
+      "REPORTED": "Reported",
+      "IN_REVIEW": "In Review",
+      "RESOLVED": "Resolved",
+      "CLOSED": "Closed",
+      "IN_PROGRESS": "In Progress",
+      "SCHEDULED": "Scheduled",
+      "COMPLETED": "Completed"
+    }
+  },
+  "genre": {
+    "new-title": "New Genre",
+    "edit-title": "Edit Genre",
+    "name": "Name",
+    "description": "Description",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "genres": {
+    "title": "Genres",
+    "new": "New Genre",
+    "id": "ID",
+    "name": "Name",
+    "actions": "Actions",
+    "delete-header": "Confirm deletion",
+    "confirm-delete": "Are you sure you want to delete \"{name}\"?"
+  },
+  "movie": {
+    "new-title": "New Movie",
+    "edit-title": "Edit Movie",
+    "title": "Title",
+    "duration": "Duration",
+    "genre": "Genre",
+    "select-genre": "Select a genre",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "movies": {
+    "title": "Movies",
+    "new": "New Movie",
+    "id": "ID",
+    "minutes": "min",
+    "actions": "Actions",
+    "delete-header": "Confirm deletion",
+    "confirm-delete": "Are you sure you want to delete \"{title}\"?",
+    "fields": {
+      "title": "Title",
+      "duration": "Duration",
+      "genre": "Genre",
+      "status": "Status"
+    }
+  },
+  "sensoryFile": {
+    "new-title": "New Sensory File",
+    "edit-title": "Edit Sensory File",
+    "fileName": "File name",
+    "movie": "Movie",
+    "select-movie": "Select a movie",
+    "filePath": "File path",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "sensoryFiles": {
+    "title": "Sensory Files",
+    "new": "New Sensory File",
+    "id": "ID",
+    "actions": "Actions",
+    "delete-header": "Confirm deletion",
+    "confirm-delete": "Are you sure you want to delete \"{fileName}\"?",
+    "fields": {
+      "fileName": "File name",
+      "movie": "Movie",
+      "format": "Format",
+      "status": "Status"
+    }
+  },
+  "sensoryTrack": {
+    "new-title": "New Sensory Track",
+    "edit-title": "Edit Sensory Track",
+    "sensoryFile": "Sensory file",
+    "select-sensory-file": "Select a sensory file",
+    "trackType": "Track type",
+    "select-track-type": "Select a track type",
+    "intensityLevel": "Intensity level",
+    "trackStatus": "Track status",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "sensoryTracks": {
+    "title": "Sensory Tracks",
+    "new": "New Sensory Track",
+    "id": "ID",
+    "actions": "Actions",
+    "delete-header": "Confirm deletion",
+    "confirm-delete": "Are you sure you want to delete track #{id}?",
+    "fields": {
+      "sensoryFile": "File",
+      "trackType": "Type",
+      "intensityLevel": "Intensity",
+      "status": "Status"
+    }
+  },
+  "configurationHistory": {
+    "title": "Configuration History",
+    "id": "ID",
+    "fields": {
+      "sensoryTrack": "Track",
+      "previousIntensityLevel": "Previous intensity",
+      "changedAt": "Changed at",
+      "restored": "Restored"
+    }
+  },
+  "catalogNav": {
+    "movies": "Movies",
+    "genres": "Genres",
+    "sensoryFiles": "Sensory Files",
+    "sensoryTracks": "Sensory Tracks",
+    "configurationHistory": "Configuration History"
+  },
+  "schedulingNav": {
+    "shows": "Shows"
+  },
+  "show": {
+    "new-title": "New Show",
+    "edit-title": "Edit Show",
+    "movie": "Movie",
+    "room": "Room",
+    "select-movie": "Select a movie",
+    "select-room": "Select a room",
+    "start-time": "Start time",
+    "end-time": "End time",
+    "assigned-professional": "Assigned professional ID",
+    "save": "Save",
+    "cancel": "Cancel",
+    "invalid-window": "The end time must be after the start time.",
+    "room-conflict": "The room is already booked for this window. Conflicting shows: {conflicts}"
+  },
+  "shows": {
+    "title": "Shows",
+    "new": "New Show",
+    "id": "ID",
+    "actions": "Actions",
+    "delete-header": "Confirm deletion",
+    "confirm-delete": "Are you sure you want to delete show #{id}?",
+    "fields": {
+      "movie": "Movie",
+      "room": "Room",
+      "schedule": "Schedule",
+      "status": "Status"
+    }
+  },
+  "readinessNav": {
+    "rooms": "Rooms"
+  },
+  "room": {
+    "new-title": "New Room",
+    "edit-title": "Edit Room",
+    "name": "Name",
+    "capacity": "Capacity",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "rooms": {
+    "title": "Rooms",
+    "new": "New Room",
+    "id": "ID",
+    "actions": "Actions",
+    "filter-status": "Filter by status",
+    "delete-header": "Confirm deletion",
+    "confirm-delete": "Are you sure you want to delete \"{name}\"?",
+    "fields": {
+      "name": "Name",
+      "capacity": "Capacity",
+      "status": "Status",
+      "ready": "Ready"
+    }
+  },
+  "roomDetail": {
+    "back": "Back to Rooms",
+    "not-found": "Room not found.",
+    "ready-label": "Ready to host",
+    "release-confirm": "Release this room from its current block?",
+    "release-header": "Release Room",
+    "transitions": {
+      "prepare": "Start Preparation",
+      "mark-ready": "Mark Ready",
+      "maintenance": "Send to Maintenance",
+      "complete-maintenance": "Complete Maintenance",
+      "release": "Release Block"
+    },
+    "inspections": {
+      "title": "Inspections",
+      "add": "New Inspection"
+    },
+    "blocks": {
+      "title": "Blocks",
+      "add": "New Block"
+    }
+  },
+  "inspection": {
+    "inspector": "Inspector ID",
+    "technical-review": "Technical review required",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "inspections": {
+    "id": "ID",
+    "actions": "Actions",
+    "fields": {
+      "inspector": "Inspector",
+      "status": "Status",
+      "inspected-at": "Inspected at",
+      "tech-review": "Tech review"
+    }
+  },
+  "block": {
+    "reason": "Reason",
+    "start-time": "Start time",
+    "end-time": "End time",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "blocks": {
+    "id": "ID",
+    "fields": {
+      "reason": "Reason",
+      "window": "Window",
+      "status": "Status"
+    }
+  },
+  "errors": {
+    "occurred": "An error occurred"
+  },
+  "auth": {
+    "language": {
+      "english": "EN",
+      "spanish": "ES"
+    },
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to manage your 4D cinema experience.",
+      "email": "Email address",
+      "email-placeholder": "name@cinema.com",
+      "password": "Password",
+      "password-placeholder": "Enter your password",
+      "forgot-password": "Forgot password?",
+      "show": "Show",
+      "hide": "Hide",
+      "sign-in": "Sign In",
+      "required-error": "Please enter your email and password.",
+      "or": "OR",
+      "new-to-kinemo": "New to Kinemo?",
+      "subscription-description": "Choose a plan and start managing your 4D cinema with Kinemo.",
+      "subscribe-now": "Subscribe now",
+      "footer": "© 2026 Kinemo. 4D Cinema Technology."
+    }
+  },
+  "subscriptionFlow": {
+    "header": {
+      "already-account": "Already have an account?",
+      "sign-in": "Sign In"
+    },
+    "steps": {
+      "choose-plan": "Choose plan",
+      "information": "Your information"
+    },
+    "plans": {
+      "eyebrow": "KINEMO PLANS",
+      "title": "Choose the plan that fits your cinema",
+      "subtitle": "Select the option that best fits your operation. You can scale your plan as your cinema grows.",
+      "popular": "MOST POPULAR",
+      "per-month": "/month",
+      "starter": {
+        "name": "Starter",
+        "description": "For small cinemas starting their 4D experience.",
+        "button": "Choose Starter",
+        "features": [
+          "Up to 3 connected screens",
+          "Basic synchronization",
+          "Unified control panel",
+          "Email support within 48h",
+          "Monthly analytics reports"
+        ]
+      },
+      "growth": {
+        "name": "Growth",
+        "description": "For growing cinema operators that need advanced tools.",
+        "button": "Choose Growth",
+        "features": [
+          "Up to 12 connected screens",
+          "Advanced frame synchronization",
+          "Incident and telemetry management",
+          "Priority support within 4h",
+          "Real-time analytics",
+          "Full integration API"
+        ]
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Custom",
+        "description": "For large cinema chains with multiple locations.",
+        "button": "Request Enterprise",
+        "features": [
+          "Unlimited connected screens",
+          "99.9% guaranteed SLA",
+          "Custom system integrations",
+          "Dedicated account manager",
+          "On-site onboarding",
+          "Flexible contracts"
+        ]
+      }
+    },
+    "information": {
+      "eyebrow": "YOUR INFORMATION",
+      "title": "Tell us about your cinema",
+      "subtitle": "Complete your information and our team will contact you to continue with your Kinemo subscription.",
+      "first-name": "First name",
+      "first-name-placeholder": "Andrea",
+      "last-name": "Last name",
+      "last-name-placeholder": "Correa",
+      "email": "Business email",
+      "email-placeholder": "name@cinema.com",
+      "company": "Cinema or company name",
+      "company-placeholder": "Cinema company",
+      "phone": "Phone number",
+      "phone-placeholder": "+51 999 999 999",
+      "required-error": "Please complete all required fields.",
+      "submit": "Submit subscription request",
+      "back": "Back to plans",
+      "selected-plan": "SELECTED PLAN",
+      "change-plan": "Change plan"
+    },
+    "success": {
+      "eyebrow": "REQUEST RECEIVED",
+      "title": "Thanks for choosing Kinemo!",
+      "request-text": "We've received your subscription request for the {plan} plan.",
+      "contact-text": "Our team will review your information and contact you soon to continue with the activation of your Kinemo account.",
+      "plan": "Plan",
+      "company": "Company",
+      "contact": "Contact",
+      "back-login": "Back to Sign In",
+      "simulation": "No payment has been processed."
+    }
+  }
+}
