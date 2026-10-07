@@ -1,47 +1,79 @@
 <script setup>
-import {computed, onMounted} from "vue";
+import {onMounted} from "vue";
 import {useRouter} from "vue-router";
-
-import Button from "primevue/button";
-import DataTable from "primevue/datatable";
-import Column from "primevue/column";
-import Tag from "primevue/tag";
+import {useI18n} from "vue-i18n";
+import {storeToRefs} from "pinia";
 
 import useTicketingStore from "../../application/ticketing.store.js";
 
+const {t} = useI18n();
 const router = useRouter();
+
 const ticketingStore = useTicketingStore();
 
-const integrations = computed(
-    () => ticketingStore.ticketingIntegrations
-);
+/*
+ * Reactive state from store
+ */
+const {
+  ticketingIntegrations,
+  ticketingIntegrationsLoaded,
+  errors
+} = storeToRefs(ticketingStore);
 
+/*
+ * Actions
+ */
+const {
+  fetchTicketingIntegrations
+} = ticketingStore;
+
+/*
+ * Reload integrations every time the list view is mounted.
+ */
 onMounted(() => {
-  if (!ticketingStore.ticketingIntegrationsLoaded) {
-    ticketingStore.fetchTicketingIntegrations();
-  }
+  fetchTicketingIntegrations();
 });
 
-function createIntegration() {
+/**
+ * Navigate to new integration.
+ */
+const navigateToNew = () => {
   router.push({
     name: "ticketing-integration-new"
   });
-}
+};
 
-function viewIntegration(integration) {
+/**
+ * Navigate to integration detail.
+ *
+ * @param {number} id
+ */
+const navigateToDetail = (id) => {
   router.push({
     name: "ticketing-integration-detail",
-    params: {id: integration.getId()}
+    params: {id}
   });
-}
+};
 
-function editIntegration(integration) {
+/**
+ * Navigate to integration edit.
+ *
+ * @param {number} id
+ */
+const navigateToEdit = (id) => {
   router.push({
     name: "ticketing-integration-edit",
-    params: {id: integration.getId()}
+    params: {id}
   });
-}
+};
 
+/**
+ * Returns PrimeVue severity according to
+ * the connection status.
+ *
+ * @param {string} status
+ * @returns {string}
+ */
 function getStatusSeverity(status) {
   switch (status) {
     case "AVAILABLE":
@@ -58,6 +90,12 @@ function getStatusSeverity(status) {
   }
 }
 
+/**
+ * Formats the last verification date.
+ *
+ * @param {Date|string|null} value
+ * @returns {string}
+ */
 function formatDate(value) {
   if (!value) return "-";
 
@@ -77,80 +115,125 @@ function formatDate(value) {
 
     <div class="header">
       <div>
-        <h1>Ticketing Integrations</h1>
-        <p>Manage external ticketing system connections.</p>
+        <h1>
+          {{ t("ticketing.title") }}
+        </h1>
+
+        <p>
+          {{ t("ticketing.subtitle") }}
+        </p>
       </div>
 
-      <Button
-          label="New Integration"
+      <pv-button
+          :label="t('ticketing.new')"
           icon="pi pi-plus"
-          @click="createIntegration"
+          class="mb-3"
+          @click="navigateToNew"
       />
     </div>
 
-    <DataTable
-        :value="integrations"
-        stripedRows
-        responsiveLayout="scroll"
-        emptyMessage="No ticketing integrations found."
+    <pv-data-table
+        :value="ticketingIntegrations"
+        :loading="!ticketingIntegrationsLoaded"
+        striped-rows
+        table-style="min-width: 60rem"
+        paginator
+        :rows="10"
+        :rows-per-page-options="[10, 20, 50]"
+        :empty-message="t('ticketing.empty')"
     >
 
-      <Column header="System">
-        <template #body="{data}">
-          {{ data.getSystemName() }}
+      <pv-column :header="t('ticketing.system')">
+        <template #body="slotProps">
+          {{
+            slotProps.data.getSystemName()
+          }}
         </template>
-      </Column>
+      </pv-column>
 
-      <Column header="Endpoint">
-        <template #body="{data}">
-          {{ data.getEndpointUrl() }}
+      <pv-column :header="t('ticketing.endpoint')">
+        <template #body="slotProps">
+          {{
+            slotProps.data.getEndpointUrl()
+          }}
         </template>
-      </Column>
+      </pv-column>
 
-      <Column header="Status">
-        <template #body="{data}">
-          <Tag
-              :value="data.getConnectionStatusAsString()"
-              :severity="getStatusSeverity(
-                  data.getConnectionStatusAsString()
-              )"
-          />
+      <pv-column :header="t('ticketing.status')">
+        <template #body="slotProps">
+
+          <span
+              :class="[
+                'status-badge',
+                `status-${slotProps.data
+                    .getConnectionStatusAsString()
+                    .toLowerCase()}`
+              ]"
+          >
+            {{
+              slotProps.data
+                  .getConnectionStatusAsString()
+            }}
+          </span>
+
         </template>
-      </Column>
+      </pv-column>
 
-      <Column header="Last Verified">
-        <template #body="{data}">
-          {{ formatDate(data.getLastVerifiedAt()) }}
+      <pv-column :header="t('ticketing.lastVerified')">
+        <template #body="slotProps">
+          {{
+            formatDate(
+                slotProps.data.getLastVerifiedAt()
+            )
+          }}
         </template>
-      </Column>
+      </pv-column>
 
-      <Column header="Actions">
-        <template #body="{data}">
+      <pv-column :header="t('ticketing.actions')">
+        <template #body="slotProps">
+
           <div class="actions">
 
-            <Button
+            <pv-button
                 icon="pi pi-eye"
-                severity="secondary"
                 text
                 rounded
-                aria-label="View integration"
-                @click="viewIntegration(data)"
+                @click="
+                  navigateToDetail(
+                    slotProps.data.getId()
+                  )
+                "
             />
 
-            <Button
+            <pv-button
                 icon="pi pi-pencil"
-                severity="secondary"
                 text
                 rounded
-                aria-label="Edit integration"
-                @click="editIntegration(data)"
+                @click="
+                  navigateToEdit(
+                    slotProps.data.getId()
+                  )
+                "
             />
 
           </div>
-        </template>
-      </Column>
 
-    </DataTable>
+        </template>
+      </pv-column>
+
+    </pv-data-table>
+
+    <div
+        v-if="errors.length"
+        class="text-red-500 mt-3"
+    >
+      {{ t("errors.occurred") }}:
+      {{
+        errors
+            .map(error => error.message)
+            .join(", ")
+      }}
+    </div>
 
   </div>
 </template>
@@ -165,16 +248,36 @@ function formatDate(value) {
 }
 
 .header h1 {
-  margin: 0 0 0.5rem;
+  margin: 0;
 }
 
 .header p {
-  margin: 0;
+  margin: 0.75rem 0 0;
 }
 
 .actions {
   display: flex;
   gap: 0.5rem;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-available {
+  background: rgba(34, 197, 94, 0.15);
+}
+
+.status-reconnecting {
+  background: rgba(245, 158, 11, 0.15);
+}
+
+.status-unavailable {
+  background: rgba(239, 68, 68, 0.15);
 }
 
 @media (max-width: 768px) {

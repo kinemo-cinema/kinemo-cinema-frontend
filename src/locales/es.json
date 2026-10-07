@@ -217,6 +217,37 @@
   "readinessNav": {
     "rooms": "Salas"
   },
+  "ticketingNav": {
+    "integrations": "Boletería"
+  },
+  "ticketing": {
+    "title": "Integraciones de Boletería",
+    "subtitle": "Gestiona las conexiones con sistemas externos de boletería.",
+    "new": "Nueva Integración",
+    "edit": "Editar Integración",
+    "system": "Sistema",
+    "endpoint": "Endpoint",
+    "status": "Estado",
+    "lastVerified": "Última Verificación",
+    "actions": "Acciones",
+    "empty": "No se encontraron integraciones de boletería."
+  },
+    "NewIntegration": {
+      "title": "Nueva Integración de Boletería",
+      "edit-title": "Editar Integración de Boletería",
+      "subtitle": "Configura la conexión entre Kinemo y un sistema externo de boletería.",
+      "system-name": "Nombre del Sistema",
+      "system-placeholder": "Ingresa el nombre del sistema de boletería",
+      "endpoint-url": "URL del Endpoint",
+      "status": "Estado de Conexión",
+      "select-status": "Selecciona un estado",
+      "available": "Disponible",
+      "reconnecting": "Reconectando",
+      "unavailable": "No Disponible",
+      "create": "Crear Integración",
+      "save": "Guardar Cambios",
+      "cancel": "Cancelar"
+    },
   "room": {
     "new-title": "Nueva Sala",
     "edit-title": "Editar Sala",

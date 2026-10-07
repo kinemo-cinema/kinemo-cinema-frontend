@@ -77,7 +77,7 @@ const useTicketingStore = defineStore("ticketing", () => {
     /**
      * Loads ticketing integrations.
      *
-     * @returns {Promise<void>}
+     * @returns {Promise<boolean>}
      */
     async function fetchTicketingIntegrations() {
         errors.value = [];
@@ -91,8 +91,12 @@ const useTicketingStore = defineStore("ticketing", () => {
                     .toEntitiesFromResponse(response);
 
             ticketingIntegrationsLoaded.value = true;
+
+            return true;
         } catch (error) {
             errors.value.push(error);
+
+            return false;
         }
     }
 
@@ -103,7 +107,7 @@ const useTicketingStore = defineStore("ticketing", () => {
      * @returns {TicketingIntegration|undefined}
      */
     function getTicketingIntegrationById(id) {
-        const idNum = parseInt(id);
+        const idNum = parseInt(id, 10);
 
         return ticketingIntegrations.value.find(
             integration =>
@@ -115,7 +119,7 @@ const useTicketingStore = defineStore("ticketing", () => {
      * Creates a ticketing integration.
      *
      * @param {TicketingIntegration} integration
-     * @returns {Promise<void>}
+     * @returns {Promise<boolean>}
      */
     async function addTicketingIntegration(integration) {
         errors.value = [];
@@ -134,8 +138,12 @@ const useTicketingStore = defineStore("ticketing", () => {
             ticketingIntegrations.value.push(
                 newIntegration
             );
+
+            return true;
         } catch (error) {
             errors.value.push(error);
+
+            return false;
         }
     }
 
@@ -143,7 +151,7 @@ const useTicketingStore = defineStore("ticketing", () => {
      * Updates a ticketing integration.
      *
      * @param {TicketingIntegration} integration
-     * @returns {Promise<void>}
+     * @returns {Promise<boolean>}
      */
     async function updateTicketingIntegration(integration) {
         errors.value = [];
@@ -170,8 +178,12 @@ const useTicketingStore = defineStore("ticketing", () => {
                 ticketingIntegrations.value[index] =
                     updatedIntegration;
             }
+
+            return true;
         } catch (error) {
             errors.value.push(error);
+
+            return false;
         }
     }
 
@@ -182,7 +194,7 @@ const useTicketingStore = defineStore("ticketing", () => {
     /**
      * Loads synchronization logs.
      *
-     * @returns {Promise<void>}
+     * @returns {Promise<boolean>}
      */
     async function fetchSyncLogs() {
         errors.value = [];
@@ -196,8 +208,12 @@ const useTicketingStore = defineStore("ticketing", () => {
                     .toEntitiesFromResponse(response);
 
             syncLogsLoaded.value = true;
+
+            return true;
         } catch (error) {
             errors.value.push(error);
+
+            return false;
         }
     }
 
@@ -208,7 +224,8 @@ const useTicketingStore = defineStore("ticketing", () => {
      * @returns {SyncLog[]}
      */
     function getSyncLogsByConnectionId(connectionId) {
-        const idNum = parseInt(connectionId);
+        const idNum =
+            parseInt(connectionId, 10);
 
         return syncLogs.value.filter(
             log =>
@@ -223,7 +240,7 @@ const useTicketingStore = defineStore("ticketing", () => {
     /**
      * Loads show occupancy information.
      *
-     * @returns {Promise<void>}
+     * @returns {Promise<boolean>}
      */
     async function fetchShowOccupancies() {
         errors.value = [];
@@ -237,15 +254,19 @@ const useTicketingStore = defineStore("ticketing", () => {
                     .toEntitiesFromResponse(response);
 
             showOccupanciesLoaded.value = true;
+
+            return true;
         } catch (error) {
             errors.value.push(error);
+
+            return false;
         }
     }
 
     /**
      * Returns occupancy information related to a ticketing connection.
      *
-     * The relationship is resolved through the latest synchronization log:
+     * The relationship is resolved through the synchronization logs:
      *
      * TicketingConnection -> SyncLog -> ShowOccupancy
      *
@@ -256,9 +277,10 @@ const useTicketingStore = defineStore("ticketing", () => {
         const logs =
             getSyncLogsByConnectionId(connectionId);
 
-        const syncLogIds = logs.map(
-            log => log.getId()
-        );
+        const syncLogIds =
+            logs.map(
+                log => log.getId()
+            );
 
         return showOccupancies.value.filter(
             occupancy =>
@@ -273,22 +295,28 @@ const useTicketingStore = defineStore("ticketing", () => {
     // --------------------------------------------------------------------
 
     return {
+        // State
         ticketingIntegrations,
         syncLogs,
         showOccupancies,
+        errors,
 
+        // Loaded flags
         ticketingIntegrationsLoaded,
         syncLogsLoaded,
         showOccupanciesLoaded,
 
+        // Ticketing integrations
         fetchTicketingIntegrations,
         getTicketingIntegrationById,
         addTicketingIntegration,
         updateTicketingIntegration,
 
+        // Synchronization logs
         fetchSyncLogs,
         getSyncLogsByConnectionId,
 
+        // Show occupancies
         fetchShowOccupancies,
         getShowOccupanciesByConnectionId,
     };

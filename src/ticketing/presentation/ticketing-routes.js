@@ -11,33 +11,45 @@ const ticketingIntegrationDetail =
 const ticketingRoutes = [
     {
         path: '',
-        redirect: {name: 'ticketing-integrations'}
+        redirect: {
+            name: 'ticketing-integrations'
+        }
     },
 
-    // Static child routes must come before dynamic `:id` routes
     {
         path: 'integrations',
         name: 'ticketing-integrations',
         component: ticketingIntegrationList,
-        meta: {title: 'Ticketing Integrations'}
+        meta: {
+            title: 'Ticketing Integrations'
+        }
     },
+
     {
         path: 'integrations/new',
         name: 'ticketing-integration-new',
         component: ticketingIntegrationForm,
-        meta: {title: 'New Ticketing Integration'}
+        meta: {
+            title: 'New Ticketing Integration'
+        }
     },
+
     {
         path: 'integrations/:id/edit',
         name: 'ticketing-integration-edit',
         component: ticketingIntegrationForm,
-        meta: {title: 'Edit Ticketing Integration'}
+        meta: {
+            title: 'Edit Ticketing Integration'
+        }
     },
+
     {
         path: 'integrations/:id',
         name: 'ticketing-integration-detail',
         component: ticketingIntegrationDetail,
-        meta: {title: 'Ticketing Integration Detail'}
+        meta: {
+            title: 'Ticketing Integration Detail'
+        }
     }
 ];
 

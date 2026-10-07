@@ -1,20 +1,26 @@
 <script setup>
 import {useI18n} from "vue-i18n";
 
-const {t} = useI18n();
+const { t } = useI18n();
 
+/**
+ * Sub-navigation entries for BC04. Each `name` matches a route defined
+ * in ticketing-routes.js so router-link resolves through the named
+ * route rather than a hardcoded path.
+ *
+ * @type {Array<{name: string, i18nKey: string, icon: string}>}
+ */
 const links = [
   {
-    name: "ticketing-integrations",
-    i18nKey: "ticketingNav.integrations",
-    icon: "pi pi-ticket"
-  }
+    name: 'ticketing-integrations',
+    i18nKey: 'ticketingNav.integrations',
+    icon: 'pi pi-ticket'
+  },
 ];
 </script>
 
 <template>
   <section class="ticketing-layout">
-
     <nav
         class="ticketing-nav"
         aria-label="Ticketing sections"
@@ -22,7 +28,7 @@ const links = [
       <router-link
           v-for="link in links"
           :key="link.name"
-          :to="{name: link.name}"
+          :to="{ name: link.name }"
           class="ticketing-nav-link"
           active-class="ticketing-nav-link--active"
       >
@@ -34,7 +40,6 @@ const links = [
     <div class="ticketing-content">
       <router-view/>
     </div>
-
   </section>
 </template>
 
@@ -64,9 +69,7 @@ const links = [
   font-weight: 500;
   font-size: 0.9rem;
   opacity: 0.75;
-  transition:
-      background-color 0.15s ease,
-      opacity 0.15s ease;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
 }
 
 .ticketing-nav-link:hover {

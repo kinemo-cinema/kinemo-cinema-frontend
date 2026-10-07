@@ -217,6 +217,37 @@
   "readinessNav": {
     "rooms": "Rooms"
   },
+  "ticketingNav": {
+    "integrations": "Ticketing"
+  },
+  "ticketing": {
+    "title": "Ticketing Integrations",
+    "subtitle": "Manage external ticketing system connections.",
+    "new": "New Integration",
+    "edit": "Edit Integration",
+    "system": "System",
+    "endpoint": "Endpoint",
+    "status": "Status",
+    "lastVerified": "Last Verified",
+    "actions": "Actions",
+    "empty": "No ticketing integrations found."
+  },
+    "NewIntegration": {
+      "title": "New Ticketing Integration",
+      "edit-title": "Edit Ticketing Integration",
+      "subtitle": "Configure the connection between Kinemo and an external ticketing system.",
+      "system-name": "System Name",
+      "system-placeholder": "Enter ticketing system name",
+      "endpoint-url": "Endpoint URL",
+      "status": "Connection Status",
+      "select-status": "Select status",
+      "available": "Available",
+      "reconnecting": "Reconnecting",
+      "unavailable": "Unavailable",
+      "create": "Create Integration",
+      "save": "Save Changes",
+      "cancel": "Cancel"
+    },
   "room": {
     "new-title": "New Room",
     "edit-title": "Edit Room",

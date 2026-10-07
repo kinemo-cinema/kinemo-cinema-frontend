@@ -13,6 +13,7 @@ const CatalogLayout = () => import('./catalog/presentation/views/catalog-layout.
 const SchedulingLayout = () => import('./scheduling/presentation/views/scheduling-layout.vue');
 const ReadinessLayout = () => import('./readiness/presentation/views/readiness-layout.vue');
 const TicketingLayout = () => import('./ticketing/presentation/views/ticketing-layout.vue');
+
 const routes = [
     { path: '/', name: 'home', component: HomeView },
     { path: '/about', name: 'about', component: AboutView },

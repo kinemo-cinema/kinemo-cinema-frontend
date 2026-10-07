@@ -1,53 +1,103 @@
 <script setup>
-import {computed, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-
-import Button from "primevue/button";
-import InputText from "primevue/inputtext";
-import Select from "primevue/select";
+import {useI18n} from "vue-i18n";
+import {storeToRefs} from "pinia";
+import {computed, onMounted, ref} from "vue";
 
 import useTicketingStore from "../../application/ticketing.store.js";
 import {TicketingIntegration} from "../../domain/model/ticketing-integration.entity.js";
 
+const {t} = useI18n();
 const route = useRoute();
 const router = useRouter();
+
 const ticketingStore = useTicketingStore();
 
+/*
+ * Reactive state from store
+ */
+const {errors} = storeToRefs(ticketingStore);
+
+/*
+ * Actions
+ */
+const {
+  addTicketingIntegration,
+  updateTicketingIntegration,
+  fetchTicketingIntegrations
+} = ticketingStore;
+
+/*
+ * Local form state
+ */
 const form = ref({
   systemName: "",
   endpointUrl: "",
   connectionStatus: "AVAILABLE"
 });
 
-const statusOptions = [
-  {label: "Available", value: "AVAILABLE"},
-  {label: "Reconnecting", value: "RECONNECTING"},
-  {label: "Unavailable", value: "UNAVAILABLE"}
-];
-
 const isEdit = computed(() => !!route.params.id);
 
-onMounted(() => {
+/*
+ * Select options.
+ * Computed so the labels update when EN / ES changes.
+ */
+const statusOptions = computed(() => [
+  {
+    label: t("NewIntegration.available"),
+    value: "AVAILABLE"
+  },
+  {
+    label: t("NewIntegration.reconnecting"),
+    value: "RECONNECTING"
+  },
+  {
+    label: t("NewIntegration.unavailable"),
+    value: "UNAVAILABLE"
+  }
+]);
+
+onMounted(async () => {
   if (!ticketingStore.ticketingIntegrationsLoaded) {
-    ticketingStore.fetchTicketingIntegrations();
+    await fetchTicketingIntegrations();
   }
 
   if (isEdit.value) {
-    const integration = getIntegrationById(route.params.id);
+    const integration =
+        getIntegrationById(route.params.id);
 
     if (integration) {
-      form.value.systemName = integration.getSystemName();
-      form.value.endpointUrl = integration.getEndpointUrl();
+      form.value.systemName =
+          integration.getSystemName();
+
+      form.value.endpointUrl =
+          integration.getEndpointUrl();
+
       form.value.connectionStatus =
           integration.getConnectionStatusAsString();
+    } else {
+      router.push({
+        name: "ticketing-integrations"
+      });
     }
   }
 });
 
+/**
+ * Retrieves a ticketing integration by its ID.
+ *
+ * @param {number|string} id
+ * @returns {TicketingIntegration|undefined}
+ */
 function getIntegrationById(id) {
   return ticketingStore.getTicketingIntegrationById(id);
 }
 
+/**
+ * Checks whether the form contains the required information.
+ *
+ * @returns {boolean}
+ */
 function isFormValid() {
   return (
       form.value.systemName.trim() !== "" &&
@@ -55,7 +105,10 @@ function isFormValid() {
   );
 }
 
-const saveIntegration = () => {
+/**
+ * Creates or updates a ticketing integration.
+ */
+const saveIntegration = async () => {
   if (!isFormValid()) return;
 
   const existing =
@@ -64,24 +117,42 @@ const saveIntegration = () => {
           : null;
 
   const integration = new TicketingIntegration({
-    id: existing ? existing.getId() : null,
-    systemName: form.value.systemName.trim(),
-    endpointUrl: form.value.endpointUrl.trim(),
-    connectionStatus: form.value.connectionStatus,
+    id: existing
+        ? existing.getId()
+        : null,
+
+    systemName:
+        form.value.systemName.trim(),
+
+    endpointUrl:
+        form.value.endpointUrl.trim(),
+
+    connectionStatus:
+    form.value.connectionStatus,
+
     lastVerifiedAt: existing
         ? existing.getLastVerifiedAt()
         : null
   });
 
+  let success;
+
   if (isEdit.value) {
-    ticketingStore.updateTicketingIntegration(integration);
+    success =
+        await updateTicketingIntegration(integration);
   } else {
-    ticketingStore.addTicketingIntegration(integration);
+    success =
+        await addTicketingIntegration(integration);
   }
 
-  navigateBack();
+  if (success) {
+    navigateBack();
+  }
 };
 
+/**
+ * Navigates back to the integrations list.
+ */
 const navigateBack = () => {
   router.push({
     name: "ticketing-integrations"
@@ -95,38 +166,39 @@ const navigateBack = () => {
     <h1>
       {{
         isEdit
-            ? "Edit Ticketing Integration"
-            : "New Ticketing Integration"
+            ? t("NewIntegration.edit-title")
+            : t("NewIntegration.title")
       }}
     </h1>
 
-    <p class="mb-4">
-      Configure the connection between Kinemo
-      and an external ticketing system.
+    <p class="form-subtitle">
+      {{ t("NewIntegration.subtitle") }}
     </p>
 
     <form @submit.prevent="saveIntegration">
 
       <div class="field mb-3">
         <label for="systemName">
-          System Name
+          {{ t("NewIntegration.system-name") }}
         </label>
 
-        <InputText
+        <pv-input-text
             id="systemName"
             v-model="form.systemName"
             class="w-full"
-            placeholder="Enter ticketing system name"
+            :placeholder="
+              t('NewIntegration.system-placeholder')
+            "
             required
         />
       </div>
 
       <div class="field mb-3">
         <label for="endpointUrl">
-          Endpoint URL
+          {{ t("NewIntegration.endpoint-url") }}
         </label>
 
-        <InputText
+        <pv-input-text
             id="endpointUrl"
             v-model="form.endpointUrl"
             class="w-full"
@@ -137,34 +209,37 @@ const navigateBack = () => {
 
       <div class="field mb-3">
         <label for="connectionStatus">
-          Connection Status
+          {{ t("NewIntegration.status") }}
         </label>
 
-        <Select
+        <pv-select
             id="connectionStatus"
             v-model="form.connectionStatus"
             :options="statusOptions"
             optionLabel="label"
             optionValue="value"
+            :placeholder="
+              t('NewIntegration.select-status')
+            "
             class="w-full"
-            placeholder="Select status"
+            required
         />
       </div>
 
-      <Button
+      <pv-button
           type="submit"
           :label="
             isEdit
-                ? 'Save Changes'
-                : 'Create Integration'
+                ? t('NewIntegration.save')
+                : t('NewIntegration.create')
           "
           icon="pi pi-save"
           :disabled="!isFormValid()"
       />
 
-      <Button
+      <pv-button
           type="button"
-          label="Cancel"
+          :label="t('NewIntegration.cancel')"
           severity="secondary"
           class="ml-2"
           @click="navigateBack"
@@ -172,8 +247,20 @@ const navigateBack = () => {
 
     </form>
 
+    <div
+        v-if="errors.length"
+        class="text-red-500 mt-3"
+    >
+      {{ t("errors.occurred") }}:
+      {{ errors.map(e => e.message).join(", ") }}
+    </div>
+
   </div>
 </template>
 
 <style scoped>
+.form-subtitle {
+  margin-top: 0.75rem;
+  margin-bottom: 2rem;
+}
 </style>
