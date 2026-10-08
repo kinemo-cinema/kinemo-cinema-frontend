@@ -33,7 +33,7 @@ const managerModules = [
     bc: 'BC03',
     key: 'rooms',
     icon: 'pi pi-building',
-    route: '/rooms'
+    route: '/room-readiness'
   },
   {
     bc: 'BC04',
