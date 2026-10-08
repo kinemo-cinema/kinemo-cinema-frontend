@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import * as CatalogRoutes from './catalog/presentation/catalog-routes.js';
-import * as SchedulingRoutes from './scheduling/presentation/scheduling-routes.js';
-import * as ReadinessRoutes from './readiness/presentation/readiness-routes.js';
+import CatalogRoutes from './catalog/presentation/catalog-routes.js';
+import SchedulingRoutes from './scheduling/presentation/scheduling-routes.js';
+import ReadinessRoutes from './readiness/presentation/readiness-routes.js';
 
 import MaintenanceRoutes from './maintence/presentation/maintenance-routes.js';
 import SubscriptionRoutes from './subscription/presentation/subscription-routes.js';
