@@ -13,6 +13,52 @@
       "logout": "Cerrar sesión"
     }
   },
+  "hub": {
+    "title": "Bienvenido a Kinemo",
+    "subtitle": "Selecciona un módulo para gestionar las operaciones de tu cine 4D.",
+    "sections": {
+      "manager": "Módulos Comerciales y Analíticos",
+      "technician": "Módulos Operativos y Técnicos"
+    },
+    "modules": {
+      "catalog": {
+        "title": "Catálogo de Películas",
+        "description": "Registra películas 4D, asocia archivos de efectos y gestiona el catálogo disponible para programar."
+      },
+      "scheduling": {
+        "title": "Programación",
+        "description": "Programa funciones 4D, gestiona la disponibilidad de salas y bloquea horarios por mantenimiento."
+      },
+      "rooms": {
+        "title": "Preparación de Sala",
+        "description": "Verifica el estado de la sala, calcula requerimientos de agua y aire, y registra inspecciones antes de cada función."
+      },
+      "ticketing": {
+        "title": "Integración de Boletería",
+        "description": "Monitorea la conexión con tu sistema externo de boletería y revisa la ocupación sincronizada."
+      },
+      "analytics": {
+        "title": "Analítica",
+        "description": "Consulta ocupación, consumo de insumos y métricas de rendimiento por sala."
+      },
+      "subscription": {
+        "title": "Suscripción",
+        "description": "Gestiona tu plan Kinemo, métodos de pago, límite de pantallas y renovaciones."
+      },
+      "seat-control": {
+        "title": "Asignación de Butacas",
+        "description": "Visualiza el mapa de butacas, activa asientos vendidos y bloquea butacas individuales para servicio."
+      },
+      "execution": {
+        "title": "Ejecución 4D",
+        "description": "Inicia, pausa y concluye secuencias de efectos; monitorea sincronización y estado del hardware."
+      },
+      "maintenance": {
+        "title": "Mantenimiento",
+        "description": "Reporta incidencias, programa mantenimiento preventivo y controla la vida útil de los componentes."
+      }
+    }
+  },
   "home": {
     "title": "Bienvenido a Kinemo",
     "subtitle": "Elige cómo quieres trabajar hoy.",

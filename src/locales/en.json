@@ -13,6 +13,52 @@
       "logout": "Log out"
     }
   },
+  "hub": {
+    "title": "Welcome to Kinemo",
+    "subtitle": "Select a module to manage your 4D cinema operations.",
+    "sections": {
+      "manager": "Commercial & Analytical Modules",
+      "technician": "Operational & Technical Modules"
+    },
+    "modules": {
+      "catalog": {
+        "title": "Movie Catalog",
+        "description": "Register 4D movies, associate effects files, and manage the catalog available for scheduling."
+      },
+      "scheduling": {
+        "title": "Scheduling",
+        "description": "Program 4D shows, manage room availability, and block time slots for maintenance."
+      },
+      "rooms": {
+        "title": "Room Readiness",
+        "description": "Verify room status, calculate water and air requirements, and log inspections before each show."
+      },
+      "ticketing": {
+        "title": "Ticketing Integration",
+        "description": "Monitor the connection to your external ticketing system and review synced occupancy data."
+      },
+      "analytics": {
+        "title": "Analytics",
+        "description": "View occupancy, resource consumption, and per-room performance metrics."
+      },
+      "subscription": {
+        "title": "Subscription",
+        "description": "Manage your Kinemo plan, payment methods, screen limits, and renewals."
+      },
+      "seat-control": {
+        "title": "Seat Allocation",
+        "description": "View the seat map, activate sold seats, and block individual seats for service."
+      },
+      "execution": {
+        "title": "4D Execution",
+        "description": "Start, pause, and conclude effect sequences; monitor synchronization and hardware state."
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Report incidents, schedule preventive maintenance, and track component lifecycle."
+      }
+    }
+  },
   "home": {
     "title": "Welcome to Kinemo",
     "subtitle": "Choose how you want to work today.",
