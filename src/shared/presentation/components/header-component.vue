@@ -1,5 +1,6 @@
 <script setup lang="js">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import LanguageSwitcher from './language-switcher.vue';
 
@@ -8,13 +9,12 @@ import LanguageSwitcher from './language-switcher.vue';
  *
  * @remarks
  * Provides top-level navigation between the operational areas of the
- * application (Dashboard, Operations, Maintenance, Analytics) and hosts
- * the language switcher and user menu. The menu content is populated from
- * the `@shared` user context once authentication is wired in (BC12).
+ * application and hosts the language switcher and user menu.
  */
-const { t } = useI18n();
 
-const userMenuVisible = ref(false);
+const { t } = useI18n();
+const router = useRouter();
+
 const userMenu = ref(null);
 
 /**
@@ -26,59 +26,161 @@ const userMenu = ref(null);
 const toggleUserMenu = (event) => {
   userMenu.value.toggle(event);
 };
+
+/**
+ * Logs the user out and returns to the sign-in page.
+ *
+ * @returns {void}
+ */
+const logout = () => {
+  localStorage.removeItem('kinemo-authenticated');
+  router.push('/');
+};
 </script>
 
 <template>
   <header class="kinemo-header">
+
     <pv-menubar>
+
       <template #start>
-        <router-link to="/" class="brand">
-          <span class="brand-name">Kinemo</span>
-          <span class="brand-dot" aria-hidden="true"/>
+
+        <!-- Brand -->
+        <router-link
+            to="/dashboard"
+            class="brand"
+        >
+          <span class="brand-name">
+            Kinemo
+          </span>
+
+          <span
+              class="brand-dot"
+              aria-hidden="true"
+          />
         </router-link>
 
-        <nav class="primary-nav" aria-label="Primary navigation">
-          <router-link to="/" class="nav-link">{{ t('header.nav.dashboard') }}</router-link>
-          <router-link to="/operations" class="nav-link">{{ t('header.nav.operations') }}</router-link>
-          <router-link to="/maintenance" class="nav-link">{{ t('header.nav.maintenance') }}</router-link>
-          <router-link to="/analytics" class="nav-link">{{ t('header.nav.analytics') }}</router-link>
+        <!-- Navigation -->
+        <nav
+            class="primary-nav"
+            aria-label="Primary navigation"
+        >
+
+          <router-link
+              to="/dashboard"
+              class="nav-link"
+          >
+            {{ t('header.nav.dashboard') }}
+          </router-link>
+
+          <router-link
+              to="/operations"
+              class="nav-link"
+          >
+            {{ t('header.nav.operations') }}
+          </router-link>
+
+          <router-link
+              to="/maintenance"
+              class="nav-link"
+          >
+            {{ t('header.nav.maintenance') }}
+          </router-link>
+
+          <router-link
+              to="/analytics"
+              class="nav-link"
+          >
+            {{ t('header.nav.analytics') }}
+          </router-link>
+
         </nav>
+
       </template>
 
       <template #end>
+
         <div class="header-actions">
+
+          <!-- Language -->
           <language-switcher/>
 
+          <!-- User -->
           <pv-button
               class="user-trigger"
               text
               aria-haspopup="true"
               aria-controls="user-menu"
-              @click="toggleUserMenu">
-            <pv-avatar icon="pi pi-user" shape="circle" size="normal"/>
+              @click="toggleUserMenu"
+          >
+            <pv-avatar
+                icon="pi pi-user"
+                shape="circle"
+                size="normal"
+            />
           </pv-button>
 
-          <pv-menu id="user-menu" ref="userMenu" :model="[]" :popup="true">
+          <!-- User menu -->
+          <pv-menu
+              id="user-menu"
+              ref="userMenu"
+              :model="[]"
+              :popup="true"
+          >
+
             <template #start>
+
               <div class="user-menu-header">
-                <span class="user-menu-name">{{ t('header.user.placeholder-name') }}</span>
-                <span class="user-menu-role">{{ t('header.user.placeholder-role') }}</span>
+
+                <span class="user-menu-name">
+                  {{ t('header.user.placeholder-name') }}
+                </span>
+
+                <span class="user-menu-role">
+                  {{ t('header.user.placeholder-role') }}
+                </span>
+
               </div>
+
             </template>
+
             <template #end>
+
               <div class="user-menu-footer">
-                <router-link to="/subscription" class="user-menu-item">
-                  <i class="pi pi-credit-card"/> {{ t('header.user.subscription') }}
+
+                <!-- Subscription -->
+                <router-link
+                    to="/subscriptions"
+                    class="user-menu-item"
+                >
+                  <i class="pi pi-credit-card"/>
+
+                  {{ t('header.user.subscription') }}
                 </router-link>
-                <button class="user-menu-item" type="button">
-                  <i class="pi pi-sign-out"/> {{ t('header.user.logout') }}
+
+                <!-- Logout -->
+                <button
+                    class="user-menu-item"
+                    type="button"
+                    @click="logout"
+                >
+                  <i class="pi pi-sign-out"/>
+
+                  {{ t('header.user.logout') }}
                 </button>
+
               </div>
+
             </template>
+
           </pv-menu>
+
         </div>
+
       </template>
+
     </pv-menubar>
+
   </header>
 </template>
 
@@ -93,9 +195,12 @@ const toggleUserMenu = (event) => {
   display: flex;
   align-items: center;
   gap: 0.35rem;
+
   text-decoration: none;
+
   font-weight: 700;
   font-size: 1.25rem;
+
   margin-right: 2rem;
 }
 
@@ -106,7 +211,9 @@ const toggleUserMenu = (event) => {
 .brand-dot {
   width: 0.4rem;
   height: 0.4rem;
+
   border-radius: 50%;
+
   background: #8B5CF6;
 }
 
@@ -118,14 +225,18 @@ const toggleUserMenu = (event) => {
 
 .nav-link {
   text-decoration: none;
+
   font-weight: 500;
+
   opacity: 0.85;
+
   transition: opacity 0.2s ease;
 }
 
 .nav-link:hover,
 .nav-link.router-link-active {
   opacity: 1;
+
   color: var(--p-primary-color);
 }
 
@@ -142,7 +253,9 @@ const toggleUserMenu = (event) => {
 .user-menu-header {
   display: flex;
   flex-direction: column;
+
   padding: 0.75rem 1rem;
+
   border-bottom: 1px solid var(--p-content-border-color);
 }
 
@@ -153,12 +266,14 @@ const toggleUserMenu = (event) => {
 
 .user-menu-role {
   font-size: 0.75rem;
+
   opacity: 0.7;
 }
 
 .user-menu-footer {
   display: flex;
   flex-direction: column;
+
   padding: 0.5rem 0;
 }
 
@@ -166,14 +281,22 @@ const toggleUserMenu = (event) => {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+
   padding: 0.6rem 1rem;
+
   text-decoration: none;
+
   color: inherit;
+
   font-size: 0.875rem;
+
   background: none;
   border: none;
+
   cursor: pointer;
+
   text-align: left;
+
   width: 100%;
 }
 
