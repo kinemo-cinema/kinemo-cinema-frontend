@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-
-import CatalogRoutes from './catalog/presentation/catalog-routes.js';
-import SchedulingRoutes from './scheduling/presentation/scheduling-routes.js';
-import ReadinessRoutes from './readiness/presentation/readiness-routes.js';
-
+import CatalogRoutes from "./catalog/presentation/catalog-routes.js";
+import SchedulingRoutes from "./scheduling/presentation/scheduling-routes.js";
+import ReadinessRoutes from "./readiness/presentation/readiness-routes.js";
+import TicketingRoutes from "./ticketing/presentation/ticketing-routes.js";
 import MaintenanceRoutes from './maintence/presentation/maintenance-routes.js';
 import SubscriptionRoutes from './subscription/presentation/subscription-routes.js';
 
@@ -14,34 +13,19 @@ const SignInView = () =>
 
 
 // Shared
-const HomeView = () =>
-    import('./shared/presentation/views/home.vue');
 
-const AboutView = () =>
-    import('./shared/presentation/views/about.vue');
+const HomeView = () => import('./shared/presentation/views/home.vue');
+const AboutView = () => import('./shared/presentation/views/about.vue');
+const ProfileView = () => import('./shared/presentation/views/profile.vue');
+const PageNotFoundView = () => import('./shared/presentation/views/page-not-found.vue');
 
-const ProfileView = () =>
-    import('./shared/presentation/views/profile.vue');
+const CatalogLayout = () => import('./catalog/presentation/views/catalog-layout.vue');
+const SchedulingLayout = () => import('./scheduling/presentation/views/scheduling-layout.vue');
+const ReadinessLayout = () => import('./readiness/presentation/views/readiness-layout.vue');
+const TicketingLayout = () => import('./ticketing/presentation/views/ticketing-layout.vue');
+const MaintenanceLayout = () => import('./maintence/presentation/views/maintenance-layout.vue');
 
-const PageNotFoundView = () =>
-    import('./shared/presentation/views/page-not-found.vue');
-
-
-// Layouts
-const CatalogLayout = () =>
-    import('./catalog/presentation/views/catalog-layout.vue');
-
-const SchedulingLayout = () =>
-    import('./scheduling/presentation/views/scheduling-layout.vue');
-
-const ReadinessLayout = () =>
-    import('./readiness/presentation/views/readiness-layout.vue');
-
-const MaintenanceLayout = () =>
-    import('./maintence/presentation/views/maintenance-layout.vue');
-
-const SubscriptionLayout = () =>
-    import('./subscription/presentation/views/subscription-layout.vue');
+const SubscriptionLayout = () => import('./subscription/presentation/views/subscription-layout.vue');
 
 
 const routes = [
@@ -82,17 +66,13 @@ const routes = [
     {
         path: '/catalog',
         component: CatalogLayout,
-        children: CatalogRoutes
+        children: CatalogRoutes,
     },
-
-    // BC02 - SCHEDULING
     {
         path: '/scheduling',
         component: SchedulingLayout,
-        children: SchedulingRoutes
+        children: SchedulingRoutes,
     },
-
-    // READINESS
     {
         path: '/room-readiness',
         component: ReadinessLayout,
@@ -105,6 +85,14 @@ const routes = [
         component: MaintenanceLayout,
         children: MaintenanceRoutes
     },
+
+    {
+        path: '/ticketing',
+        component: TicketingLayout,
+        children: TicketingRoutes,
+    },
+
+    { path: '/:pathMatch(.*)*', name: 'not-found', component: PageNotFoundView },
 
     // BC09 - SUBSCRIPTION
     {
@@ -126,8 +114,7 @@ const routes = [
 
 ];
 
-
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
-    routes
+    routes,
 });
