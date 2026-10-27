@@ -33,7 +33,7 @@ const ROLE_MODULES = {
   ],
   technician: [
     { key: 'room-readiness', icon: 'pi pi-home',        path: '/room-readiness' },
-    { key: 'seat-control',   icon: 'pi pi-th-large',    path: '/seat-control' },
+    { key: 'seat-control',   icon: 'pi pi-th-large',    path: '/seat-allocation' },
     { key: 'execution',      icon: 'pi pi-play-circle', path: '/execution' },
     { key: 'maintenance',    icon: 'pi pi-wrench',      path: '/maintenance' },
   ],
