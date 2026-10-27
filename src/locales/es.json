@@ -13,6 +13,52 @@
       "logout": "Cerrar sesión"
     }
   },
+  "hub": {
+    "title": "Bienvenido a Kinemo",
+    "subtitle": "Selecciona un módulo para gestionar las operaciones de tu cine 4D.",
+    "sections": {
+      "manager": "Módulos Comerciales y Analíticos",
+      "technician": "Módulos Operativos y Técnicos"
+    },
+    "modules": {
+      "catalog": {
+        "title": "Catálogo de Películas",
+        "description": "Registra películas 4D, asocia archivos de efectos y gestiona el catálogo disponible para programar."
+      },
+      "scheduling": {
+        "title": "Programación",
+        "description": "Programa funciones 4D, gestiona la disponibilidad de salas y bloquea horarios por mantenimiento."
+      },
+      "rooms": {
+        "title": "Preparación de Sala",
+        "description": "Verifica el estado de la sala, calcula requerimientos de agua y aire, y registra inspecciones antes de cada función."
+      },
+      "ticketing": {
+        "title": "Integración de Boletería",
+        "description": "Monitorea la conexión con tu sistema externo de boletería y revisa la ocupación sincronizada."
+      },
+      "analytics": {
+        "title": "Analítica",
+        "description": "Consulta ocupación, consumo de insumos y métricas de rendimiento por sala."
+      },
+      "subscription": {
+        "title": "Suscripción",
+        "description": "Gestiona tu plan Kinemo, métodos de pago, límite de pantallas y renovaciones."
+      },
+      "seat-control": {
+        "title": "Asignación de Butacas",
+        "description": "Visualiza el mapa de butacas, activa asientos vendidos y bloquea butacas individuales para servicio."
+      },
+      "execution": {
+        "title": "Ejecución 4D",
+        "description": "Inicia, pausa y concluye secuencias de efectos; monitorea sincronización y estado del hardware."
+      },
+      "maintenance": {
+        "title": "Mantenimiento",
+        "description": "Reporta incidencias, programa mantenimiento preventivo y controla la vida útil de los componentes."
+      }
+    }
+  },
   "home": {
     "title": "Bienvenido a Kinemo",
     "subtitle": "Elige cómo quieres trabajar hoy.",
@@ -72,6 +118,56 @@
   },
   "common": {
     "coming-soon": "Este módulo está en construcción."
+  },
+  "maintenance": {
+    "title": "Pruebas de Recursos y Mantenimiento",
+    "subtitle": "Monitorea pruebas de hardware 4D, incidentes, componentes y órdenes de mantenimiento.",
+    "refresh": "Actualizar",
+    "failed-tests": "Pruebas Fallidas / En Revisión",
+    "open-incidents": "Incidentes Abiertos",
+    "pending-maintenance": "Mantenimiento Pendiente",
+    "components": "Componentes",
+    "channel-tests": "Pruebas de Canal",
+    "hardware-components": "Componentes de Hardware",
+    "incidents": "Incidentes",
+    "maintenance-orders": "Órdenes de Mantenimiento",
+    "monitoring": "Monitoreo",
+    "operations": "Operaciones",
+    "fields": {
+      "id": "ID",
+      "channel": "Canal",
+      "result": "Resultado",
+      "review": "Revisión",
+      "code": "Código",
+      "type": "Tipo",
+      "lifecycle": "Ciclo de Vida",
+      "usage": "Uso",
+      "severity": "Severidad",
+      "priority": "Prioridad",
+      "status": "Estado",
+      "description": "Descripción"
+    },
+    "values": {
+      "yes": "Sí",
+      "no": "No"
+    },
+    "status": {
+      "PASSED": "Aprobado",
+      "FAILED": "Fallido",
+      "LOW_PRESSURE": "Baja Presión",
+      "REQUIRES_REVIEW": "Requiere Revisión",
+      "WITHIN_LIMIT": "Dentro del Límite",
+      "NEAR_LIMIT": "Cerca del Límite",
+      "EXCEEDED": "Límite Excedido",
+      "REPLACE_SUGGESTED": "Reemplazo Sugerido",
+      "REPORTED": "Reportado",
+      "IN_REVIEW": "En Revisión",
+      "RESOLVED": "Resuelto",
+      "CLOSED": "Cerrado",
+      "IN_PROGRESS": "En Progreso",
+      "SCHEDULED": "Programado",
+      "COMPLETED": "Completado"
+    }
   },
   "genre": {
     "new-title": "Nuevo Género",
@@ -217,6 +313,37 @@
   "readinessNav": {
     "rooms": "Salas"
   },
+  "ticketingNav": {
+    "integrations": "Boletería"
+  },
+  "ticketing": {
+    "title": "Integraciones de Boletería",
+    "subtitle": "Gestiona las conexiones con sistemas externos de boletería.",
+    "new": "Nueva Integración",
+    "edit": "Editar Integración",
+    "system": "Sistema",
+    "endpoint": "Endpoint",
+    "status": "Estado",
+    "lastVerified": "Última Verificación",
+    "actions": "Acciones",
+    "empty": "No se encontraron integraciones de boletería."
+  },
+    "NewIntegration": {
+      "title": "Nueva Integración de Boletería",
+      "edit-title": "Editar Integración de Boletería",
+      "subtitle": "Configura la conexión entre Kinemo y un sistema externo de boletería.",
+      "system-name": "Nombre del Sistema",
+      "system-placeholder": "Ingresa el nombre del sistema de boletería",
+      "endpoint-url": "URL del Endpoint",
+      "status": "Estado de Conexión",
+      "select-status": "Selecciona un estado",
+      "available": "Disponible",
+      "reconnecting": "Reconectando",
+      "unavailable": "No Disponible",
+      "create": "Crear Integración",
+      "save": "Guardar Cambios",
+      "cancel": "Cancelar"
+    },
   "room": {
     "new-title": "Nueva Sala",
     "edit-title": "Editar Sala",
@@ -299,5 +426,116 @@
 
   "executionNav": {
     "executions": "Ejecución 4D"
+  },
+  "auth": {
+    "language": {
+      "english": "EN",
+      "spanish": "ES"
+    },
+    "login": {
+      "title": "Bienvenido de nuevo",
+      "subtitle": "Inicia sesión para gestionar la experiencia 4D de tu cine.",
+      "email": "Correo electrónico",
+      "email-placeholder": "nombre@cine.com",
+      "password": "Contraseña",
+      "password-placeholder": "Ingresa tu contraseña",
+      "forgot-password": "¿Olvidaste tu contraseña?",
+      "show": "Mostrar",
+      "hide": "Ocultar",
+      "sign-in": "Iniciar sesión",
+      "required-error": "Ingresa tu correo electrónico y contraseña.",
+      "or": "O",
+      "new-to-kinemo": "¿Aún no utilizas Kinemo?",
+      "subscription-description": "Elige un plan y comienza a gestionar tu cine 4D con Kinemo.",
+      "subscribe-now": "Suscríbete ahora",
+      "footer": "© 2026 Kinemo. Tecnología para cines 4D."
+    }
+  },
+  "subscriptionFlow": {
+    "header": {
+      "already-account": "¿Ya tienes una cuenta?",
+      "sign-in": "Iniciar sesión"
+    },
+    "steps": {
+      "choose-plan": "Elegir plan",
+      "information": "Tus datos"
+    },
+    "plans": {
+      "eyebrow": "PLANES KINEMO",
+      "title": "Elige el plan ideal para tu cine",
+      "subtitle": "Selecciona la opción que mejor se adapte a tu operación. Podrás ampliar tu plan a medida que tu cine crezca.",
+      "popular": "MÁS POPULAR",
+      "per-month": "/mes",
+      "starter": {
+        "name": "Starter",
+        "description": "Para cines pequeños que están iniciando su experiencia 4D.",
+        "button": "Elegir Starter",
+        "features": [
+          "Hasta 3 pantallas conectadas",
+          "Sincronización básica",
+          "Panel de control unificado",
+          "Soporte por correo en 48 h",
+          "Reportes analíticos mensuales"
+        ]
+      },
+      "growth": {
+        "name": "Growth",
+        "description": "Para operadores de cine en crecimiento que necesitan herramientas avanzadas.",
+        "button": "Elegir Growth",
+        "features": [
+          "Hasta 12 pantallas conectadas",
+          "Sincronización avanzada por fotogramas",
+          "Gestión de incidencias y telemetría",
+          "Soporte prioritario en 4 h",
+          "Analítica en tiempo real",
+          "API de integración completa"
+        ]
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "Personalizado",
+        "description": "Para grandes cadenas de cine con múltiples ubicaciones.",
+        "button": "Solicitar Enterprise",
+        "features": [
+          "Pantallas conectadas ilimitadas",
+          "SLA garantizado del 99.9%",
+          "Integraciones personalizadas",
+          "Gerente de cuenta dedicado",
+          "Implementación presencial",
+          "Contratos flexibles"
+        ]
+      }
+    },
+    "information": {
+      "eyebrow": "TUS DATOS",
+      "title": "Cuéntanos sobre tu cine",
+      "subtitle": "Completa tus datos y nuestro equipo se pondrá en contacto contigo para continuar con tu suscripción a Kinemo.",
+      "first-name": "Nombre",
+      "first-name-placeholder": "Andrea",
+      "last-name": "Apellido",
+      "last-name-placeholder": "Correa",
+      "email": "Correo empresarial",
+      "email-placeholder": "nombre@cine.com",
+      "company": "Nombre del cine o empresa",
+      "company-placeholder": "Empresa de cine",
+      "phone": "Número de teléfono",
+      "phone-placeholder": "+51 999 999 999",
+      "required-error": "Completa todos los campos obligatorios.",
+      "submit": "Enviar solicitud de suscripción",
+      "back": "Volver a los planes",
+      "selected-plan": "PLAN SELECCIONADO",
+      "change-plan": "Cambiar plan"
+    },
+    "success": {
+      "eyebrow": "SOLICITUD RECIBIDA",
+      "title": "¡Gracias por elegir Kinemo!",
+      "request-text": "Hemos recibido tu solicitud de suscripción para el plan {plan}.",
+      "contact-text": "Nuestro equipo revisará tus datos y se pondrá en contacto contigo pronto para continuar con la activación de tu cuenta Kinemo.",
+      "plan": "Plan",
+      "company": "Empresa",
+      "contact": "Contacto",
+      "back-login": "Volver al inicio de sesión",
+      "simulation": "No se ha procesado ningún pago."
+    }
   }
 }

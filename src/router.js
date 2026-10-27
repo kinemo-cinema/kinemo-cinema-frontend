@@ -1,96 +1,120 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import CatalogRoutes from "./catalog/presentation/catalog-routes.js";
+import SchedulingRoutes from "./scheduling/presentation/scheduling-routes.js";
+import ReadinessRoutes from "./readiness/presentation/readiness-routes.js";
+import TicketingRoutes from "./ticketing/presentation/ticketing-routes.js";
+import MaintenanceRoutes from './maintence/presentation/maintenance-routes.js';
+import SubscriptionRoutes from './subscription/presentation/subscription-routes.js';
 
-import CatalogRoutes
-    from "./catalog/presentation/catalog-routes.js";
 
-import SchedulingRoutes
-    from "./scheduling/presentation/scheduling-routes.js";
+// Authentication
+const SignInView = () =>
+    import('./iam/presentation/views/sign-in.vue');
 
-import ReadinessRoutes
-    from "./readiness/presentation/readiness-routes.js";
 
-import SeatAllocationRoutes
-    from "./seat-allocation/presentation/seat-allocation-routes.js";
+// Shared
 
-import ExecutionRoutes
-    from "./execution/presentation/execution-routes.js";
+const HomeView = () => import('./shared/presentation/views/home.vue');
+const AboutView = () => import('./shared/presentation/views/about.vue');
+const ProfileView = () => import('./shared/presentation/views/profile.vue');
+const PageNotFoundView = () => import('./shared/presentation/views/page-not-found.vue');
 
-const HomeView = () =>
-    import('./shared/presentation/views/home.vue');
+const CatalogLayout = () => import('./catalog/presentation/views/catalog-layout.vue');
+const SchedulingLayout = () => import('./scheduling/presentation/views/scheduling-layout.vue');
+const ReadinessLayout = () => import('./readiness/presentation/views/readiness-layout.vue');
+const TicketingLayout = () => import('./ticketing/presentation/views/ticketing-layout.vue');
+const MaintenanceLayout = () => import('./maintence/presentation/views/maintenance-layout.vue');
 
-const AboutView = () =>
-    import('./shared/presentation/views/about.vue');
+const SubscriptionLayout = () => import('./subscription/presentation/views/subscription-layout.vue');
 
-const ProfileView = () =>
-    import('./shared/presentation/views/profile.vue');
-
-const PageNotFoundView = () =>
-    import('./shared/presentation/views/page-not-found.vue');
-
-const CatalogLayout = () =>
-    import('./catalog/presentation/views/catalog-layout.vue');
-
-const SchedulingLayout = () =>
-    import('./scheduling/presentation/views/scheduling-layout.vue');
-
-const ReadinessLayout = () =>
-    import('./readiness/presentation/views/readiness-layout.vue');
-
-const SeatAllocationLayout = () =>
-    import('./seat-allocation/presentation/views/seat-allocation-layout.vue');
-
-const ExecutionLayout = () =>
-    import('./execution/presentation/views/execution-layout.vue');
 
 const routes = [
+
+    // LOGIN
     {
         path: '/',
-        name: 'home',
+        name: 'sign-in',
+        component: SignInView,
+        meta: {
+            layout: false,
+            public: true
+        }
+    },
+
+    // DASHBOARD
+    {
+        path: '/dashboard',
+        name: 'dashboard',
         component: HomeView
     },
+
+    // ABOUT
     {
         path: '/about',
         name: 'about',
         component: AboutView
     },
+
+    // PROFILE
     {
         path: '/profile/:role',
         name: 'profile',
         component: ProfileView
     },
+
+    // BC01 - CATALOG
     {
         path: '/catalog',
         component: CatalogLayout,
-        children: CatalogRoutes
+        children: CatalogRoutes,
     },
     {
         path: '/scheduling',
         component: SchedulingLayout,
-        children: SchedulingRoutes
+        children: SchedulingRoutes,
     },
     {
         path: '/room-readiness',
         component: ReadinessLayout,
         children: ReadinessRoutes
     },
+
+    // BC07 - MAINTENANCE
     {
-        path: '/seat-allocation',
-        component: SeatAllocationLayout,
-        children: SeatAllocationRoutes
+        path: '/maintenance',
+        component: MaintenanceLayout,
+        children: MaintenanceRoutes
     },
+
     {
-        path: '/execution',
-        component: ExecutionLayout,
-        children: ExecutionRoutes
+        path: '/ticketing',
+        component: TicketingLayout,
+        children: TicketingRoutes,
     },
+
+    { path: '/:pathMatch(.*)*', name: 'not-found', component: PageNotFoundView },
+
+    // BC09 - SUBSCRIPTION
+    {
+        path: '/subscriptions',
+        component: SubscriptionLayout,
+        children: SubscriptionRoutes,
+        meta: {
+            layout: false,
+            public: true
+        }
+    },
+
+    // NOT FOUND
     {
         path: '/:pathMatch(.*)*',
         name: 'not-found',
         component: PageNotFoundView
     }
+
 ];
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
-    routes
+    routes,
 });
