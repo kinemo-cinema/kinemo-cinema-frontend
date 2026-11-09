@@ -1,312 +1,498 @@
 <script setup lang="js">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
-import LanguageSwitcher from './language-switcher.vue';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 
-/**
- * Presentation component for the Kinemo application header.
- *
- * @remarks
- * Provides top-level navigation between the operational areas of the
- * application and hosts the language switcher and user menu.
- */
+import LanguageSwitcher
+  from "./language-switcher.vue";
+
 
 const { t } = useI18n();
 const router = useRouter();
 
 const userMenu = ref(null);
 
-/**
- * Toggles the user menu popup.
- *
- * @param {Event} event - The click event from the avatar.
- * @returns {void}
- */
-const toggleUserMenu = (event) => {
-  userMenu.value.toggle(event);
+
+const goToDashboard = () => {
+  router.push("/dashboard");
 };
 
-/**
- * Logs the user out and returns to the sign-in page.
- *
- * @returns {void}
- */
+
+const goToExecution = () => {
+  router.push("/execution");
+};
+
+
+const goToMaintenance = () => {
+  router.push("/maintenance");
+};
+
+
+const goToSubscription = () => {
+  router.push("/subscriptions");
+};
+
+
+const toggleUserMenu = (event) => {
+  userMenu.value?.toggle(event);
+};
+
+
 const logout = () => {
-  localStorage.removeItem('kinemo-authenticated');
-  router.push('/');
+  localStorage.removeItem(
+      "kinemo-authenticated"
+  );
+
+  router.push("/");
 };
 </script>
 
+
 <template>
+
   <header class="kinemo-header">
 
-    <pv-menubar>
+    <div class="header-container">
 
-      <template #start>
+      <!-- BRAND -->
 
-        <!-- Brand -->
-        <router-link
-            to="/dashboard"
-            class="brand"
+      <button
+          type="button"
+          class="brand"
+          @click="goToDashboard"
+      >
+
+        <span class="brand-name">
+          Kinemo
+        </span>
+
+        <span class="brand-dot">
+          •
+        </span>
+
+      </button>
+
+
+      <!-- NAVIGATION -->
+
+      <nav
+          class="primary-nav"
+          aria-label="Primary navigation"
+      >
+
+        <button
+            type="button"
+            class="nav-link"
+            @click="goToDashboard"
         >
-          <span class="brand-name">
-            Kinemo
+          {{ t("header.nav.dashboard") }}
+        </button>
+
+
+        <button
+            type="button"
+            class="nav-link"
+            @click="goToExecution"
+        >
+          {{ t("header.nav.operations") }}
+        </button>
+
+
+        <button
+            type="button"
+            class="nav-link"
+            @click="goToMaintenance"
+        >
+          {{ t("header.nav.maintenance") }}
+        </button>
+
+
+        <button
+            type="button"
+            class="nav-link nav-link-disabled"
+            disabled
+            title="Analytics is under development"
+        >
+          {{ t("header.nav.analytics") }}
+
+          <span class="soon-badge">
+            SOON
           </span>
+        </button>
 
-          <span
-              class="brand-dot"
-              aria-hidden="true"
-          />
-        </router-link>
+      </nav>
 
-        <!-- Navigation -->
-        <nav
-            class="primary-nav"
-            aria-label="Primary navigation"
+
+      <!-- RIGHT -->
+
+      <div class="header-actions">
+
+        <language-switcher />
+
+
+        <pv-button
+            class="user-trigger"
+            text
+            rounded
+            aria-haspopup="true"
+            aria-controls="user-menu"
+            @click="toggleUserMenu"
         >
 
-          <router-link
-              to="/dashboard"
-              class="nav-link"
-          >
-            {{ t('header.nav.dashboard') }}
-          </router-link>
+          <pv-avatar
+              icon="pi pi-user"
+              shape="circle"
+              size="normal"
+          />
 
-          <router-link
-              to="/operations"
-              class="nav-link"
-          >
-            {{ t('header.nav.operations') }}
-          </router-link>
+        </pv-button>
 
-          <router-link
-              to="/maintenance"
-              class="nav-link"
-          >
-            {{ t('header.nav.maintenance') }}
-          </router-link>
 
-          <router-link
-              to="/analytics"
-              class="nav-link"
-          >
-            {{ t('header.nav.analytics') }}
-          </router-link>
+        <pv-menu
+            id="user-menu"
+            ref="userMenu"
+            :model="[]"
+            :popup="true"
+        >
 
-        </nav>
+          <template #start>
 
-      </template>
+            <div class="user-menu-header">
 
-      <template #end>
+              <span class="user-menu-name">
+                Kinemo User
+              </span>
 
-        <div class="header-actions">
+              <span class="user-menu-role">
+                Cinema Management
+              </span>
 
-          <!-- Language -->
-          <language-switcher/>
+            </div>
 
-          <!-- User -->
-          <pv-button
-              class="user-trigger"
-              text
-              aria-haspopup="true"
-              aria-controls="user-menu"
-              @click="toggleUserMenu"
-          >
-            <pv-avatar
-                icon="pi pi-user"
-                shape="circle"
-                size="normal"
-            />
-          </pv-button>
+          </template>
 
-          <!-- User menu -->
-          <pv-menu
-              id="user-menu"
-              ref="userMenu"
-              :model="[]"
-              :popup="true"
-          >
 
-            <template #start>
+          <template #end>
 
-              <div class="user-menu-header">
+            <div class="user-menu-footer">
 
-                <span class="user-menu-name">
-                  {{ t('header.user.placeholder-name') }}
-                </span>
+              <button
+                  type="button"
+                  class="user-menu-item"
+                  @click="goToSubscription"
+              >
 
-                <span class="user-menu-role">
-                  {{ t('header.user.placeholder-role') }}
-                </span>
+                <i class="pi pi-credit-card"></i>
 
-              </div>
+                {{ t("header.user.subscription") }}
 
-            </template>
+              </button>
 
-            <template #end>
 
-              <div class="user-menu-footer">
+              <button
+                  type="button"
+                  class="user-menu-item logout-item"
+                  @click="logout"
+              >
 
-                <!-- Subscription -->
-                <router-link
-                    to="/subscriptions"
-                    class="user-menu-item"
-                >
-                  <i class="pi pi-credit-card"/>
+                <i class="pi pi-sign-out"></i>
 
-                  {{ t('header.user.subscription') }}
-                </router-link>
+                {{ t("header.user.logout") }}
 
-                <!-- Logout -->
-                <button
-                    class="user-menu-item"
-                    type="button"
-                    @click="logout"
-                >
-                  <i class="pi pi-sign-out"/>
+              </button>
 
-                  {{ t('header.user.logout') }}
-                </button>
+            </div>
 
-              </div>
+          </template>
 
-            </template>
+        </pv-menu>
 
-          </pv-menu>
+      </div>
 
-        </div>
-
-      </template>
-
-    </pv-menubar>
+    </div>
 
   </header>
+
 </template>
+
 
 <style scoped>
 .kinemo-header {
   position: sticky;
+
   top: 0;
+
+  width: 100%;
+
   z-index: 1000;
+
+  background:
+      rgba(14, 15, 23, 0.96);
+
+  border-bottom:
+      1px solid var(--border);
+
+  backdrop-filter: blur(16px);
 }
+
+
+.header-container {
+  width: 100%;
+  max-width: 1280px;
+
+  min-height: 68px;
+
+  margin: 0 auto;
+
+  padding: 0 1.5rem;
+
+  display: flex;
+  align-items: center;
+
+  gap: 2rem;
+}
+
+
+/* BRAND */
 
 .brand {
+  padding: 0;
+
   display: flex;
   align-items: center;
-  gap: 0.35rem;
 
-  text-decoration: none;
+  gap: 0.25rem;
 
-  font-weight: 700;
-  font-size: 1.25rem;
+  flex-shrink: 0;
 
-  margin-right: 2rem;
-}
-
-.brand-name {
-  color: var(--p-primary-color);
-}
-
-.brand-dot {
-  width: 0.4rem;
-  height: 0.4rem;
-
-  border-radius: 50%;
-
-  background: #8B5CF6;
-}
-
-.primary-nav {
-  display: none;
-  align-items: center;
-  gap: 1.25rem;
-}
-
-.nav-link {
-  text-decoration: none;
-
-  font-weight: 500;
-
-  opacity: 0.85;
-
-  transition: opacity 0.2s ease;
-}
-
-.nav-link:hover,
-.nav-link.router-link-active {
-  opacity: 1;
-
-  color: var(--p-primary-color);
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.user-trigger {
-  padding: 0.25rem;
-}
-
-.user-menu-header {
-  display: flex;
-  flex-direction: column;
-
-  padding: 0.75rem 1rem;
-
-  border-bottom: 1px solid var(--p-content-border-color);
-}
-
-.user-menu-name {
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.user-menu-role {
-  font-size: 0.75rem;
-
-  opacity: 0.7;
-}
-
-.user-menu-footer {
-  display: flex;
-  flex-direction: column;
-
-  padding: 0.5rem 0;
-}
-
-.user-menu-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-
-  padding: 0.6rem 1rem;
-
-  text-decoration: none;
-
-  color: inherit;
-
-  font-size: 0.875rem;
-
-  background: none;
+  background: transparent;
   border: none;
 
   cursor: pointer;
+}
+
+
+.brand-name {
+  color: var(--secondary);
+
+  font-size: 1.3rem;
+  font-weight: 800;
+
+  letter-spacing: -0.03em;
+}
+
+
+.brand-dot {
+  color: var(--primary);
+
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+
+/* NAV */
+
+.primary-nav {
+  display: flex;
+  align-items: center;
+
+  gap: 0.3rem;
+
+  flex: 1;
+}
+
+
+.nav-link {
+  min-height: 40px;
+
+  padding: 0 0.8rem;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 0.4rem;
+
+  color: var(--text-soft);
+
+  background: transparent;
+
+  border: none;
+  border-radius: var(--radius-sm);
+
+  font-size: 0.88rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+      color 0.15s ease,
+      background 0.15s ease;
+}
+
+
+.nav-link:hover:not(:disabled) {
+  color: var(--text);
+
+  background:
+      rgba(139, 92, 246, 0.08);
+}
+
+
+.nav-link-disabled {
+  color: var(--text-muted);
+
+  cursor: not-allowed;
+
+  opacity: 0.55;
+}
+
+
+.soon-badge {
+  padding: 0.15rem 0.35rem;
+
+  color: var(--secondary);
+
+  background:
+      rgba(52, 214, 176, 0.08);
+
+  border:
+      1px solid rgba(52, 214, 176, 0.16);
+
+  border-radius: 5px;
+
+  font-size: 0.5rem;
+  font-weight: 800;
+
+  letter-spacing: 0.05em;
+}
+
+
+/* ACTIONS */
+
+.header-actions {
+  margin-left: auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 0.6rem;
+}
+
+
+.user-trigger {
+  flex-shrink: 0;
+}
+
+
+/* USER MENU */
+
+.user-menu-header {
+  min-width: 220px;
+
+  padding: 0.9rem 1rem;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.25rem;
+
+  border-bottom:
+      1px solid var(--border);
+}
+
+
+.user-menu-name {
+  color: var(--text);
+
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+
+.user-menu-role {
+  color: var(--text-muted);
+
+  font-size: 0.72rem;
+}
+
+
+.user-menu-footer {
+  padding: 0.4rem;
+}
+
+
+.user-menu-item {
+  width: 100%;
+
+  padding: 0.7rem 0.75rem;
+
+  display: flex;
+  align-items: center;
+
+  gap: 0.7rem;
+
+  color: var(--text-soft);
+
+  background: transparent;
+
+  border: none;
+  border-radius: var(--radius-sm);
+
+  font-size: 0.82rem;
+  font-weight: 500;
 
   text-align: left;
 
-  width: 100%;
+  cursor: pointer;
+
+  transition:
+      background 0.15s ease,
+      color 0.15s ease;
 }
+
 
 .user-menu-item:hover {
-  background: var(--p-content-hover-background);
+  color: var(--text);
+
+  background:
+      rgba(139, 92, 246, 0.08);
 }
 
-@media screen and (min-width: 900px) {
+
+.logout-item:hover {
+  color: #fca5a5;
+
+  background:
+      rgba(239, 68, 68, 0.08);
+}
+
+
+/* RESPONSIVE */
+
+@media screen and (max-width: 900px) {
+
   .primary-nav {
-    display: flex;
+    display: none;
   }
+
+
+  .header-container {
+    gap: 1rem;
+  }
+
+}
+
+
+@media screen and (max-width: 500px) {
+
+  .header-container {
+    padding: 0 1rem;
+  }
+
+
+  .brand-name {
+    font-size: 1.15rem;
+  }
+
 }
 </style>

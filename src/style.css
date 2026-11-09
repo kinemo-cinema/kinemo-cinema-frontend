@@ -1,10 +1,10 @@
 /* =========================================================
-   KINEMO - GLOBAL STYLES
+   KINEMO - GLOBAL DESIGN SYSTEM
    ========================================================= */
 
 
 /* ---------------------------------------------------------
-   VARIABLES
+   DESIGN TOKENS
 --------------------------------------------------------- */
 
 :root {
@@ -13,13 +13,15 @@
   --bg-card: #16171e;
   --bg-card-alt: #20212c;
   --bg-active: #272338;
+  --bg-input: #101118;
 
-  /* Kinemo colors */
+  /* Brand */
   --primary: #8b5cf6;
   --primary-light: #a78bfa;
   --primary-hover: #7c4df1;
 
   --secondary: #34d6b0;
+  --secondary-light: #5ee4c3;
 
   /* Text */
   --text: #ffffff;
@@ -28,13 +30,38 @@
 
   /* Borders */
   --border: #2d2f45;
+  --border-soft: rgba(255, 255, 255, 0.08);
 
-  /* Effects */
-  --primary-glow: rgba(139, 92, 246, 0.3);
+  /* Status */
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #38bdf8;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-card:
+          0 12px 32px rgba(0, 0, 0, 0.22);
+
+  --shadow-card-hover:
+          0 18px 40px rgba(0, 0, 0, 0.28);
+
+  --primary-glow:
+          rgba(139, 92, 246, 0.3);
 
   /* Typography */
-  --font-main: Inter, system-ui, -apple-system, BlinkMacSystemFont,
-  "Segoe UI", sans-serif;
+  --font-main:
+          Inter,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
 
   font-family: var(--font-main);
 
@@ -80,9 +107,10 @@ body {
   margin: 0;
   padding: 0;
 
+  color: var(--text);
   background: var(--bg);
 
-  color: var(--text);
+  font-family: var(--font-main);
 
   overflow-x: hidden;
 }
@@ -94,13 +122,12 @@ body {
 
 #app {
   width: 100%;
-  max-width: none;
-
   min-height: 100vh;
 
   margin: 0;
   padding: 0;
 
+  color: var(--text);
   background: var(--bg);
 
   display: block;
@@ -126,6 +153,17 @@ h6 {
   color: var(--text);
 
   font-family: var(--font-main);
+  font-weight: 700;
+}
+
+
+h1 {
+  letter-spacing: -0.025em;
+}
+
+
+h2 {
+  letter-spacing: -0.015em;
 }
 
 
@@ -136,6 +174,11 @@ p {
 
 a {
   color: inherit;
+}
+
+
+strong {
+  font-weight: 700;
 }
 
 
@@ -169,27 +212,473 @@ select {
 
 ::selection {
   color: #ffffff;
-
   background: var(--primary);
 }
 
+
+/* ---------------------------------------------------------
+   SCROLLBAR
+--------------------------------------------------------- */
+
 ::-webkit-scrollbar {
   width: 9px;
+  height: 9px;
 }
 
 
 ::-webkit-scrollbar-track {
-  background: #0e0f17;
+  background: var(--bg);
 }
 
 
 ::-webkit-scrollbar-thumb {
   background: #343643;
 
-  border-radius: 10px;
+  border-radius: var(--radius-pill);
 }
 
 
 ::-webkit-scrollbar-thumb:hover {
   background: #484a59;
+}
+
+
+/* =========================================================
+   SHARED PAGE STRUCTURE
+   ========================================================= */
+
+.page {
+  width: 100%;
+}
+
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 1.5rem;
+
+  margin-bottom: 2rem;
+}
+
+
+.page-header-content {
+  min-width: 0;
+}
+
+
+.page-header h1 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+
+.page-header p {
+  max-width: 720px;
+
+  margin: 0.55rem 0 0;
+
+  color: var(--text-muted);
+
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+
+.page-eyebrow {
+  display: block;
+
+  margin-bottom: 0.5rem;
+
+  color: var(--primary-light);
+
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+
+.page-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 0.75rem;
+}
+
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.kinemo-card {
+  background: var(--bg-card);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+
+  box-shadow: var(--shadow-card);
+}
+
+
+.kinemo-card-hover {
+  transition:
+          transform 0.2s ease,
+          border-color 0.2s ease,
+          box-shadow 0.2s ease;
+}
+
+
+.kinemo-card-hover:hover {
+  transform: translateY(-3px);
+
+  border-color: rgba(139, 92, 246, 0.55);
+
+  box-shadow: var(--shadow-card-hover);
+}
+
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+
+.kinemo-section {
+  margin-bottom: 2.5rem;
+}
+
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  gap: 1rem;
+
+  margin-bottom: 1rem;
+}
+
+
+.section-header h2 {
+  margin: 0;
+
+  font-size: 1.2rem;
+}
+
+
+.section-kicker {
+  display: block;
+
+  margin-bottom: 0.35rem;
+
+  color: var(--text-muted);
+
+  font-size: 0.7rem;
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   TEXT HELPERS
+   ========================================================= */
+
+.kinemo-muted {
+  color: var(--text-muted);
+}
+
+
+.kinemo-soft {
+  color: var(--text-soft);
+}
+
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.kinemo-badge {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 0.35rem;
+
+  padding: 0.3rem 0.65rem;
+
+  color: var(--primary-light);
+
+  background: rgba(139, 92, 246, 0.12);
+
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: var(--radius-pill);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  letter-spacing: 0.03em;
+}
+
+
+.kinemo-badge-success {
+  color: #86efac;
+
+  background: rgba(34, 197, 94, 0.12);
+
+  border-color: rgba(34, 197, 94, 0.25);
+}
+
+
+.kinemo-badge-warning {
+  color: #fcd34d;
+
+  background: rgba(245, 158, 11, 0.12);
+
+  border-color: rgba(245, 158, 11, 0.25);
+}
+
+
+.kinemo-badge-danger {
+  color: #fca5a5;
+
+  background: rgba(239, 68, 68, 0.12);
+
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+
+/* =========================================================
+   EMPTY / LOADING / ERROR STATES
+   ========================================================= */
+
+.kinemo-state {
+  width: 100%;
+
+  padding: 3rem 1.5rem;
+
+  color: var(--text-muted);
+
+  background: var(--bg-card);
+
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+
+  text-align: center;
+}
+
+
+.kinemo-state i {
+  display: block;
+
+  margin-bottom: 0.8rem;
+
+  color: var(--primary-light);
+
+  font-size: 1.8rem;
+}
+
+
+.kinemo-state-error {
+  color: #fca5a5;
+
+  background: rgba(239, 68, 68, 0.06);
+
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+
+/* =========================================================
+   PRIMEVUE - GLOBAL CONSISTENCY
+   ========================================================= */
+
+.p-card {
+  background: var(--bg-card);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+
+  box-shadow: none;
+}
+
+
+.p-card-body {
+  padding: 1.25rem;
+}
+
+
+.p-datatable {
+  overflow: hidden;
+
+  background: var(--bg-card);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+
+.p-datatable-table-container {
+  overflow-x: auto;
+}
+
+
+.p-datatable-header {
+  background: var(--bg-card);
+}
+
+
+.p-datatable-thead > tr > th {
+  color: var(--text-soft);
+  background: var(--bg-card-alt);
+
+  border-color: var(--border);
+
+  font-size: 0.82rem;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+.p-datatable-tbody > tr {
+  color: var(--text);
+  background: var(--bg-card);
+
+  transition: background-color 0.15s ease;
+}
+
+
+.p-datatable-tbody > tr:hover {
+  background: rgba(139, 92, 246, 0.05);
+}
+
+
+.p-datatable-tbody > tr > td {
+  border-color: var(--border-soft);
+
+  font-size: 0.9rem;
+}
+
+
+.p-button {
+  border-radius: var(--radius-sm);
+
+  font-weight: 600;
+}
+
+
+.p-inputtext,
+.p-inputnumber-input,
+.p-select {
+  color: var(--text);
+
+  background: var(--bg-input);
+
+  border-color: var(--border);
+
+  border-radius: var(--radius-sm);
+}
+
+
+.p-inputtext:focus,
+.p-inputnumber-input:focus {
+  border-color: var(--primary);
+
+  box-shadow:
+          0 0 0 3px rgba(139, 92, 246, 0.12);
+}
+
+
+.p-menubar {
+  color: var(--text);
+
+  background: rgba(14, 15, 23, 0.96);
+
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+
+  backdrop-filter: blur(14px);
+}
+
+
+.p-menu {
+  background: var(--bg-card);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+
+  box-shadow:
+          0 18px 45px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   LINKS / INTERACTION
+   ========================================================= */
+
+.kinemo-link {
+  color: var(--primary-light);
+
+  text-decoration: none;
+
+  transition: color 0.15s ease;
+}
+
+
+.kinemo-link:hover {
+  color: #c4b5fd;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media screen and (max-width: 900px) {
+  .page-header {
+    flex-direction: column;
+  }
+
+
+  .page-actions {
+    width: 100%;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .page-header h1 {
+    font-size: 1.7rem;
+  }
+
+
+  .page-header p {
+    font-size: 0.9rem;
+  }
+
+
+  .section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+
+@media screen and (max-width: 480px) {
+  .page-header {
+    margin-bottom: 1.5rem;
+  }
+
+
+  .p-card-body {
+    padding: 1rem;
+  }
 }
