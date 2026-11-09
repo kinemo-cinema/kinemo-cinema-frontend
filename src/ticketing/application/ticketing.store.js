@@ -1,88 +1,45 @@
-/**
- * Application service store for BC04 — Ticketing Integration.
- * Coordinates ticketing connections, synchronization logs,
- * and show occupancy information.
- *
- * @module useTicketingStore
- */
+import { defineStore } from "pinia";
+import { ref } from "vue";
 
-import {defineStore} from "pinia";
-import {ref} from "vue";
-
-import {TicketingApi} from "../infrastructure/ticketing-api.js";
-import {TicketingIntegrationAssembler} from "../infrastructure/ticketing-integration.assembler.js";
-import {SyncLogAssembler} from "../infrastructure/sync-log.assembler.js";
-import {ShowOccupancyAssembler} from "../infrastructure/show-occupancy.assembler.js";
+import { TicketingApi } from "../infrastructure/ticketing-api.js";
+import { TicketingIntegrationAssembler } from "../infrastructure/ticketing-integration.assembler.js";
+import { SyncLogAssembler } from "../infrastructure/sync-log.assembler.js";
+import { ShowOccupancyAssembler } from "../infrastructure/show-occupancy.assembler.js";
 
 const ticketingApi = new TicketingApi();
 
-/**
- * Pinia store for BC04 — Ticketing Integration.
- *
- * @returns {Object} The store state and actions.
- */
 const useTicketingStore = defineStore("ticketing", () => {
 
-    // --------------------------------------------------------------------
-    // State
-    // --------------------------------------------------------------------
+    /* =========================================================
+       STATE
+    ========================================================= */
 
-    /**
-     * Ticketing connection entities.
-     *
-     * @type {import('vue').Ref<TicketingIntegration[]>}
-     */
     const ticketingIntegrations = ref([]);
-
-    /**
-     * Synchronization log entities.
-     *
-     * @type {import('vue').Ref<SyncLog[]>}
-     */
     const syncLogs = ref([]);
-
-    /**
-     * Show occupancy entities.
-     *
-     * @type {import('vue').Ref<ShowOccupancy[]>}
-     */
     const showOccupancies = ref([]);
 
-    /**
-     * Errors produced by infrastructure operations.
-     *
-     * @type {import('vue').Ref<Error[]>}
-     */
     const errors = ref([]);
 
-    /**
-     * Whether ticketing integrations have already been loaded.
-     */
     const ticketingIntegrationsLoaded = ref(false);
-
-    /**
-     * Whether synchronization logs have already been loaded.
-     */
     const syncLogsLoaded = ref(false);
-
-    /**
-     * Whether show occupancies have already been loaded.
-     */
     const showOccupanciesLoaded = ref(false);
 
-    // --------------------------------------------------------------------
-    // Ticketing integrations
-    // --------------------------------------------------------------------
+    const ticketingIntegrationsLoading = ref(false);
+    const syncLogsLoading = ref(false);
+    const showOccupanciesLoading = ref(false);
 
-    /**
-     * Loads ticketing integrations.
-     *
-     * @returns {Promise<boolean>}
-     */
+
+    /* =========================================================
+       TICKETING INTEGRATIONS
+    ========================================================= */
+
     async function fetchTicketingIntegrations() {
+
         errors.value = [];
+        ticketingIntegrationsLoading.value = true;
 
         try {
+
             const response =
                 await ticketingApi.getTicketingIntegrations();
 
@@ -93,21 +50,41 @@ const useTicketingStore = defineStore("ticketing", () => {
             ticketingIntegrationsLoaded.value = true;
 
             return true;
+
         } catch (error) {
-            errors.value.push(error);
+
+            console.error(
+                "Unable to load ticketing integrations:",
+                error
+            );
+
+            ticketingIntegrations.value = [];
+
+            errors.value.push(
+                error instanceof Error
+                    ? error
+                    : new Error("Unable to load ticketing integrations.")
+            );
+
+            /*
+             * La petición terminó, aunque haya fallado.
+             * Esto evita que el spinner quede infinito.
+             */
+            ticketingIntegrationsLoaded.value = true;
 
             return false;
+
+        } finally {
+
+            ticketingIntegrationsLoading.value = false;
+
         }
     }
 
-    /**
-     * Finds a ticketing integration by identifier.
-     *
-     * @param {number|string} id
-     * @returns {TicketingIntegration|undefined}
-     */
+
     function getTicketingIntegrationById(id) {
-        const idNum = parseInt(id, 10);
+
+        const idNum = Number(id);
 
         return ticketingIntegrations.value.find(
             integration =>
@@ -115,16 +92,13 @@ const useTicketingStore = defineStore("ticketing", () => {
         );
     }
 
-    /**
-     * Creates a ticketing integration.
-     *
-     * @param {TicketingIntegration} integration
-     * @returns {Promise<boolean>}
-     */
+
     async function addTicketingIntegration(integration) {
+
         errors.value = [];
 
         try {
+
             const response =
                 await ticketingApi.createTicketingIntegration(
                     TicketingIntegrationAssembler
@@ -140,23 +114,31 @@ const useTicketingStore = defineStore("ticketing", () => {
             );
 
             return true;
+
         } catch (error) {
-            errors.value.push(error);
+
+            console.error(
+                "Unable to create ticketing integration:",
+                error
+            );
+
+            errors.value.push(
+                error instanceof Error
+                    ? error
+                    : new Error("Unable to create ticketing integration.")
+            );
 
             return false;
         }
     }
 
-    /**
-     * Updates a ticketing integration.
-     *
-     * @param {TicketingIntegration} integration
-     * @returns {Promise<boolean>}
-     */
+
     async function updateTicketingIntegration(integration) {
+
         errors.value = [];
 
         try {
+
             const response =
                 await ticketingApi.updateTicketingIntegration(
                     TicketingIntegrationAssembler
@@ -180,26 +162,36 @@ const useTicketingStore = defineStore("ticketing", () => {
             }
 
             return true;
+
         } catch (error) {
-            errors.value.push(error);
+
+            console.error(
+                "Unable to update ticketing integration:",
+                error
+            );
+
+            errors.value.push(
+                error instanceof Error
+                    ? error
+                    : new Error("Unable to update ticketing integration.")
+            );
 
             return false;
         }
     }
 
-    // --------------------------------------------------------------------
-    // Synchronization logs
-    // --------------------------------------------------------------------
 
-    /**
-     * Loads synchronization logs.
-     *
-     * @returns {Promise<boolean>}
-     */
+    /* =========================================================
+       SYNC LOGS
+    ========================================================= */
+
     async function fetchSyncLogs() {
+
         errors.value = [];
+        syncLogsLoading.value = true;
 
         try {
+
             const response =
                 await ticketingApi.getSyncLogs();
 
@@ -210,22 +202,37 @@ const useTicketingStore = defineStore("ticketing", () => {
             syncLogsLoaded.value = true;
 
             return true;
+
         } catch (error) {
-            errors.value.push(error);
+
+            console.error(
+                "Unable to load synchronization logs:",
+                error
+            );
+
+            syncLogs.value = [];
+
+            errors.value.push(
+                error instanceof Error
+                    ? error
+                    : new Error("Unable to load synchronization logs.")
+            );
+
+            syncLogsLoaded.value = true;
 
             return false;
+
+        } finally {
+
+            syncLogsLoading.value = false;
+
         }
     }
 
-    /**
-     * Returns synchronization logs for a ticketing connection.
-     *
-     * @param {number|string} connectionId
-     * @returns {SyncLog[]}
-     */
+
     function getSyncLogsByConnectionId(connectionId) {
-        const idNum =
-            parseInt(connectionId, 10);
+
+        const idNum = Number(connectionId);
 
         return syncLogs.value.filter(
             log =>
@@ -233,19 +240,18 @@ const useTicketingStore = defineStore("ticketing", () => {
         );
     }
 
-    // --------------------------------------------------------------------
-    // Show occupancies
-    // --------------------------------------------------------------------
 
-    /**
-     * Loads show occupancy information.
-     *
-     * @returns {Promise<boolean>}
-     */
+    /* =========================================================
+       SHOW OCCUPANCIES
+    ========================================================= */
+
     async function fetchShowOccupancies() {
+
         errors.value = [];
+        showOccupanciesLoading.value = true;
 
         try {
+
             const response =
                 await ticketingApi.getShowOccupancies();
 
@@ -256,24 +262,36 @@ const useTicketingStore = defineStore("ticketing", () => {
             showOccupanciesLoaded.value = true;
 
             return true;
+
         } catch (error) {
-            errors.value.push(error);
+
+            console.error(
+                "Unable to load show occupancies:",
+                error
+            );
+
+            showOccupancies.value = [];
+
+            errors.value.push(
+                error instanceof Error
+                    ? error
+                    : new Error("Unable to load show occupancies.")
+            );
+
+            showOccupanciesLoaded.value = true;
 
             return false;
+
+        } finally {
+
+            showOccupanciesLoading.value = false;
+
         }
     }
 
-    /**
-     * Returns occupancy information related to a ticketing connection.
-     *
-     * The relationship is resolved through the synchronization logs:
-     *
-     * TicketingConnection -> SyncLog -> ShowOccupancy
-     *
-     * @param {number|string} connectionId
-     * @returns {ShowOccupancy[]}
-     */
+
     function getShowOccupanciesByConnectionId(connectionId) {
+
         const logs =
             getSyncLogsByConnectionId(connectionId);
 
@@ -290,35 +308,37 @@ const useTicketingStore = defineStore("ticketing", () => {
         );
     }
 
-    // --------------------------------------------------------------------
-    // Return
-    // --------------------------------------------------------------------
+
+    /* =========================================================
+       RETURN
+    ========================================================= */
 
     return {
-        // State
+
         ticketingIntegrations,
         syncLogs,
         showOccupancies,
+
         errors,
 
-        // Loaded flags
         ticketingIntegrationsLoaded,
         syncLogsLoaded,
         showOccupanciesLoaded,
 
-        // Ticketing integrations
+        ticketingIntegrationsLoading,
+        syncLogsLoading,
+        showOccupanciesLoading,
+
         fetchTicketingIntegrations,
         getTicketingIntegrationById,
         addTicketingIntegration,
         updateTicketingIntegration,
 
-        // Synchronization logs
         fetchSyncLogs,
         getSyncLogsByConnectionId,
 
-        // Show occupancies
         fetchShowOccupancies,
-        getShowOccupanciesByConnectionId,
+        getShowOccupanciesByConnectionId
     };
 });
 
