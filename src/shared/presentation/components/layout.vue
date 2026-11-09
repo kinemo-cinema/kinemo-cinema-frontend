@@ -1,21 +1,32 @@
 <script setup lang="js">
-import HeaderComponent from './header-component.vue'
-import FooterComponent from './footer-component.vue'
+import HeaderComponent
+  from "./header-component.vue";
+
+import FooterComponent
+  from "./footer-component.vue";
 </script>
 
+
 <template>
+
   <div class="layout-container">
 
     <HeaderComponent />
 
+
     <main class="content-area">
-      <slot />
+
+      <router-view />
+
     </main>
+
 
     <FooterComponent />
 
   </div>
+
 </template>
+
 
 <style scoped>
 .layout-container {
@@ -25,12 +36,13 @@ import FooterComponent from './footer-component.vue'
   display: flex;
   flex-direction: column;
 
-  background: #0e0f17;
+  background: var(--bg);
 }
+
 
 .content-area {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1280px;
 
   flex: 1;
 
@@ -38,9 +50,12 @@ import FooterComponent from './footer-component.vue'
   padding: 2rem;
 }
 
+
 @media screen and (max-width: 768px) {
+
   .content-area {
     padding: 1rem;
   }
+
 }
 </style>
