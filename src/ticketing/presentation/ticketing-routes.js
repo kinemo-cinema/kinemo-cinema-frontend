@@ -1,12 +1,12 @@
 // Lazy-loaded views for BC04 — Ticketing Integration
 const ticketingIntegrationList =
-    () => import('./views/ticketing-integration-list.vue');
+    () => import('./views/connected-ticketing.vue');
 
 const ticketingIntegrationForm =
-    () => import('./views/ticketing-integration-form.vue');
+    () => import('./views/connected-ticketing.vue');
 
 const ticketingIntegrationDetail =
-    () => import('./views/ticketing-integration-detail.vue');
+    () => import('./views/connected-ticketing.vue');
 
 const ticketingRoutes = [
     {

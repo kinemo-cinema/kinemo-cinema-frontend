@@ -26,8 +26,8 @@ export class ShowAssembler {
             movieId: resource.movieId ?? null,
             roomId: resource.roomId ?? null,
             assignedProfessionalId: resource.assignedProfessionalId ?? null,
-            schedule: new ShowSchedule(resource.startTime, resource.endTime),
-            status: resource.status ?? 'SCHEDULED',
+            schedule: new ShowSchedule(resource.startDateTime ?? resource.startTime, resource.endDateTime ?? resource.endTime),
+            status: resource.status?.replace(/([a-z])([A-Z])/g, '$1_$2').toUpperCase() ?? 'SCHEDULED',
             cancellationReason: resource.cancellationReason ?? null,
             conflicts: Array.isArray(resource.conflicts)
                 ? resource.conflicts.map(ScheduleConflictAssembler.toEntityFromResource)

@@ -3,18 +3,18 @@ const genreList = () => import('./views/genre-list.vue');
 const genreForm = () => import('./views/genre-form.vue');
 const movieList = () => import('./views/movie-list.vue');
 const movieForm = () => import('./views/movie-form.vue');
-const sensoryFileList = () => import('./views/sensory-file-list.vue');
-const sensoryFileForm = () => import('./views/sensory-file-form.vue');
-const sensoryTrackList = () => import('./views/sensory-track-list.vue');
-const sensoryTrackForm = () => import('./views/sensory-track-form.vue');
-const configurationHistoryList = () => import('./views/configuration-history-list.vue');
+const sensoryFileList = () => import('./views/connected-sensory.vue');
+const sensoryFileForm = () => import('./views/connected-sensory.vue');
+const sensoryTrackList = () => import('./views/connected-sensory.vue');
+const sensoryTrackForm = () => import('./views/connected-sensory.vue');
+const configurationHistoryList = () => import('./views/connected-sensory.vue');
 
 const catalogRoutes = [
     {   path: '',  redirect: { name: 'catalog-movies' } },
     // Genres
     {   path: 'genres',             name: 'catalog-genres',        component: genreList,  meta: { title: 'Genres' } },
-    {   path: 'genres/new',         name: 'catalog-genre-new',     component: genreForm,  meta: { title: 'New Genre' } },
-    {   path: 'genres/:id/edit',    name: 'catalog-genre-edit',    component: genreForm,  meta: { title: 'Edit Genre' } },
+    {   path: 'genres/new',         name: 'catalog-genre-new',     redirect: { name: 'catalog-genres' } },
+    {   path: 'genres/:id/edit',    name: 'catalog-genre-edit',    redirect: { name: 'catalog-genres' } },
 
     // Movies
     {   path: 'movies',             name: 'catalog-movies',        component: movieList,  meta: { title: 'Movies' } },

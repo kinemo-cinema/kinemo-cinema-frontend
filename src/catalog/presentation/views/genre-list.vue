@@ -56,7 +56,7 @@ const confirmDelete = (genre) => {
 <template>
   <div class="p-4">
     <h1>{{ t('genres.title') }}</h1>
-    <pv-button :label="t('genres.new')" class="mb-3" icon="pi pi-plus" @click="navigateToNew"/>
+    <p>Los géneros disponibles están definidos por el catálogo del backend.</p>
     <pv-data-table
         :loading="!genresLoaded"
         :rows="5"
@@ -67,12 +67,7 @@ const confirmDelete = (genre) => {
         table-style="min-width: 50rem">
       <pv-column :header="t('genres.id')" field="id" sortable/>
       <pv-column :header="t('genres.name')" field="name" sortable/>
-      <pv-column :header="t('genres.actions')">
-        <template #body="slotProps">
-          <pv-button icon="pi pi-pencil" rounded text @click="navigateToEdit(slotProps.data.id)"/>
-          <pv-button icon="pi pi-trash" rounded severity="danger" text @click="confirmDelete(slotProps.data)"/>
-        </template>
-      </pv-column>
+
     </pv-data-table>
 
     <div v-if="errors.length" class="text-red-500 mt-3">

@@ -89,6 +89,11 @@ const translateOrderStatus = (status) => {
       />
     </div>
 
+    <p v-if="store.errors.length" role="alert" class="text-red-400">
+      {{ t('maintenance.unavailable') }}
+    </p>
+    <p v-else-if="!store.loaded" role="status">{{ t('maintenance.loading') }}</p>
+    <template v-if="store.loaded && !store.errors.length">
     <!-- SUMMARY -->
     <div class="summary-grid">
 
@@ -437,6 +442,7 @@ const translateOrderStatus = (status) => {
 
     </section>
 
+    </template>
   </section>
 </template>
 

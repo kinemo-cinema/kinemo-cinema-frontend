@@ -102,7 +102,7 @@ export class ReadinessApi extends BaseApi {
      * @returns {Promise<import('axios').AxiosResponse>} Promise resolving to the inspections' response.
      */
     getRoomInspections() {
-        return this.#inspectionsEndpoint.getAll();
+        return this.getRooms().then(response => ({ ...response, data: response.data.flatMap(room => (room.inspections ?? []).map(item => ({ ...item, roomId: room.id }))) }));
     }
 
     /**
@@ -157,7 +157,7 @@ export class ReadinessApi extends BaseApi {
      * @returns {Promise<import('axios').AxiosResponse>} Promise resolving to the blocks' response.
      */
     getRoomBlocks() {
-        return this.#blocksEndpoint.getAll();
+        return this.getRooms().then(response => ({ ...response, data: response.data.flatMap(room => (room.blocks ?? []).map(item => ({ ...item, roomId: room.id }))) }));
     }
 
     /**

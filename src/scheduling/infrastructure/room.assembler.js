@@ -20,7 +20,7 @@ export class RoomAssembler {
         return new Room({
             id: resource.id ?? null,
             name: resource.name ?? '',
-            status: resource.status ?? 'AVAILABLE',
+            status: resource.status?.toUpperCase() ?? 'AVAILABLE',
             operationalStatus: resource.operationalStatus ?? 'READY',
         });
     }

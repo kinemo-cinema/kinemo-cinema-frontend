@@ -150,7 +150,7 @@ const useCatalogStore = defineStore("catalog", () => {
     function fetchGenres() {
         errors.value = [];
 
-        catalogApi.getGenres().then((response) => {
+        return catalogApi.getGenres().then((response) => {
             genres.value = GenreAssembler.toEntitiesFromResponse(response);
             genresLoaded.value = true;
         }).catch((err) => {
@@ -239,7 +239,7 @@ const useCatalogStore = defineStore("catalog", () => {
     function fetchMovies() {
         errors.value = [];
 
-        catalogApi.getMovies().then((response) => {
+        return catalogApi.getMovies().then((response) => {
             movies.value = MovieAssembler.toEntitiesFromResponse(response);
             moviesLoaded.value = true;
         }).catch((err) => {
@@ -270,12 +270,13 @@ const useCatalogStore = defineStore("catalog", () => {
     function addMovie(movie) {
         errors.value = [];
 
-        catalogApi.createMovie(MovieAssembler.toResourceFromEntity(movie)).then(response => {
+        return catalogApi.createMovie(MovieAssembler.toResourceFromEntity(movie)).then(response => {
             const resource = response.data;
             const newMovie = MovieAssembler.toEntityFromResource(resource);
             movies.value.push(newMovie);
         }).catch(error => {
             errors.value.push(error);
+            throw error;
         });
     }
 
@@ -291,13 +292,14 @@ const useCatalogStore = defineStore("catalog", () => {
     function updateMovie(movie) {
         errors.value = [];
 
-        catalogApi.updateMovie(MovieAssembler.toResourceFromEntity(movie)).then(response => {
+        return catalogApi.updateMovie(MovieAssembler.toResourceFromEntity(movie)).then(response => {
             const resource = response.data;
             const updatedMovie = MovieAssembler.toEntityFromResource(resource);
             const index = movies.value.findIndex(m => m.getId() === updatedMovie.getId());
             if (index !== -1) movies.value[index] = updatedMovie;
         }).catch(error => {
             errors.value.push(error);
+            throw error;
         });
     }
 
@@ -309,9 +311,9 @@ const useCatalogStore = defineStore("catalog", () => {
     function deleteMovie(movie) {
         errors.value = [];
 
-        catalogApi.deleteMovie(movie.getId()).then(() => {
+        return catalogApi.deleteMovie(movie.getId()).then(response => {
             const index = movies.value.findIndex(m => m.getId() === movie.getId());
-            if (index !== -1) movies.value.splice(index, 1);
+            if (index !== -1) movies.value[index] = MovieAssembler.toEntityFromResource(response.data);
         }).catch(error => {
             errors.value.push(error);
         });

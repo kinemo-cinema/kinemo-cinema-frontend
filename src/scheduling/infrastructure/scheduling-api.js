@@ -65,7 +65,7 @@ export class SchedulingApi extends BaseApi {
      * @returns {Promise<import('axios').AxiosResponse>} Promise resolving to the created show response.
      */
     createShow(resource) {
-        return this.#showsEndpoint.create(resource);
+        return this.#showsEndpoint.create({ ...resource, startDateTime: resource.startTime, endDateTime: resource.endTime });
     }
 
     /**
@@ -74,7 +74,7 @@ export class SchedulingApi extends BaseApi {
      * @returns {Promise<import('axios').AxiosResponse>} Promise resolving to the updated show response.
      */
     updateShow(resource) {
-        return this.#showsEndpoint.update(resource.id, resource);
+        return this.http.patch(`${showsEndpointPath}/${resource.id}`, { startDateTime: resource.startTime, endDateTime: resource.endTime });
     }
 
     /**
@@ -83,7 +83,7 @@ export class SchedulingApi extends BaseApi {
      * @returns {Promise<import('axios').AxiosResponse>} Promise resolving to the delete response.
      */
     deleteShow(id) {
-        return this.#showsEndpoint.delete(id);
+        return this.http.post(`${showsEndpointPath}/${id}/cancellation`);
     }
 
     // --------------------------------------------------------------------

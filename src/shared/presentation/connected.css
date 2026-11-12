@@ -1,0 +1,11 @@
+.backend-page { padding: 1.5rem; max-width: 1200px; margin: auto; }
+.backend-page header, .backend-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; justify-content: space-between; }
+.backend-page form { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem; margin: 1.5rem 0; padding: 1rem; border: 1px solid var(--border); border-radius: 12px; }
+.backend-page label { display: grid; gap: .5rem; min-width: 160px; flex: 1; }
+.backend-page input, .backend-page select, .backend-page textarea { width: 100%; background: var(--bg-input); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: .65rem; }
+.backend-page button { background: var(--primary); color: white; padding: .65rem 1rem; border: 0; border-radius: 6px; cursor: pointer; }
+.backend-page button:disabled { opacity: .5; cursor: wait; }
+.backend-page [role=alert] { padding: 1rem; color: #fca5a5; border: 1px solid #f87171; border-radius: 8px; }
+.backend-page article { padding: 1rem; margin: 1rem 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; }
+.backend-page details { margin: .6rem 0; }
+.backend-page a { color: var(--primary-light); }

@@ -24,6 +24,7 @@ const { fetchMovies } = catalogStore;
 
 // Local UI state
 const conflictMessage = ref('');
+const saving = ref(false);
 
 const form = ref({
   movieId: null,
@@ -56,10 +57,8 @@ const roomOptions = computed(() =>
         .map(r => ({ id: r.getId(), name: r.getName() }))
 );
 
-onMounted(() => {
-  if (!catalogStore.moviesLoaded) fetchMovies();
-  if (!schedulingStore.roomsLoaded) fetchRooms();
-  if (!schedulingStore.showsLoaded) fetchShows();
+onMounted(async () => {
+  await Promise.all([fetchMovies(), fetchRooms(), fetchShows()]);
 
   if (isEdit.value) {
     const show = getShowById(route.params.id);
@@ -121,7 +120,8 @@ function buildSchedule() {
  * and refuses to save when the room is already booked in the requested
  * window.
  */
-const saveShow = () => {
+const saveShow = async () => {
+  if (saving.value) return;
   conflictMessage.value = '';
 
   let schedule;
@@ -156,8 +156,15 @@ const saveShow = () => {
     updatedAt: null,
   });
 
-  if (isEdit.value) updateShow(show); else addShow(show);
-  navigateBack();
+  saving.value = true;
+  try {
+    if (isEdit.value) await updateShow(show); else await addShow(show);
+    navigateBack();
+  } catch {
+    // Server errors remain visible in the form.
+  } finally {
+    saving.value = false;
+  }
 };
 
 /**
@@ -229,7 +236,7 @@ const navigateBack = () => {
             showButtons/>
       </div>
 
-      <pv-button type="submit" :label="t('show.save')" icon="pi pi-save"/>
+      <pv-button type="submit" :disabled="saving" :loading="saving" :label="t('show.save')" icon="pi pi-save"/>
       <pv-button :label="t('show.cancel')" severity="secondary" class="ml-2" @click="navigateBack"/>
     </form>
 

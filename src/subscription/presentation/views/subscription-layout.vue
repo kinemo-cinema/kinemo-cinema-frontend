@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { BaseApi } from '../../../shared/infrastructure/base-api.js'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -7,63 +8,25 @@ const router = useRouter()
 const currentStep = ref(1)
 const selectedPlan = ref(null)
 
-const firstName = ref('')
-const lastName = ref('')
-const email = ref('')
-const company = ref('')
-const phone = ref('')
 
 const formError = ref('')
 
-const plans = [
-  {
-    id: 'starter',
-    name: 'Starter',
-    price: '$490',
-    period: '/month',
-    description: 'For small cinemas starting their 4D experience.',
-    features: [
-      'Up to 3 connected screens',
-      'Basic synchronization',
-      'Unified control panel',
-      'Email support within 48h',
-      'Monthly analytics reports'
-    ]
-  },
-
-  {
-    id: 'growth',
-    name: 'Growth',
-    price: '$1190',
-    period: '/month',
-    description: 'For growing cinema operators that need advanced tools.',
-    popular: true,
-    features: [
-      'Up to 12 connected screens',
-      'Advanced frame synchronization',
-      'Incident and telemetry management',
-      'Priority support within 4h',
-      'Real-time analytics',
-      'Full integration API'
-    ]
-  },
-
-  {
-    id: 'enterprise',
-    name: 'Enterprise',
-    price: 'Custom',
-    period: '',
-    description: 'For large cinema chains with multiple locations.',
-    features: [
-      'Unlimited connected screens',
-      '99.9% guaranteed SLA',
-      'Custom system integrations',
-      'Dedicated account manager',
-      'On-site onboarding',
-      'Flexible contracts'
-    ]
+const plans = ref([])
+const plansLoading = ref(true)
+const plansError = ref('')
+const cinemaId = ref(null)
+const submitting = ref(false)
+const api = new BaseApi()
+onMounted(async () => {
+  try {
+    const { data } = await api.http.get('/subscription-plans')
+    plans.value = data.map(plan => ({ ...plan, price: `$${plan.price}`, period: '', features: [`Max. screens: ${plan.maxScreens}`] }))
+  } catch {
+    plansError.value = 'No se pudieron consultar los planes del backend.'
+  } finally {
+    plansLoading.value = false
   }
-]
+})
 
 const choosePlan = (plan) => {
   selectedPlan.value = plan
@@ -75,26 +38,22 @@ const choosePlan = (plan) => {
   })
 }
 
-const submitRequest = () => {
+const submitRequest = async () => {
+  if (submitting.value) return
   formError.value = ''
-
-  if (
-      !firstName.value ||
-      !lastName.value ||
-      !email.value ||
-      !company.value ||
-      !phone.value
-  ) {
-    formError.value = 'Please complete all required fields.'
+  if (!Number.isInteger(cinemaId.value) || cinemaId.value < 1) {
+    formError.value = 'Introduce el identificador de tu cine.'
     return
   }
-
-  currentStep.value = 3
-
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  })
+  submitting.value = true
+  try {
+    await api.http.post('/subscriptions', { cinemaId: cinemaId.value, planId: selectedPlan.value.id })
+    currentStep.value = 3
+  } catch (error) {
+    formError.value = error.response?.data?.message || 'No se pudo registrar la suscripcion.'
+  } finally {
+    submitting.value = false
+  }
 }
 
 const backToPlans = () => {
@@ -197,6 +156,9 @@ const goToLogin = () => {
       </section>
 
 
+      <p v-if="plansLoading" role="status">Consultando planes...</p>
+      <p v-else-if="plansError" role="alert">{{ plansError }}</p>
+      <p v-else-if="!plans.length" role="status">No hay planes registrados en el backend.</p>
       <section class="plans-grid">
 
         <article
@@ -293,8 +255,7 @@ const goToLogin = () => {
         </h1>
 
         <p>
-          Complete your information and our team will
-          contact you to continue with your Kinemo subscription.
+          Enter your cinema identifier to register the selected subscription.
         </p>
 
       </section>
@@ -308,90 +269,10 @@ const goToLogin = () => {
         <section class="information-card">
 
           <form @submit.prevent="submitRequest">
-
-
-            <div class="form-row">
-
-              <div class="form-group">
-
-                <label>
-                  First name
-                </label>
-
-                <input
-                    v-model="firstName"
-                    type="text"
-                    placeholder="Andrea"
-                />
-
-              </div>
-
-
-              <div class="form-group">
-
-                <label>
-                  Last name
-                </label>
-
-                <input
-                    v-model="lastName"
-                    type="text"
-                    placeholder="Correa"
-                />
-
-              </div>
-
-            </div>
-
-
-
             <div class="form-group">
-
-              <label>
-                Business email
-              </label>
-
-              <input
-                  v-model="email"
-                  type="email"
-                  placeholder="name@cinema.com"
-              />
-
+              <label for="cinema-id">Identificador del cine</label>
+              <input id="cinema-id" v-model.number="cinemaId" type="number" min="1" step="1" required />
             </div>
-
-
-
-            <div class="form-group">
-
-              <label>
-                Cinema or company name
-              </label>
-
-              <input
-                  v-model="company"
-                  type="text"
-                  placeholder="Cinema company"
-              />
-
-            </div>
-
-
-
-            <div class="form-group">
-
-              <label>
-                Phone number
-              </label>
-
-              <input
-                  v-model="phone"
-                  type="tel"
-                  placeholder="+51 999 999 999"
-              />
-
-            </div>
-
-
             <p
                 v-if="formError"
                 class="form-error"
@@ -403,6 +284,7 @@ const goToLogin = () => {
             <button
                 type="submit"
                 class="continue-button"
+                :disabled="submitting"
             >
               Submit subscription request
             </button>
@@ -500,7 +382,7 @@ const goToLogin = () => {
 
 
         <p class="eyebrow">
-          REQUEST RECEIVED
+          SUBSCRIPTION REGISTERED
         </p>
 
 
@@ -510,15 +392,8 @@ const goToLogin = () => {
 
 
         <p class="success-text">
-          We've received your subscription request for the
+          Your subscription was registered for the
           <strong>{{ selectedPlan.name }}</strong> plan.
-        </p>
-
-
-        <p class="success-contact">
-          Our team will review your information and
-          <strong>contact you soon</strong> to continue
-          with the activation of your Kinemo account.
         </p>
 
 
@@ -530,14 +405,11 @@ const goToLogin = () => {
           </div>
 
           <div>
-            <span>Company</span>
-            <strong>{{ company }}</strong>
+            <span>Cinema ID</span>
+            <strong>{{ cinemaId }}</strong>
           </div>
 
-          <div>
-            <span>Contact</span>
-            <strong>{{ email }}</strong>
-          </div>
+
 
         </div>
 

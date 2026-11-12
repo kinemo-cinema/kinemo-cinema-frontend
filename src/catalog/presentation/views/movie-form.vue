@@ -4,13 +4,17 @@ import {useI18n} from "vue-i18n";
 import useCatalogStore from "../../application/catalog.store.js";
 import {computed, onMounted, ref} from "vue";
 import {Movie} from "../../domain/model/movie.entity.js";
+import {storeToRefs} from "pinia";
 
 const {t} = useI18n();
 const route = useRoute();
 const router = useRouter();
 const store = useCatalogStore();
 
-const {errors, genres, movies, addMovie, updateMovie, fetchMovies, fetchGenres} = store;
+const {errors, genres} = storeToRefs(store);
+const {addMovie, updateMovie, fetchMovies, fetchGenres} = store;
+const saving = ref(false);
+const validationError = ref('');
 
 const form = ref({
   title: '',
@@ -19,9 +23,10 @@ const form = ref({
 });
 const isEdit = computed(() => !!route.params.id);
 
-onMounted(() => {
-  if (!genres.length) fetchGenres();
+onMounted(async () => {
+  if (!store.genresLoaded) await fetchGenres();
   if (isEdit.value) {
+    if (!store.moviesLoaded) await fetchMovies();
     const movie = getMovieById(route.params.id);
     if (movie) {
       form.value.title = movie.getTitle();
@@ -45,12 +50,20 @@ function getMovieById(id) {
  * Saves the tutorial by either adding or updating it.
  */
 
-const saveMovie = () => {
+const saveMovie = async () => {
+  if (saving.value) return;
+  validationError.value = '';
+  if (!form.value.title.trim() || !Number.isInteger(form.value.durationMinutes) || form.value.durationMinutes < 1 || form.value.durationMinutes > 400 || form.value.genreId === null) {
+    validationError.value = t('movie.validation-required');
+    return;
+  }
+  saving.value = true;
+  try {
   const existing = isEdit.value ? getMovieById(route.params.id) : null;
 
   const movie = new Movie({
     id: existing ? existing.getId() : null,
-    title: form.value.title,
+    title: form.value.title.trim(),
     durationMinutes: form.value.durationMinutes,
     genreId: form.value.genreId,
     // Preserve internal fields when editing; defaults when creating
@@ -60,8 +73,13 @@ const saveMovie = () => {
     updatedAt: null, // entity will default to now
 
   });
-  if (isEdit.value) updateMovie(movie); else addMovie(movie);
+  if (isEdit.value) await updateMovie(movie); else await addMovie(movie);
   navigateBack();
+  } catch {
+    // The store retains the server error so the form can display it.
+  } finally {
+    saving.value = false;
+  }
 };
 
 /**
@@ -89,14 +107,15 @@ const navigateBack = () => {
 
       <div class="field mb-3">
         <label for="duration">{{ t('movie.duration') }}</label>
-        <pv-input-number
+        <input
             id="duration"
-            v-model="form.durationMinutes"
-            class="w-full"
-            :min="1"
-            :max="400"
-            suffix=" min"
-            showButtons/>
+            v-model.number="form.durationMinutes"
+            type="number"
+            class="p-inputtext p-component w-full"
+            min="1"
+            max="400"
+            step="1"
+            required/>
       </div>
 
       <div class="field mb-3">
@@ -114,6 +133,8 @@ const navigateBack = () => {
 
       <pv-button
           type="submit"
+          :loading="saving"
+          :disabled="saving"
           :label="t('movie.save')"
           icon="pi pi-save"/>
 
@@ -124,7 +145,8 @@ const navigateBack = () => {
           @click="navigateBack"/>
     </form>
 
-    <div v-if="errors.length" class="text-red-500 mt-3">
+    <p v-if="validationError" role="alert" class="text-red-500 mt-3">{{ validationError }}</p>
+    <div v-if="errors.length" role="alert" class="text-red-500 mt-3">
       {{ t('errors.occurred') }}: {{ errors.map(e => e.message).join(', ') }}
     </div>
   </div>

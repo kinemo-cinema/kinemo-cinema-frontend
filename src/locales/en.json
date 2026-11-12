@@ -54,6 +54,7 @@
         "description": "Start, pause, and conclude effect sequences; monitor synchronization and hardware state."
       },
       "maintenance": {
+
         "title": "Maintenance",
         "description": "Report incidents, schedule preventive maintenance, and track component lifecycle."
       }
@@ -120,6 +121,9 @@
     "coming-soon": "This module is under construction."
   },
   "maintenance": {
+    "unavailable": "Maintenance is unavailable in the current backend. Its data could not be loaded.",
+    "loading": "Loading maintenance...",
+
     "title": "Resource Testing & Maintenance",
     "subtitle": "Monitor 4D hardware tests, incidents, components and maintenance orders.",
     "refresh": "Refresh",
@@ -187,6 +191,7 @@
     "confirm-delete": "Are you sure you want to delete \"{name}\"?"
   },
   "movie": {
+    "validation-required": "Enter a title, select a genre and a duration between 1 and 400 minutes.",
     "new-title": "New Movie",
     "edit-title": "Edit Movie",
     "title": "Title",

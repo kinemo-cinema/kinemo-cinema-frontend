@@ -13,7 +13,7 @@ const { movies, moviesLoaded, errors } = toRefs(store);
 const { fetchMovies, fetchGenres, deleteMovie } = store;
 
 onMounted(() => {
-  if (!store.moviesLoaded) fetchMovies();
+  fetchMovies();
   if (!store.genresLoaded) fetchGenres();
 });
 

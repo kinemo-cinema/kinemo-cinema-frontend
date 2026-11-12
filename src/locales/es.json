@@ -54,6 +54,7 @@
         "description": "Inicia, pausa y concluye secuencias de efectos; monitorea sincronización y estado del hardware."
       },
       "maintenance": {
+
         "title": "Mantenimiento",
         "description": "Reporta incidencias, programa mantenimiento preventivo y controla la vida útil de los componentes."
       }
@@ -120,6 +121,9 @@
     "coming-soon": "Este módulo está en construcción."
   },
   "maintenance": {
+    "unavailable": "Mantenimiento no está disponible en el backend actual. No se pudieron consultar sus datos.",
+    "loading": "Consultando mantenimiento...",
+
     "title": "Pruebas de Recursos y Mantenimiento",
     "subtitle": "Monitorea pruebas de hardware 4D, incidentes, componentes y órdenes de mantenimiento.",
     "refresh": "Actualizar",
@@ -187,6 +191,7 @@
     "confirm-delete": "¿Seguro que quieres eliminar \"{name}\"?"
   },
   "movie": {
+    "validation-required": "Completa el título, elige un género y una duración entre 1 y 400 minutos.",
     "new-title": "Nueva Película",
     "edit-title": "Editar Película",
     "title": "Título",

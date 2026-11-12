@@ -136,7 +136,7 @@ export class CatalogApi extends BaseApi {
      * @returns {Promise<import('axios').AxiosResponse>} Promise resolving to the updated movie response.
      */
     updateMovie(resource) {
-        return this.#moviesEndpoint.update(resource.id, resource);
+        return this.http.patch(`${moviesEndpointPath}/${resource.id}`, resource);
     }
 
     /**
@@ -145,7 +145,7 @@ export class CatalogApi extends BaseApi {
      * @returns {Promise<import('axios').AxiosResponse>} Promise resolving to the delete response.
      */
     deleteMovie(id) {
-        return this.#moviesEndpoint.delete(id);
+        return this.http.post(`${moviesEndpointPath}/${id}/deactivation`);
     }
 
     // --------------------------------------------------------------------

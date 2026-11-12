@@ -16,6 +16,7 @@ const VALID_STATUSES = Object.freeze([
     'READY',
     'BLOCKED',
     'MAINTENANCE',
+    'OUTOFSERVICE',
 ]);
 
 export class RoomStatus {

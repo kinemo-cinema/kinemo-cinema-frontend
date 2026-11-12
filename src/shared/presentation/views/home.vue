@@ -35,14 +35,13 @@ const managerModules = [
     bc: 'BC08',
     key: 'analytics',
     icon: 'pi pi-chart-bar',
-    route: null,
-    disabled: true
+    route: '/analytics'
   },
   {
     bc: 'BC09',
     key: 'subscription',
     icon: 'pi pi-credit-card',
-    route: '/subscriptions'
+    route: '/subscriptions/manage'
   }
 ];
 
@@ -67,6 +66,12 @@ const technicianModules = [
     key: 'maintenance',
     icon: 'pi pi-wrench',
     route: '/maintenance'
+  },
+  {
+    bc: 'BC08',
+    key: 'analytics',
+    icon: 'pi pi-chart-bar',
+    route: '/analytics'
   }
 ];
 </script>

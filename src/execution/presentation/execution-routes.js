@@ -1,8 +1,8 @@
 const ExecutionList =
-    () => import("./views/execution-list.vue");
+    () => import("./views/connected-executions.vue");
 
 const ExecutionDetail =
-    () => import("./views/execution-detail.vue");
+    () => import("./views/connected-executions.vue");
 
 const ExecutionRoutes = [
     {

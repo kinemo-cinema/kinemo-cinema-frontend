@@ -124,6 +124,9 @@ const SubscriptionLayout = () =>
 ========================================================= */
 
 const routes = [
+    { path: '/analytics', component: AppLayout, children: [{ path: '', component: () => import('./shared/presentation/views/connected-analytics.vue') }] },
+    { path: '/subscriptions/manage', component: AppLayout, children: [{ path: '', component: () => import('./subscription/presentation/views/connected-subscriptions.vue') }] },
+
 
     /* =====================================================
        LOGIN

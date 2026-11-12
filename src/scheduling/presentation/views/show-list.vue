@@ -22,8 +22,8 @@ const { fetchShows, fetchRooms, deleteShow } = schedulingStore;
 const { fetchMovies } = catalogStore;
 
 onMounted(() => {
-  if (!schedulingStore.showsLoaded) fetchShows();
-  if (!schedulingStore.roomsLoaded) fetchRooms();
+  fetchShows();
+  fetchRooms();
   if (!catalogStore.moviesLoaded) fetchMovies();
 });
 

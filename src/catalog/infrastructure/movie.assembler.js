@@ -4,6 +4,8 @@ import {Movie} from "../domain/model/movie.entity.js";
  * @class MovieAssembler
  * @summary Assembler for converting movie API responses to entities in the Catalog bounded context.
  */
+const genreNames = ['Action', 'Drama', 'SciFi', 'Animation', 'Horror', 'Documentary', 'Other'];
+
 export class MovieAssembler {
 
     /**
@@ -17,7 +19,7 @@ export class MovieAssembler {
             id: resource.id ?? null,
             title: resource.title ?? '',
             durationMinutes: resource.durationMinutes ?? 0,
-            genreId: resource.genreId ?? null,
+            genreId: resource.genreId ?? genreNames.indexOf(resource.genre),
             genre: resource.genre ?? null,
             status: resource.status ?? 'ACTIVE',
             originalMovieId: resource.originalMovieId ?? null,
@@ -55,7 +57,7 @@ export class MovieAssembler {
             id: movie.getId(),
             title: movie.getTitle(),
             durationMinutes: movie.getDuration().getMinutes(),
-            genreId: movie.getGenreId(),
+            genre: genreNames[movie.getGenreId()] ?? movie.getGenre()?.name,
             status: movie.getStatusAsString(),
             originalMovieId: movie.getOriginalMovieId(),
             createdAt: movie.getCreatedAtFormated(),

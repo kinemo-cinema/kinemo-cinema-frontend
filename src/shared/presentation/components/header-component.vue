@@ -29,7 +29,7 @@ const goToMaintenance = () => {
 
 
 const goToSubscription = () => {
-  router.push("/subscriptions");
+  router.push("/subscriptions/manage");
 };
 
 
@@ -109,15 +109,11 @@ const logout = () => {
 
         <button
             type="button"
-            class="nav-link nav-link-disabled"
-            disabled
-            title="Analytics is under development"
+            class="nav-link"
+            @click="router.push('/analytics')"
         >
           {{ t("header.nav.analytics") }}
 
-          <span class="soon-badge">
-            SOON
-          </span>
         </button>
 
       </nav>
@@ -148,6 +144,7 @@ const logout = () => {
         </pv-button>
 
 
+
         <pv-menu
             id="user-menu"
             ref="userMenu"
@@ -156,6 +153,7 @@ const logout = () => {
         >
 
           <template #start>
+
 
             <div class="user-menu-header">
 

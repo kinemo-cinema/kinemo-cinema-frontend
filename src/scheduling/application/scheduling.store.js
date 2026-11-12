@@ -119,7 +119,7 @@ const useSchedulingStore = defineStore("scheduling", () => {
     function fetchShows() {
         errors.value = [];
 
-        schedulingApi.getShows().then((response) => {
+        return schedulingApi.getShows().then((response) => {
             shows.value = ShowAssembler.toEntitiesFromResponse(response);
             showsLoaded.value = true;
         }).catch((err) => {
@@ -245,12 +245,13 @@ const useSchedulingStore = defineStore("scheduling", () => {
     function addShow(show) {
         errors.value = [];
 
-        schedulingApi.createShow(ShowAssembler.toResourceFromEntity(show)).then(response => {
+        return schedulingApi.createShow(ShowAssembler.toResourceFromEntity(show)).then(response => {
             const resource = response.data;
             const newShow = ShowAssembler.toEntityFromResource(resource);
             shows.value.push(newShow);
         }).catch(error => {
             errors.value.push(error);
+            throw error;
         });
     }
 
@@ -266,13 +267,14 @@ const useSchedulingStore = defineStore("scheduling", () => {
     function updateShow(show) {
         errors.value = [];
 
-        schedulingApi.updateShow(ShowAssembler.toResourceFromEntity(show)).then(response => {
+        return schedulingApi.updateShow(ShowAssembler.toResourceFromEntity(show)).then(response => {
             const resource = response.data;
             const updatedShow = ShowAssembler.toEntityFromResource(resource);
             const index = shows.value.findIndex(s => s.getId() === updatedShow.getId());
             if (index !== -1) shows.value[index] = updatedShow;
         }).catch(error => {
             errors.value.push(error);
+            throw error;
         });
     }
 
@@ -455,7 +457,7 @@ const useSchedulingStore = defineStore("scheduling", () => {
     function fetchRooms() {
         errors.value = [];
 
-        schedulingApi.getRooms().then((response) => {
+        return schedulingApi.getRooms().then((response) => {
             rooms.value = RoomAssembler.toEntitiesFromResponse(response);
             roomsLoaded.value = true;
         }).catch((err) => {
