@@ -15,7 +15,7 @@ export function useBackend() {
             return true;
         } catch (failure) {
             const data = failure.response?.data;
-            error.value = data?.message || (data?.errors ? Object.values(data.errors).flat().join(' ') :
+            error.value = data?.message || (data?.errors ? Object.values(data.errors).flat().join(' ') : data?.detail || data?.title ||
                 `No se pudo completar la operación${failure.response ? ` (${failure.response.status})` : ': servidor no disponible'}.`);
             return false;
         } finally {

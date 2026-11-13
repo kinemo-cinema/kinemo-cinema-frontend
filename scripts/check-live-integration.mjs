@@ -13,6 +13,10 @@ async function request(method, path, payload, status = 200) {
     });
     const text = await response.text();
     assert.equal(response.status, status, `${method} ${path}: ${text.slice(0, 500)}`);
+    if (status >= 400) {
+        const problem = JSON.parse(text);
+        assert.ok(problem.status === status && typeof problem.title === 'string', `${method} ${path}: errors must preserve develop ProblemDetails responses.`);
+    }
     checks.push(`${method} ${path} → ${status}`);
     return text ? JSON.parse(text) : null;
 }
@@ -32,7 +36,7 @@ assert.equal(block.status, 'Maintenance');
 assert.equal((await request('POST', `/rooms/${room.id}/release`)).blocks[0].active, false);
 const show = await request('POST', '/shows', { movieId: movie.id, roomId: room.id, startDateTime: start, endDateTime: end }, 201);
 assert.ok((await request('GET', '/shows')).some(item => item.id === show.id));
-await request('POST', '/shows', { movieId: movie.id, roomId: room.id, startDateTime: start, endDateTime: end }, 400);
+await request('POST', '/shows', { movieId: movie.id, roomId: room.id, startDateTime: start, endDateTime: end }, 409);
 await request('PATCH', `/shows/${show.id}`, { startDateTime: start, endDateTime: end });
 const upload = new FormData();
 upload.append('file', new Blob(['isolated integration fixture']), `integration-check-${movie.id}.txt`);
@@ -47,6 +51,7 @@ assert.ok((await request('GET', '/executions')).some(item => item.id === executi
 assert.equal((await request('POST', `/executions/${execution.id}/pause`)).status, 'Paused');
 assert.equal((await request('POST', `/executions/${execution.id}/resume`)).status, 'InProgress');
 assert.equal((await request('POST', `/executions/${execution.id}/finish`)).status, 'Finished');
+await request('POST', `/executions/${execution.id}/emergency-stop`, { reason: 'Must not stop a finished execution' }, 409);
 const emergency = await request('POST', '/executions', { showId: show.id, sensoryContentId: profile.sensoryContent.id }, 201);
 assert.equal((await request('POST', `/executions/${emergency.id}/emergency-stop`, { reason: 'Isolated verification' })).emergencyEvents.length, 1);
 const integration = await request('POST', '/ticketing/integrations', { cinemaId: 1, providerName: title }, 201);
@@ -70,6 +75,23 @@ await request('GET', `/analytics/dashboards/${dashboard.id}`);
 await request('GET', '/analytics/dashboards/latest');
 const report = await request('POST', '/analytics/reports', { ...period, reportType: 'Operational', format: 'CSV' }, 201);
 await request('GET', `/analytics/reports/${report.id}`);
+const equipment = await request('POST', '/equipment', { roomId: room.id, name: title, equipmentType: 'MotionSeat', usefulLifeHours: 1000 }, 201);
+assert.ok((await request('GET', '/equipment')).some(item => item.id === equipment.id));
+const faulty = await request('POST', `/equipment/${equipment.id}/incidents`, { description: 'Isolated verification incident', severity: 'High' });
+assert.equal(faulty.incidents.length, 1);
+assert.equal((await request('POST', `/equipment/${equipment.id}/tests`, { channel: 'Motion' })).tests.length, 1);
+const order = await request('POST', '/maintenance-orders', { equipmentId: equipment.id, incidentId: faulty.incidents[0].id, type: 'Corrective', scheduledDate: start }, 201);
+assert.ok((await request('GET', `/maintenance-orders/equipment/${equipment.id}`)).some(item => item.id === order.id));
+assert.equal((await request('POST', `/maintenance-orders/${order.id}/completion`, { notes: 'Isolated verification completed' })).status, 'Completed');
+assert.equal((await request('POST', '/seat-allocations', { showId: show.id, totalSeats: 4 }, 201)).showSeats.length, 4);
+await request('POST', '/seat-allocations', { showId: show.id, totalSeats: 4 }, 409);
+await request('PATCH', `/seat-allocations/${show.id}/seats/1`, { newStatus: 'Sold' });
+assert.equal((await request('GET', `/seat-allocations/${show.id}/seats/1`)).sold, true);
+await request('PATCH', `/seat-allocations/${show.id}/seats/1`, { newStatus: 'Enabled' });
+await request('POST', `/seat-allocations/${show.id}/seats/1/out-of-service`, { reason: 'Isolated verification' });
+assert.equal((await request('GET', `/seat-allocations/${show.id}/seats/1`)).status, 'OutOfService');
+await request('GET', `/seat-allocations/${show.id}/seats/999`, undefined, 404);
+await request('POST', '/movies', { title: '', durationMinutes: 0, genre: 'SciFi' }, 400);
 await request('POST', `/shows/${show.id}/cancellation`);
 await request('POST', `/movies/${movie.id}/deactivation`);
 console.log(JSON.stringify({ passed: checks.length, checks, movieId: movie.id, roomId: room.id, showId: show.id }, null, 2));

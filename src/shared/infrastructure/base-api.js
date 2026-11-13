@@ -28,6 +28,15 @@ export class BaseApi {
 
         });
 
+        this.#http.interceptors.response.use(response => response, error => {
+            const problem = error.response?.data;
+            if (problem && typeof problem === 'object') {
+                error.message = problem.errors ? Object.values(problem.errors).flat().join(' ') :
+                    problem.detail || problem.title || problem.message || error.message;
+            }
+            return Promise.reject(error);
+        });
+
     }
 
     get http() {

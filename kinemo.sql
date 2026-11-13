@@ -24,6 +24,58 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `kinemo-platform-wa` /*!40100 DEFAULT C
 USE `kinemo-platform-wa`;
 
 --
+-- Table structure for table `__efmigrationshistory`
+--
+
+DROP TABLE IF EXISTS `__efmigrationshistory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `__efmigrationshistory` (
+  `MigrationId` varchar(150) NOT NULL,
+  `ProductVersion` varchar(32) NOT NULL,
+  PRIMARY KEY (`MigrationId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `__efmigrationshistory`
+--
+
+LOCK TABLES `__efmigrationshistory` WRITE;
+/*!40000 ALTER TABLE `__efmigrationshistory` DISABLE KEYS */;
+INSERT INTO `__efmigrationshistory` VALUES ('20261030222616_InitialCreate','10.0.13');
+/*!40000 ALTER TABLE `__efmigrationshistory` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `channel_tests`
+--
+
+DROP TABLE IF EXISTS `channel_tests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `channel_tests` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `equipment_test_id` int NOT NULL,
+  `effect_channel` varchar(20) NOT NULL,
+  `intensity` int NOT NULL,
+  `successful` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `i_x_channel_tests_equipment_test_id` (`equipment_test_id`),
+  CONSTRAINT `fk_channel_tests_equipment_tests` FOREIGN KEY (`equipment_test_id`) REFERENCES `equipment_tests` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `channel_tests`
+--
+
+LOCK TABLES `channel_tests` WRITE;
+/*!40000 ALTER TABLE `channel_tests` DISABLE KEYS */;
+/*!40000 ALTER TABLE `channel_tests` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `configuration_history_entries`
 --
 
@@ -108,6 +160,65 @@ LOCK TABLES `emergency_events` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `equipment`
+--
+
+DROP TABLE IF EXISTS `equipment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `equipment` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `room_id` int NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `equipment_type` varchar(30) NOT NULL,
+  `status` varchar(30) NOT NULL,
+  `installation_date` datetime NOT NULL,
+  `useful_life_hours` int NOT NULL,
+  `accumulated_hours` int NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `equipment`
+--
+
+LOCK TABLES `equipment` WRITE;
+/*!40000 ALTER TABLE `equipment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `equipment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `equipment_tests`
+--
+
+DROP TABLE IF EXISTS `equipment_tests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `equipment_tests` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `equipment_id` int NOT NULL,
+  `test_date` datetime NOT NULL,
+  `result` varchar(20) NOT NULL,
+  `observations` varchar(1000) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `i_x_equipment_tests_equipment_id` (`equipment_id`),
+  CONSTRAINT `fk_equipment_tests_equipment` FOREIGN KEY (`equipment_id`) REFERENCES `equipment` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `equipment_tests`
+--
+
+LOCK TABLES `equipment_tests` WRITE;
+/*!40000 ALTER TABLE `equipment_tests` DISABLE KEYS */;
+/*!40000 ALTER TABLE `equipment_tests` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `hardware_execution_logs`
 --
 
@@ -163,6 +274,96 @@ CREATE TABLE `incident_summaries` (
 LOCK TABLES `incident_summaries` WRITE;
 /*!40000 ALTER TABLE `incident_summaries` DISABLE KEYS */;
 /*!40000 ALTER TABLE `incident_summaries` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `incidents`
+--
+
+DROP TABLE IF EXISTS `incidents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `incidents` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `equipment_id` int NOT NULL,
+  `description` varchar(1000) NOT NULL,
+  `severity` varchar(20) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `reported_at` datetime NOT NULL,
+  `resolved_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `i_x_incidents_equipment_id` (`equipment_id`),
+  CONSTRAINT `fk_incidents_equipment` FOREIGN KEY (`equipment_id`) REFERENCES `equipment` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `incidents`
+--
+
+LOCK TABLES `incidents` WRITE;
+/*!40000 ALTER TABLE `incidents` DISABLE KEYS */;
+/*!40000 ALTER TABLE `incidents` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `maintenance_orders`
+--
+
+DROP TABLE IF EXISTS `maintenance_orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `maintenance_orders` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `equipment_id` int NOT NULL,
+  `incident_id` int DEFAULT NULL,
+  `maintenance_type` varchar(20) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `scheduled_date` datetime NOT NULL,
+  `completed_at` datetime DEFAULT NULL,
+  `completion_notes` varchar(1000) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `maintenance_orders`
+--
+
+LOCK TABLES `maintenance_orders` WRITE;
+/*!40000 ALTER TABLE `maintenance_orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `maintenance_orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `manual_interventions`
+--
+
+DROP TABLE IF EXISTS `manual_interventions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `manual_interventions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `seat_allocation_id` int NOT NULL,
+  `seat_number` int NOT NULL,
+  `operator_id` int NOT NULL,
+  `reason` varchar(500) NOT NULL,
+  `intervention_date` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `i_x_manual_interventions_seat_allocation_id` (`seat_allocation_id`),
+  CONSTRAINT `fk_manual_interventions_seat_allocations` FOREIGN KEY (`seat_allocation_id`) REFERENCES `seat_allocations` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `manual_interventions`
+--
+
+LOCK TABLES `manual_interventions` WRITE;
+/*!40000 ALTER TABLE `manual_interventions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `manual_interventions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -431,6 +632,32 @@ LOCK TABLES `schedule_conflicts` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `seat_allocations`
+--
+
+DROP TABLE IF EXISTS `seat_allocations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `seat_allocations` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `show_id` int NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `i_x_seat_allocations_show_id` (`show_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `seat_allocations`
+--
+
+LOCK TABLES `seat_allocations` WRITE;
+/*!40000 ALTER TABLE `seat_allocations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `seat_allocations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sensory_contents`
 --
 
@@ -573,6 +800,35 @@ CREATE TABLE `show_occupancies` (
 LOCK TABLES `show_occupancies` WRITE;
 /*!40000 ALTER TABLE `show_occupancies` DISABLE KEYS */;
 /*!40000 ALTER TABLE `show_occupancies` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `show_seats`
+--
+
+DROP TABLE IF EXISTS `show_seats`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `show_seats` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `seat_allocation_id` int NOT NULL,
+  `seat_number` int NOT NULL,
+  `sold` tinyint(1) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `i_x_show_seats_seat_allocation_id` (`seat_allocation_id`),
+  CONSTRAINT `fk_show_seats_seat_allocations` FOREIGN KEY (`seat_allocation_id`) REFERENCES `seat_allocations` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `show_seats`
+--
+
+LOCK TABLES `show_seats` WRITE;
+/*!40000 ALTER TABLE `show_seats` DISABLE KEYS */;
+/*!40000 ALTER TABLE `show_seats` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -787,4 +1043,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-11-11 19:30:20
+-- Dump completed on 2026-11-13  7:50:26

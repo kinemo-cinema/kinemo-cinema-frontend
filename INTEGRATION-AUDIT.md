@@ -1,3 +1,19 @@
+# Revisión del merge con develop — 13 de noviembre de 2026
+
+Esta actualización sustituye los límites históricos descritos más abajo. Se incorporó el develop del backend con .NET 10, C# 14, EF Core migrations, Scalar/OpenAPI, Result, CancellationToken y errores localizados. Se conservaron sus módulos de mantenimiento y asientos y se conectaron a las pantallas del frontend.
+
+Se resolvieron 14 archivos con conflictos, adaptando los listados de integración, las métricas reales, la configuración local y la indisponibilidad de proveedores a los contratos nuevos. Se corrigieron los atributos de validación de cuatro records de suscripciones/reportes que provocaban respuestas 500 al colocarse sobre propiedades en vez de parámetros.
+
+Validación de la combinación: backend .NET 10 compila sin advertencias ni errores; frontend compila; contratos locales correctos; 58 peticiones de integración sobre una base aislada, incluyendo mantenimiento, asientos y errores estructurados; 15 pantallas en Chrome y alta/edición de película verificadas. Los diagnósticos de mantenimiento pertenecen al modelo del backend; no validan hardware físico conectado.
+
+La base original de 26 tablas se respaldó en .local/backups/kinemo-before-develop-merge-20261113.sql (fuera de Git). Primero se probó sobre una copia: las definiciones existentes coinciden exactamente con la migración nueva. Se añadieron solamente las tablas faltantes y el historial de migración, conservando los hashes de todas las filas existentes. El SQL compartido se actualizó al esquema de 35 tablas e incluye el historial, sin contraseñas. No se importaron datos de prueba a la base real.
+
+Para arrancar el backend del equipo original usa Start-LocalBackend.ps1; en otras laptops instala .NET SDK 10 y sigue LOCAL-DEVELOPMENT.md del backend. Pagos reales y sincronización externa continúan pendientes de proveedores configurados; no se restablecieron las simulaciones anteriores.
+
+---
+
+## Registro histórico de la integración inicial
+
 # Verificación de integración local — 11 de noviembre de 2026
 
 ## Resultado comprobado

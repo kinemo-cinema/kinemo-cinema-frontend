@@ -13,11 +13,13 @@ Set-Location C:\Users\Usuario\RiderProjects\kinemo-platform
 
 El backend carga `appsettings.Development.local.json` solo en Development; las variables de entorno pueden sobrescribir esa configuración.
 
+El develop actual requiere .NET SDK 10. El script de arranque usa el SDK local de .local/dotnet10 en el equipo original, o el dotnet instalado en otro equipo. La documentación de la API ahora está en /scalar y /openapi/v1.json.
+
 En PowerShell, inicia el backend:
 
 ```powershell
 Set-Location C:\Users\Usuario\RiderProjects\kinemo-platform
-dotnet run --project KinemoPlatform.API --launch-profile http
+.\Start-LocalBackend.ps1
 ```
 
 En otra terminal, inicia el frontend:
@@ -27,7 +29,7 @@ Set-Location C:\Users\Usuario\WebstormProjects\kinemo-cinema-frontend2
 npm run dev
 ```
 
-Abre http://localhost:5173. Vite envía `/api/*` a `http://localhost:5089`, conservando `/api/v1`. Usa el perfil HTTP para la ejecución local. Swagger: http://localhost:5089/swagger.
+Abre http://localhost:5173. Vite envía `/api/*` a `http://localhost:5089`, conservando `/api/v1`. Usa el perfil HTTP para la ejecución local. Referencia de la API: http://localhost:5089/scalar.
 
 No ejecutes `mock:api` para probar el backend real. Development y producción usan `/api/v1`; estas instrucciones usan el proxy de Vite en development. `vite preview` no proporciona este proxy de desarrollo.
 
@@ -45,7 +47,7 @@ Las pruebas de contratos comprueban rutas, métodos, serialización y lectura de
 
 ## Estado verificado
 
-Consulta `INTEGRATION-AUDIT.md` para el alcance completo y las pruebas realizadas. Las pantallas activas consultan la API real. Mantenimiento y asientos no están implementados en el backend; pagos y sincronización externa requieren proveedores reales.
+Consulta `INTEGRATION-AUDIT.md` para el alcance completo y las pruebas realizadas. Las pantallas activas consultan la API real. Mantenimiento y asientos están conectados a las implementaciones actuales de develop; pagos y sincronización externa requieren proveedores reales.
 
 La configuración de la prueba opcional usa `KINEMO_BACKEND_URL` y una caché Vite separada. No cambies esa variable para ejecutar normalmente la aplicación: el destino por defecto es 5089.
 

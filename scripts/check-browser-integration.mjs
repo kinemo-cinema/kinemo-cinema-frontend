@@ -51,10 +51,30 @@ try {
         assert.ok(body.length > 40 && !body.includes('Page not found'), path);
         assert.equal(responses.filter(response => response.status >= 400 && !(response.status === 404 && response.url.endsWith('/analytics/dashboards/latest'))).length, 0, `${path}: ${JSON.stringify(responses.map(response => ({ url: response.url, status: response.status })))}`);
         if (path === '/maintenance' || path.startsWith('/seat-allocation')) {
-            assert.ok(body.includes('todavía no está implementado'), path);
-            assert.equal(responses.length, 0, 'Unavailable modules must not query fake endpoints.');
+            assert.ok(!body.includes('todavía no está implementado'), path);
+            assert.ok(responses.some(response => response.status === 200), 'Integrated modules must consult the real API.');
         }
         checks.push(path);
+    }
+    if (!readOnly) {
+        const equipment = await (await fetch(`${base}/api/v1/equipment`)).json();
+        if (equipment.length) {
+            await navigate('/maintenance');
+            await evaluate(`(()=>{const select=[...document.querySelectorAll('label > select')].find(element=>element.parentElement.firstChild.textContent.trim()==='Equipo');select.value=${JSON.stringify(String(equipment[0].id))};select.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+            await pause(250);
+            assert.ok((await evaluate('document.body.innerText')).includes(equipment[0].name), 'Maintenance must display persisted equipment.');
+        }
+        const shows = await (await fetch(`${base}/api/v1/shows`)).json();
+        for (const show of shows) {
+            const result = await fetch(`${base}/api/v1/seat-allocations/${show.id}`);
+            if (!result.ok) continue;
+            await navigate('/seat-allocation/allocations');
+            await evaluate(`(()=>{const select=document.querySelector('select');select.value=${JSON.stringify(String(show.id))};select.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+            await click("[...document.querySelectorAll('button')].find(element=>element.innerText==='Consultar mapa')");
+            await pause(400);
+            assert.ok(await evaluate("document.querySelectorAll('.seat-grid button').length > 0"), 'Seat map must show stored seats.');
+            break;
+        }
     }
     if (readOnly) {
         console.log(JSON.stringify({ realAppPagesPassed: checks.length, checks, noWrites: true }, null, 2));
