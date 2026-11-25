@@ -1,63 +1,110 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
+const { locale } = useI18n()
 
 const email = ref('')
 const password = ref('')
 const showPassword = ref(false)
 const errorMessage = ref('')
 
-const signIn = () => {
+const translations = {
+  en: {
+    subtitle: 'Intelligent 4D Cinema Management',
+    email: 'Corporate email',
+    password: 'Password',
+    placeholder: 'Enter your password',
+    access: 'Access dashboard',
+    newUser: 'New to Kinemo?',
+    plans: 'Explore plans',
+    required: 'Please complete all fields.',
+    invalid: 'Please enter a valid email address.',
+    show: 'Show password',
+    hide: 'Hide password'
+  },
+  es: {
+    subtitle: 'Gestión inteligente de cines 4D',
+    email: 'Correo corporativo',
+    password: 'Contraseña',
+    placeholder: 'Ingresa tu contraseña',
+    access: 'Ingresar al panel',
+    newUser: '¿Nuevo en Kinemo?',
+    plans: 'Explorar planes',
+    required: 'Completa todos los campos.',
+    invalid: 'Ingresa un correo electrónico válido.',
+    show: 'Mostrar contraseña',
+    hide: 'Ocultar contraseña'
+  }
+}
+
+const labels = computed(() =>
+    translations[locale.value === 'es' ? 'es' : 'en']
+)
+
+function signIn() {
   errorMessage.value = ''
 
-  if (!email.value || !password.value) {
-    errorMessage.value = 'Please enter your email and password.'
+  if (!email.value.trim() || !password.value.trim()) {
+    errorMessage.value = 'required'
     return
   }
 
-  // Login temporal hasta conectar el backend.
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+    errorMessage.value = 'invalid'
+    return
+  }
+
   localStorage.setItem('kinemo-authenticated', 'true')
-
   router.push('/dashboard')
-}
-
-const goToSubscription = () => {
-  router.push('/subscriptions')
 }
 </script>
 
 <template>
   <div class="login-page">
 
-    <!-- Branding superior -->
-    <header class="login-header">
-      <div class="brand">
-        Kinemo<span class="brand-dot">•</span>
-      </div>
-    </header>
+    <div class="language-selector">
+      <button
+          type="button"
+          :class="{ active: locale === 'en' }"
+          :aria-pressed="locale === 'en'"
+          @click="locale = 'en'"
+      >
+        EN
+      </button>
 
-    <!-- Contenido -->
+      <button
+          type="button"
+          :class="{ active: locale === 'es' }"
+          :aria-pressed="locale === 'es'"
+          @click="locale = 'es'"
+      >
+        ES
+      </button>
+    </div>
+
     <main class="login-content">
 
       <section class="login-card">
 
         <div class="login-heading">
-          <div class="logo-icon">K</div>
-
-          <h1>Welcome back</h1>
-
-          <p>
-            Sign in to manage your 4D cinema experience.
-          </p>
+          <h1>Kinemo<span>.</span></h1>
+          <p>{{ labels.subtitle }}</p>
         </div>
 
-        <form @submit.prevent="signIn">
+        <form
+            class="login-form"
+            novalidate
+            @submit.prevent="signIn"
+        >
 
-          <!-- Email -->
           <div class="form-group">
-            <label for="email">Email address</label>
+
+            <label for="email">
+              {{ labels.email }}
+            </label>
 
             <input
                 id="email"
@@ -65,83 +112,72 @@ const goToSubscription = () => {
                 type="email"
                 placeholder="name@cinema.com"
                 autocomplete="email"
+                required
+                @input="errorMessage = ''"
             />
+
           </div>
 
-          <!-- Password -->
           <div class="form-group">
-            <div class="password-label">
-              <label for="password">Password</label>
 
-              <button
-                  type="button"
-                  class="forgot-button"
-              >
-                Forgot password?
-              </button>
-            </div>
+            <label for="password">
+              {{ labels.password }}
+            </label>
 
             <div class="password-input">
+
               <input
                   id="password"
                   v-model="password"
                   :type="showPassword ? 'text' : 'password'"
-                  placeholder="Enter your password"
+                  :placeholder="labels.placeholder"
                   autocomplete="current-password"
+                  required
+                  @input="errorMessage = ''"
               />
 
               <button
                   type="button"
-                  class="show-password"
+                  class="password-toggle"
+                  :aria-label="showPassword ? labels.hide : labels.show"
+                  :aria-pressed="showPassword"
                   @click="showPassword = !showPassword"
               >
-                {{ showPassword ? 'Hide' : 'Show' }}
+                <i
+                    :class="showPassword
+                                        ? 'pi pi-eye-slash'
+                                        : 'pi pi-eye'"
+                ></i>
               </button>
+
             </div>
+
           </div>
 
-          <p
+          <div
               v-if="errorMessage"
               class="error-message"
+              role="alert"
           >
-            {{ errorMessage }}
-          </p>
+            <i class="pi pi-exclamation-circle"></i>
+            {{ labels[errorMessage] }}
+          </div>
 
-          <!-- Login -->
           <button
               type="submit"
               class="sign-in-button"
           >
-            Sign In
+            {{ labels.access }}
           </button>
 
         </form>
 
-        <!-- Separador -->
-        <div class="separator">
-          <span></span>
-          <p>OR</p>
-          <span></span>
-        </div>
-
-        <!-- Suscripción -->
         <div class="subscription-section">
-          <p class="new-user">
-            New to Kinemo?
-          </p>
+          <span>{{ labels.newUser }}</span>
 
-          <p class="subscription-description">
-            Choose a plan and start managing your
-            4D cinema with Kinemo.
-          </p>
-
-          <button
-              class="subscription-button"
-              @click="goToSubscription"
-          >
-            Subscribe now
-            <span>→</span>
-          </button>
+          <router-link to="/subscriptions">
+            {{ labels.plans }}
+          </router-link>
         </div>
 
       </section>
@@ -149,208 +185,138 @@ const goToSubscription = () => {
     </main>
 
     <footer class="login-footer">
-      <p>© 2026 Kinemo. 4D Cinema Technology.</p>
+      © 2026 Kinemo — 4D Cinema Management Platform
     </footer>
 
   </div>
 </template>
 
 <style scoped>
-
 .login-page {
+  position: relative;
   width: 100%;
   min-height: 100vh;
-
-  background:
-      radial-gradient(
-          circle at 50% 15%,
-          rgba(139, 92, 246, 0.12),
-          transparent 35%
-      ),
-      #0e0f17;
-
-  color: #ffffff;
-  font-family: Inter, Arial, sans-serif;
-
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  background:
+      radial-gradient(
+          ellipse at 50% 35%,
+          rgba(139, 92, 246, 0.06),
+          transparent 55%
+      ),
+      #0e0f17;
 }
 
-/* HEADER */
-
-.login-header {
-  height: 72px;
-  padding: 0 48px;
-
+.language-selector {
+  position: absolute;
+  top: 24px;
+  right: 28px;
   display: flex;
-  align-items: center;
-
-  border-bottom: 1px solid #2d2f45;
+  overflow: hidden;
+  border: 1px solid #2d2f45;
+  border-radius: 6px;
+  background: #16171e;
 }
 
-.brand {
-  color: #34d6b0;
-  font-size: 23px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
+.language-selector button {
+  padding: 7px 12px;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-.brand-dot {
-  color: #8b5cf6;
-  margin-left: 3px;
+.language-selector button.active {
+  background: #272338;
+  color: #a78bfa;
 }
-
-/* CONTENT */
 
 .login-content {
   flex: 1;
-
   display: flex;
-  justify-content: center;
   align-items: center;
-
-  padding: 48px 20px;
+  justify-content: center;
+  padding: 72px 20px 32px;
 }
-
-/* CARD */
 
 .login-card {
   width: 100%;
-  max-width: 440px;
-
-  padding: 38px;
-
-  background: rgba(22, 23, 30, 0.96);
-
+  max-width: 380px;
+  padding: 28px;
+  background: #16171e;
   border: 1px solid #2d2f45;
-  border-radius: 16px;
-
-  box-shadow:
-      0 25px 70px rgba(0, 0, 0, 0.35),
-      0 0 40px rgba(139, 92, 246, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
 }
-
-/* TITLE */
 
 .login-heading {
+  margin-bottom: 26px;
   text-align: center;
-  margin-bottom: 32px;
-}
-
-.logo-icon {
-  width: 46px;
-  height: 46px;
-
-  margin: 0 auto 18px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border-radius: 12px;
-
-  background: linear-gradient(
-      135deg,
-      #8b5cf6,
-      #6d3df0
-  );
-
-  font-size: 21px;
-  font-weight: 800;
-
-  box-shadow: 0 0 25px rgba(139, 92, 246, 0.25);
 }
 
 .login-heading h1 {
-  margin: 0;
-
-  font-size: 28px;
+  margin: 0 0 6px;
+  color: #a78bfa;
+  font-size: 22px;
   font-weight: 700;
+  letter-spacing: -0.7px;
+  line-height: 1.3;
+}
+
+.login-heading h1 span {
+  color: #34d6b0;
 }
 
 .login-heading p {
-  margin: 9px 0 0;
-
+  margin: 0;
   color: #94a3b8;
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
-/* FORM */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
 .form-group {
-  margin-bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .form-group label {
-  display: block;
-
-  margin-bottom: 8px;
-
-  color: #d8d8df;
-
-  font-size: 13px;
-  font-weight: 600;
+  color: #c7c8d0;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .form-group input {
   width: 100%;
-  height: 48px;
-
-  box-sizing: border-box;
-
-  padding: 0 14px;
-
-  color: #ffffff;
-
+  height: 40px;
+  padding: 0 12px;
   background: #101118;
-
-  border: 1px solid #343644;
-  border-radius: 8px;
-
+  border: 1px solid #35374a;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 13px;
   outline: none;
-
-  font-family: inherit;
-  font-size: 14px;
-
-  transition: 0.2s ease;
+  transition: border-color 0.2s,
+  box-shadow 0.2s;
 }
 
 .form-group input::placeholder {
-  color: #646675;
+  color: #85899b;
+  font-size: 12px;
 }
 
 .form-group input:focus {
   border-color: #8b5cf6;
-
-  box-shadow:
-      0 0 0 3px rgba(139, 92, 246, 0.12);
-}
-
-/* PASSWORD */
-
-.password-label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.forgot-button {
-  padding: 0;
-  margin-bottom: 8px;
-
-  color: #a78bfa;
-
-  background: transparent;
-  border: none;
-
-  font-size: 12px;
-
-  cursor: pointer;
-}
-
-.forgot-button:hover {
-  color: #c4b5fd;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.10);
 }
 
 .password-input {
@@ -358,185 +324,112 @@ const goToSubscription = () => {
 }
 
 .password-input input {
-  padding-right: 65px;
+  padding-right: 42px;
 }
 
-.show-password {
+.password-toggle {
   position: absolute;
-
-  right: 14px;
   top: 50%;
-
+  right: 8px;
   transform: translateY(-50%);
-
-  color: #a78bfa;
-
-  background: transparent;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
   border: none;
-
-  font-size: 12px;
-  font-weight: 600;
-
+  border-radius: 4px;
+  background: transparent;
+  color: #94a3b8;
   cursor: pointer;
 }
 
-/* ERROR */
-
-.error-message {
-  padding: 10px 12px;
-
-  color: #fca5a5;
-
-  background: rgba(239, 68, 68, 0.08);
-
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  border-radius: 8px;
-
-  font-size: 12px;
+.password-toggle:hover {
+  color: #a78bfa;
+  background: #272338;
 }
 
-/* BUTTON */
+.password-toggle i {
+  font-size: 13px;
+}
 
 .sign-in-button {
   width: 100%;
-  height: 48px;
-
-  margin-top: 4px;
-
-  color: white;
-
-  background: #8b5cf6;
-
+  min-height: 40px;
+  margin-top: 3px;
+  padding: 10px 16px;
+  background: #7c3aed;
   border: none;
-  border-radius: 8px;
-
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 700;
-
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-
-  transition: 0.2s ease;
+  transition: background 0.2s;
 }
 
 .sign-in-button:hover {
-  background: #7c4df1;
-
-  transform: translateY(-1px);
-
-  box-shadow:
-      0 8px 25px rgba(139, 92, 246, 0.25);
+  background: #6d28d9;
 }
 
-/* SEPARATOR */
-
-.separator {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-
-  margin: 27px 0 23px;
+.sign-in-button:active {
+  background: #5b21b6;
 }
-
-.separator span {
-  height: 1px;
-  flex: 1;
-
-  background: #2d2f45;
-}
-
-.separator p {
-  margin: 0;
-
-  color: #686a78;
-
-  font-size: 10px;
-  font-weight: 700;
-}
-
-/* SUBSCRIPTION */
 
 .subscription-section {
-  text-align: center;
-}
-
-.new-user {
-  margin: 0 0 5px;
-
-  color: #ffffff;
-
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.subscription-description {
-  max-width: 310px;
-
-  margin: 0 auto 17px;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 20px;
   color: #94a3b8;
-
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.subscription-button {
-  color: #a78bfa;
-
-  background: transparent;
-  border: none;
-
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 700;
-
-  cursor: pointer;
-}
-
-.subscription-button span {
-  margin-left: 4px;
-
-  transition: margin-left 0.2s ease;
-}
-
-.subscription-button:hover {
-  color: #c4b5fd;
-}
-
-.subscription-button:hover span {
-  margin-left: 9px;
-}
-
-/* FOOTER */
-
-.login-footer {
-  padding: 22px;
-
-  text-align: center;
-
-  color: #646675;
-
   font-size: 11px;
 }
 
-/* RESPONSIVE */
+.subscription-section a {
+  color: #a78bfa;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+}
 
-@media (max-width: 600px) {
+.subscription-section a:hover {
+  color: #c4b5fd;
+  text-decoration: underline;
+}
 
-  .login-header {
-    height: 64px;
-    padding: 0 22px;
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 10px;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  border-radius: 6px;
+  color: #f87171;
+  font-size: 11px;
+}
+
+.login-footer {
+  padding: 18px;
+  color: #94a3b8;
+  font-size: 10px;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 24px;
+  }
+
+  .language-selector {
+    top: 16px;
+    right: 16px;
   }
 
   .login-content {
-    align-items: flex-start;
-
-    padding: 30px 16px;
+    padding: 64px 16px 24px;
   }
-
-  .login-card {
-    padding: 28px 22px;
-  }
-
 }
 </style>

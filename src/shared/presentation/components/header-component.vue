@@ -1,496 +1,613 @@
-<script setup lang="js">
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
+<script setup>
+import { ref, computed, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import LanguageSwitcher from './language-switcher.vue'
 
-import LanguageSwitcher
-  from "./language-switcher.vue";
+const router = useRouter()
+const route = useRoute()
+const { t, locale } = useI18n()
 
+const userMenu = ref(null)
+const operationsOpen = ref(false)
+const mobileOpen = ref(false)
 
-const { t } = useI18n();
-const router = useRouter();
+const navigation = [
+  {
+    path: '/dashboard',
+    label: 'header.nav.dashboard',
+    icon: 'pi pi-th-large'
+  },
+  {
+    path: '/catalog',
+    label: 'modules.catalog.title',
+    icon: 'pi pi-video'
+  },
+  {
+    path: '/scheduling',
+    label: 'modules.scheduling.title',
+    icon: 'pi pi-calendar'
+  }
+]
 
-const userMenu = ref(null);
+const operations = [
+  {
+    path: '/room-readiness',
+    label: 'modules.room-readiness.title',
+    icon: 'pi pi-check-circle'
+  },
+  {
+    path: '/ticketing',
+    label: 'modules.ticketing.title',
+    icon: 'pi pi-ticket'
+  },
+  {
+    path: '/seat-allocation',
+    label: 'modules.seat-control.title',
+    icon: 'pi pi-table'
+  },
+  {
+    path: '/execution',
+    label: 'modules.execution.title',
+    icon: 'pi pi-play-circle'
+  },
+  {
+    path: '/maintenance',
+    label: 'modules.maintenance.title',
+    icon: 'pi pi-wrench'
+  }
+]
 
+const isActive = (path) => {
+  return route.path === path ||
+      route.path.startsWith(`${path}/`)
+}
 
-const goToDashboard = () => {
-  router.push("/dashboard");
-};
+const operationsActive = computed(() =>
+    operations.some(item => isActive(item.path))
+)
 
+const userItems = computed(() => [
+  {
+    label: t('header.user.subscription'),
+    icon: 'pi pi-credit-card',
+    command: () => router.push('/subscriptions/manage')
+  },
+  {
+    separator: true
+  },
+  {
+    label: t('header.user.logout'),
+    icon: 'pi pi-sign-out',
+    command: logout
+  }
+])
 
-const goToExecution = () => {
-  router.push("/execution");
-};
+function logout() {
+  localStorage.removeItem('kinemo-authenticated')
+  router.push('/')
+}
 
+function toggleUserMenu(event) {
+  operationsOpen.value = false
+  userMenu.value?.toggle(event)
+}
 
-const goToMaintenance = () => {
-  router.push("/maintenance");
-};
-
-
-const goToSubscription = () => {
-  router.push("/subscriptions/manage");
-};
-
-
-const toggleUserMenu = (event) => {
-  userMenu.value?.toggle(event);
-};
-
-
-const logout = () => {
-  localStorage.removeItem(
-      "kinemo-authenticated"
-  );
-
-  router.push("/");
-};
+watch(
+    () => route.fullPath,
+    () => {
+      operationsOpen.value = false
+      mobileOpen.value = false
+    }
+)
 </script>
 
-
 <template>
-
-  <header class="kinemo-header">
-
+  <header
+      class="kinemo-header"
+      @keydown.esc="operationsOpen = false; mobileOpen = false"
+  >
     <div class="header-container">
 
-      <!-- BRAND -->
+      <router-link to="/dashboard" class="brand">
+        <div class="brand-symbol">
+          <i class="pi pi-play"></i>
+        </div>
 
-      <button
-          type="button"
-          class="brand"
-          @click="goToDashboard"
-      >
-
-        <span class="brand-name">
-          Kinemo
-        </span>
-
-        <span class="brand-dot">
-          •
-        </span>
-
-      </button>
-
-
-      <!-- NAVIGATION -->
+        <div class="brand-text">
+                    <span class="brand-name">
+                        Kinemo<span>.</span>
+                    </span>
+          <span class="brand-subtitle">
+                        CINEMA PLATFORM
+                    </span>
+        </div>
+      </router-link>
 
       <nav
           class="primary-nav"
-          aria-label="Primary navigation"
+          :class="{ 'mobile-open': mobileOpen }"
+          :aria-label="locale === 'es' ? 'Navegación principal' : 'Primary navigation'"
       >
-
-        <button
-            type="button"
+        <router-link
+            v-for="item in navigation"
+            :key="item.path"
+            :to="item.path"
             class="nav-link"
-            @click="goToDashboard"
+            :class="{ active: isActive(item.path) }"
         >
-          {{ t("header.nav.dashboard") }}
-        </button>
+          <i :class="item.icon"></i>
+          <span>{{ t(item.label) }}</span>
+        </router-link>
 
+        <div class="operations-wrapper">
+          <button
+              type="button"
+              class="nav-link operations-trigger"
+              :class="{ active: operationsActive }"
+              :aria-expanded="operationsOpen"
+              aria-controls="operations-dropdown"
+              @click="operationsOpen = !operationsOpen"
+          >
+            <i class="pi pi-cog"></i>
+            <span>
+                            {{ t('header.nav.operations') }}
+                        </span>
+            <i
+                class="pi pi-angle-down dropdown-arrow"
+                :class="{ rotated: operationsOpen }"
+            ></i>
+          </button>
 
-        <button
-            type="button"
+          <div
+              v-if="operationsOpen"
+              id="operations-dropdown"
+              class="operations-dropdown"
+          >
+            <div class="dropdown-heading">
+              {{ t('header.nav.operations') }}
+            </div>
+
+            <router-link
+                v-for="item in operations"
+                :key="item.path"
+                :to="item.path"
+                class="dropdown-link"
+                :class="{ active: isActive(item.path) }"
+                @click="operationsOpen = false"
+            >
+              <i :class="item.icon"></i>
+              <span>{{ t(item.label) }}</span>
+            </router-link>
+          </div>
+        </div>
+
+        <router-link
+            to="/analytics"
             class="nav-link"
-            @click="goToExecution"
+            :class="{ active: isActive('/analytics') }"
         >
-          {{ t("header.nav.operations") }}
-        </button>
+          <i class="pi pi-chart-bar"></i>
+          <span>
+                        {{ t('header.nav.analytics') }}
+                    </span>
+        </router-link>
 
-
-        <button
-            type="button"
+        <router-link
+            to="/subscriptions/manage"
             class="nav-link"
-            @click="goToMaintenance"
+            :class="{ active: isActive('/subscriptions') }"
         >
-          {{ t("header.nav.maintenance") }}
-        </button>
-
-
-        <button
-            type="button"
-            class="nav-link"
-            @click="router.push('/analytics')"
-        >
-          {{ t("header.nav.analytics") }}
-
-        </button>
-
+          <i class="pi pi-credit-card"></i>
+          <span>
+                        {{ t('header.user.subscription') }}
+                    </span>
+        </router-link>
       </nav>
 
-
-      <!-- RIGHT -->
-
       <div class="header-actions">
-
         <language-switcher />
 
+        <div class="header-divider"></div>
 
-        <pv-button
+        <button
+            type="button"
             class="user-trigger"
-            text
-            rounded
+            aria-label="User menu"
             aria-haspopup="true"
-            aria-controls="user-menu"
+            aria-controls="kinemo-user-menu"
             @click="toggleUserMenu"
         >
+          <div class="user-avatar">
+            <i class="pi pi-user"></i>
+          </div>
 
-          <pv-avatar
-              icon="pi pi-user"
-              shape="circle"
-              size="normal"
-          />
-
-        </pv-button>
-
-
+          <i class="pi pi-angle-down user-arrow"></i>
+        </button>
 
         <pv-menu
-            id="user-menu"
+            id="kinemo-user-menu"
             ref="userMenu"
-            :model="[]"
+            :model="userItems"
             :popup="true"
         >
-
           <template #start>
-
-
             <div class="user-menu-header">
-
-              <span class="user-menu-name">
-                Kinemo User
-              </span>
-
-              <span class="user-menu-role">
-                Cinema Management
-              </span>
-
+              <strong>Kinemo User</strong>
+              <span>Cinema Management</span>
             </div>
-
           </template>
-
-
-          <template #end>
-
-            <div class="user-menu-footer">
-
-              <button
-                  type="button"
-                  class="user-menu-item"
-                  @click="goToSubscription"
-              >
-
-                <i class="pi pi-credit-card"></i>
-
-                {{ t("header.user.subscription") }}
-
-              </button>
-
-
-              <button
-                  type="button"
-                  class="user-menu-item logout-item"
-                  @click="logout"
-              >
-
-                <i class="pi pi-sign-out"></i>
-
-                {{ t("header.user.logout") }}
-
-              </button>
-
-            </div>
-
-          </template>
-
         </pv-menu>
 
+        <button
+            type="button"
+            class="mobile-toggle"
+            aria-label="Navigation menu"
+            :aria-expanded="mobileOpen"
+            @click="mobileOpen = !mobileOpen"
+        >
+          <i
+              :class="mobileOpen
+                            ? 'pi pi-times'
+                            : 'pi pi-bars'"
+          ></i>
+        </button>
       </div>
 
     </div>
-
   </header>
 
+  <div
+      v-if="operationsOpen"
+      class="dropdown-overlay"
+      @click="operationsOpen = false"
+  ></div>
 </template>
-
 
 <style scoped>
 .kinemo-header {
   position: sticky;
-
   top: 0;
-
-  width: 100%;
-
   z-index: 1000;
-
-  background:
-      rgba(14, 15, 23, 0.96);
-
-  border-bottom:
-      1px solid var(--border);
-
+  width: 100%;
+  background: rgba(22, 23, 30, 0.97);
+  border-bottom: 1px solid var(--border);
   backdrop-filter: blur(16px);
 }
 
-
 .header-container {
-  width: 100%;
-  max-width: 1280px;
-
-  min-height: 68px;
-
+  max-width: 1600px;
+  min-height: 76px;
   margin: 0 auto;
-
-  padding: 0 1.5rem;
-
+  padding: 0 28px;
   display: flex;
   align-items: center;
-
-  gap: 2rem;
+  justify-content: space-between;
+  gap: 24px;
 }
-
-
-/* BRAND */
 
 .brand {
-  padding: 0;
-
   display: flex;
   align-items: center;
-
-  gap: 0.25rem;
-
+  gap: 11px;
+  text-decoration: none;
   flex-shrink: 0;
-
-  background: transparent;
-  border: none;
-
-  cursor: pointer;
 }
 
+.brand-symbol {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: white;
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.22);
+}
+
+.brand-symbol i {
+  font-size: 16px;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
 
 .brand-name {
-  color: var(--secondary);
-
-  font-size: 1.3rem;
+  font-size: 25px;
   font-weight: 800;
-
-  letter-spacing: -0.03em;
+  letter-spacing: -1.2px;
+  line-height: 1.1;
+  color: var(--text);
 }
 
-
-.brand-dot {
-  color: var(--primary);
-
-  font-size: 1.25rem;
-  font-weight: 900;
+.brand-name span {
+  color: var(--secondary);
 }
 
-
-/* NAV */
+.brand-subtitle {
+  margin-top: 4px;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  color: var(--text-muted);
+}
 
 .primary-nav {
   display: flex;
   align-items: center;
-
-  gap: 0.3rem;
-
+  justify-content: center;
+  gap: 4px;
   flex: 1;
 }
 
-
 .nav-link {
-  min-height: 40px;
-
-  padding: 0 0.8rem;
-
-  display: inline-flex;
-  align-items: center;
-
-  gap: 0.4rem;
-
-  color: var(--text-soft);
-
-  background: transparent;
-
-  border: none;
-  border-radius: var(--radius-sm);
-
-  font-size: 0.88rem;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition:
-      color 0.15s ease,
-      background 0.15s ease;
-}
-
-
-.nav-link:hover:not(:disabled) {
-  color: var(--text);
-
-  background:
-      rgba(139, 92, 246, 0.08);
-}
-
-
-.nav-link-disabled {
-  color: var(--text-muted);
-
-  cursor: not-allowed;
-
-  opacity: 0.55;
-}
-
-
-.soon-badge {
-  padding: 0.15rem 0.35rem;
-
-  color: var(--secondary);
-
-  background:
-      rgba(52, 214, 176, 0.08);
-
-  border:
-      1px solid rgba(52, 214, 176, 0.16);
-
-  border-radius: 5px;
-
-  font-size: 0.5rem;
-  font-weight: 800;
-
-  letter-spacing: 0.05em;
-}
-
-
-/* ACTIONS */
-
-.header-actions {
-  margin-left: auto;
-
+  position: relative;
   display: flex;
   align-items: center;
-
-  gap: 0.6rem;
+  justify-content: center;
+  gap: 7px;
+  padding: 11px 12px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
 }
 
+.nav-link i {
+  font-size: 13px;
+}
 
-.user-trigger {
+.nav-link:hover {
+  color: var(--text);
+  background: var(--bg-card-alt);
+}
+
+.nav-link.active {
+  background: rgba(139, 92, 246, 0.12);
+  border-color: rgba(139, 92, 246, 0.2);
+  color: var(--primary-light);
+}
+
+.operations-wrapper {
+  position: relative;
+}
+
+.dropdown-arrow {
+  font-size: 11px !important;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+.operations-dropdown {
+  position: absolute;
+  top: calc(100% + 15px);
+  left: 0;
+  min-width: 245px;
+  padding: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  z-index: 1002;
+}
+
+.dropdown-heading {
+  padding: 10px 12px;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.dropdown-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  color: var(--text-soft);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.dropdown-link i {
+  width: 18px;
+  color: var(--primary-light);
+}
+
+.dropdown-link:hover,
+.dropdown-link.active {
+  background: var(--bg-active);
+  color: var(--primary-light);
+}
+
+.dropdown-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: transparent;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
   flex-shrink: 0;
 }
 
-
-/* USER MENU */
-
-.user-menu-header {
-  min-width: 220px;
-
-  padding: 0.9rem 1rem;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: 0.25rem;
-
-  border-bottom:
-      1px solid var(--border);
+.header-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--border);
 }
 
-
-.user-menu-name {
-  color: var(--text);
-
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-
-.user-menu-role {
-  color: var(--text-muted);
-
-  font-size: 0.72rem;
-}
-
-
-.user-menu-footer {
-  padding: 0.4rem;
-}
-
-
-.user-menu-item {
-  width: 100%;
-
-  padding: 0.7rem 0.75rem;
-
+.user-trigger {
   display: flex;
   align-items: center;
-
-  gap: 0.7rem;
-
-  color: var(--text-soft);
-
-  background: transparent;
-
+  gap: 9px;
+  padding: 0;
   border: none;
-  border-radius: var(--radius-sm);
-
-  font-size: 0.82rem;
-  font-weight: 500;
-
-  text-align: left;
-
+  background: transparent;
   cursor: pointer;
-
-  transition:
-      background 0.15s ease,
-      color 0.15s ease;
+  color: var(--text-muted);
 }
 
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bg-active);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: var(--primary-light);
+}
 
-.user-menu-item:hover {
+.user-trigger:hover .user-avatar {
+  background: rgba(139, 92, 246, 0.25);
+}
+
+.user-arrow {
+  font-size: 12px;
+}
+
+.user-menu-header {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.user-menu-header strong {
   color: var(--text);
-
-  background:
-      rgba(139, 92, 246, 0.08);
+  font-size: 14px;
 }
 
-
-.logout-item:hover {
-  color: #fca5a5;
-
-  background:
-      rgba(239, 68, 68, 0.08);
+.user-menu-header span {
+  color: var(--text-muted);
+  font-size: 11px;
 }
 
+.mobile-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+}
 
-/* RESPONSIVE */
+@media (max-width: 1350px) {
+  .header-container {
+    padding: 0 20px;
+    gap: 16px;
+  }
 
-@media screen and (max-width: 900px) {
+  .nav-link {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .nav-link > i:first-child {
+    display: none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .header-container {
+    min-height: 68px;
+  }
+
+  .mobile-toggle {
+    display: flex;
+  }
 
   .primary-nav {
     display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    flex-direction: column;
+    align-items: stretch;
+    max-height: calc(100dvh - 68px);
+    overflow-y: auto;
   }
 
-
-  .header-container {
-    gap: 1rem;
+  .primary-nav.mobile-open {
+    display: flex;
   }
 
+  .nav-link {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 14px;
+    font-size: 14px;
+  }
+
+  .nav-link > i:first-child {
+    display: inline-block;
+  }
+
+  .operations-dropdown {
+    position: static;
+    margin-top: 5px;
+    min-width: 0;
+    box-shadow: none;
+    background: var(--bg);
+  }
+
+  .dropdown-arrow {
+    margin-left: auto;
+  }
 }
 
-
-@media screen and (max-width: 500px) {
-
+@media (max-width: 480px) {
   .header-container {
-    padding: 0 1rem;
+    padding: 0 12px;
+    gap: 10px;
   }
 
+  .brand-symbol {
+    width: 34px;
+    height: 34px;
+  }
 
   .brand-name {
-    font-size: 1.15rem;
+    font-size: 21px;
   }
 
+  .brand-subtitle {
+    display: none;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .header-divider,
+  .user-arrow {
+    display: none;
+  }
 }
 </style>
