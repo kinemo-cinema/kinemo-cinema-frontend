@@ -1,81 +1,57 @@
 <script setup>
-import {useI18n} from "vue-i18n";
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import '../scheduling.css';
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
+const route = useRoute();
 
-/**
- * Sub-navigation entries for BC02. Each `name` matches a route defined
- * in scheduling-routes.js so router-link resolves through the named
- * route rather than a hardcoded path.
- *
- * @type {Array<{name: string, i18nKey: string, icon: string}>}
- */
-const links = [
-  { name: 'scheduling-shows', i18nKey: 'schedulingNav.shows', icon: 'pi pi-calendar' },
-];
+const isSpanish = computed(() => locale.value.startsWith('es'));
+
+const isActive = computed(() =>
+    String(route.name ?? '').startsWith('scheduling-show')
+);
 </script>
 
 <template>
-  <section class="scheduling-layout">
-    <nav class="scheduling-nav" aria-label="Scheduling sections">
+  <section class="sc-layout">
+
+    <div class="sc-breadcrumb">
+      <router-link to="/dashboard">Dashboard</router-link>
+      <i class="pi pi-angle-right"/>
+      <span>{{ isSpanish ? 'Programación' : 'Scheduling' }}</span>
+    </div>
+
+    <header class="sc-heading">
+      <div class="sc-icon">
+        <i class="pi pi-calendar"/>
+      </div>
+
+      <div class="sc-heading-content">
+        <h1>{{ isSpanish ? 'Programación' : 'Scheduling' }}</h1>
+
+        <p>
+          {{ isSpanish
+            ? 'Administra funciones, horarios y disponibilidad de salas.'
+            : 'Manage cinema shows, schedules and room availability.' }}
+        </p>
+      </div>
+
+      <span class="sc-code">BC02</span>
+    </header>
+
+    <nav class="sc-nav" aria-label="Scheduling sections">
       <router-link
-          v-for="link in links"
-          :key="link.name"
-          :to="{ name: link.name }"
-          class="scheduling-nav-link"
-          active-class="scheduling-nav-link--active">
-        <i :class="link.icon"/>
-        <span>{{ t(link.i18nKey) }}</span>
+          :to="{ name: 'scheduling-shows' }"
+          :class="{ 'sc-nav-active': isActive }"
+      >
+        <i class="pi pi-calendar"/>
+        {{ t('schedulingNav.shows') }}
       </router-link>
     </nav>
 
-    <div class="scheduling-content">
-      <router-view/>
-    </div>
+    <router-view/>
+
   </section>
 </template>
-
-<style scoped>
-.scheduling-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.scheduling-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-  border-bottom: 1px solid rgba(127, 127, 127, 0.2);
-  padding-bottom: 0.5rem;
-}
-
-.scheduling-nav-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.9rem;
-  border-radius: 6px;
-  text-decoration: none;
-  color: inherit;
-  font-weight: 500;
-  font-size: 0.9rem;
-  opacity: 0.75;
-  transition: background-color 0.15s ease, opacity 0.15s ease;
-}
-
-.scheduling-nav-link:hover {
-  opacity: 1;
-  background: rgba(139, 92, 246, 0.1);
-}
-
-.scheduling-nav-link--active {
-  opacity: 1;
-  color: #8B5CF6;
-  background: rgba(139, 92, 246, 0.15);
-}
-
-.scheduling-content {
-  min-height: 20rem;
-}
-</style>
