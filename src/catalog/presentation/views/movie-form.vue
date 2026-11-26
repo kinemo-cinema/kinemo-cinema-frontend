@@ -59,29 +59,28 @@ const saveMovie = async () => {
   }
   saving.value = true;
   try {
-  const existing = isEdit.value ? getMovieById(route.params.id) : null;
+    const existing = isEdit.value ? getMovieById(route.params.id) : null;
 
-  const movie = new Movie({
-    id: existing ? existing.getId() : null,
-    title: form.value.title.trim(),
-    durationMinutes: form.value.durationMinutes,
-    genreId: form.value.genreId,
-    // Preserve internal fields when editing; defaults when creating
-    status: existing ? existing.getStatusAsString() : 'ACTIVE',
-    originalMovieId: existing ? existing.getOriginalMovieId() : null,
-    createdAt: existing ? existing.getCreatedAtFormated() : null,
-    updatedAt: null, // entity will default to now
+    const movie = new Movie({
+      id: existing ? existing.getId() : null,
+      title: form.value.title.trim(),
+      durationMinutes: form.value.durationMinutes,
+      genreId: form.value.genreId,
+      // Preserve internal fields when editing; defaults when creating
+      status: existing ? existing.getStatusAsString() : 'ACTIVE',
+      originalMovieId: existing ? existing.getOriginalMovieId() : null,
+      createdAt: existing ? existing.getCreatedAtFormated() : null,
+      updatedAt: null, // entity will default to now
 
-  });
-  if (isEdit.value) await updateMovie(movie); else await addMovie(movie);
-  navigateBack();
+    });
+    if (isEdit.value) await updateMovie(movie); else await addMovie(movie);
+    navigateBack();
   } catch {
     // The store retains the server error so the form can display it.
   } finally {
     saving.value = false;
   }
 };
-
 /**
  * Navigates back to the movies list.
  */
@@ -121,14 +120,31 @@ const navigateBack = () => {
       <div class="field mb-3">
         <label for="genre">{{ t('movie.genre') }}</label>
         <pv-select
-            id="genre"
+            input-id="genre"
             v-model="form.genreId"
             :options="genres"
             optionLabel="name"
             optionValue="id"
             :placeholder="t('movie.select-genre')"
-            class="w-full"
-            required/>
+            :disabled="saving || !genres.length"
+            class="form-select"
+            filter
+            required
+        >
+          <template #value="{ value, placeholder }">
+    <span v-if="value !== null && value !== undefined" class="selected-genre">
+      {{ genres.find(genre => String(genre.id) === String(value))?.name || placeholder }}
+    </span>
+
+            <span v-else class="genre-placeholder">
+      {{ placeholder }}
+    </span>
+          </template>
+
+          <template #option="{ option }">
+            <span>{{ option.name }}</span>
+          </template>
+        </pv-select>
       </div>
 
       <pv-button
@@ -137,21 +153,19 @@ const navigateBack = () => {
           :disabled="saving"
           :label="t('movie.save')"
           icon="pi pi-save"/>
-
       <pv-button
           :label="t('movie.cancel')"
           severity="secondary"
           class="ml-2"
           @click="navigateBack"/>
     </form>
-
     <p v-if="validationError" role="alert" class="text-red-500 mt-3">{{ validationError }}</p>
     <div v-if="errors.length" role="alert" class="text-red-500 mt-3">
       {{ t('errors.occurred') }}: {{ errors.map(e => e.message).join(', ') }}
     </div>
   </div>
 </template>
-
-<style scoped>
-
+<style scoped> label[for="genre"] {
+  margin-right: 12px;
+}
 </style>
