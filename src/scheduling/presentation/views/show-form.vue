@@ -60,40 +60,61 @@ const navigateBack = () => {
   router.push({ name: 'scheduling-shows' });
 };
 
+const formatDate = (event, field) => {
+  const numbers = event.target.value.replace(/\D/g, '').slice(0, 8);
+
+  let formatted = numbers.slice(0, 4);
+
+  if (numbers.length > 4) {
+    formatted += '-' + numbers.slice(4, 6);
+  }
+
+  if (numbers.length > 6) {
+    formatted += '-' + numbers.slice(6, 8);
+  }
+
+  form.value[field] = formatted;
+  event.target.value = formatted;
+};
+
 const toLocalInput = date => {
   const pad = value => String(value).padStart(2, '0');
 
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 };
 
-const toISO = value => {
-  const normalized = value.trim();
-
-  const match = normalized.match(
-      /^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})$/
-  );
+const toISO = (value, isEnd = false) => {
+  const match = value.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
 
   if (!match) {
     throw new Error('Invalid date format');
   }
 
-  const [, year, month, day, hour, minute] = match.map(Number);
+  const [, year, month, day] = match.map(Number);
+
+  const existing = isEdit.value
+      ? schedulingStore.getShowById(route.params.id)
+      : null;
+
+  const previous = existing
+      ? (isEnd ? existing.getEndTime() : existing.getStartTime()).toDate()
+      : null;
 
   const date = new Date(
       year,
       month - 1,
       day,
-      hour,
-      minute
+      previous ? previous.getHours() : (isEnd ? 16 : 14),
+      previous ? previous.getMinutes() : 0,
+      previous ? previous.getSeconds() : 0,
+      previous ? previous.getMilliseconds() : 0
   );
 
   if (
       Number.isNaN(date.getTime()) ||
       date.getFullYear() !== year ||
       date.getMonth() !== month - 1 ||
-      date.getDate() !== day ||
-      date.getHours() !== hour ||
-      date.getMinutes() !== minute
+      date.getDate() !== day
   ) {
     throw new Error('Invalid date');
   }
@@ -143,6 +164,7 @@ const saveShow = async () => {
     conflictMessage.value = isSpanish.value
         ? 'Completa todos los campos obligatorios.'
         : 'Complete all required fields.';
+
     return;
   }
 
@@ -157,6 +179,7 @@ const saveShow = async () => {
     conflictMessage.value = isSpanish.value
         ? 'Selecciona una película activa y una sala disponible.'
         : 'Select an active movie and an available room.';
+
     return;
   }
 
@@ -165,18 +188,20 @@ const saveShow = async () => {
 
   try {
     startISO = toISO(form.value.startLocal);
-    endISO = toISO(form.value.endLocal);
+    endISO = toISO(form.value.endLocal, true);
   } catch {
     conflictMessage.value = isSpanish.value
-        ? 'Ingresa fechas válidas con el formato AAAA-MM-DD HH:mm.'
-        : 'Enter valid dates using the YYYY-MM-DD HH:mm format.';
+        ? 'Ingresa fechas válidas con el formato AAAA-MM-DD.'
+        : 'Enter valid dates using the YYYY-MM-DD format.';
+
     return;
   }
 
   if (new Date(endISO) <= new Date(startISO)) {
     conflictMessage.value = isSpanish.value
-        ? 'La fecha de finalización debe ser posterior a la fecha de inicio.'
-        : 'The end time must be later than the start time.';
+        ? 'La fecha de fin no puede ser anterior a la fecha de inicio.'
+        : 'The end date cannot be earlier than the start date.';
+
     return;
   }
 
@@ -186,6 +211,7 @@ const saveShow = async () => {
     schedule = new ShowSchedule(startISO, endISO);
   } catch {
     conflictMessage.value = t('show.invalid-window');
+
     return;
   }
 
@@ -204,7 +230,7 @@ const saveShow = async () => {
 
     const names = conflicting
         .map(show =>
-            `#${show.getId()} (${show.getStartTimeAsISO()} → ${show.getEndTimeAsISO()})`
+            `#${show.getId()} (${toLocalInput(show.getStartTime().toDate())} → ${toLocalInput(show.getEndTime().toDate())})`
         )
         .join(', ');
 
@@ -223,6 +249,7 @@ const saveShow = async () => {
     conflictMessage.value = isSpanish.value
         ? 'No se encontró la función.'
         : 'Show not found.';
+
     return;
   }
 
@@ -287,8 +314,8 @@ onMounted(load);
 
         <p>
           {{ isSpanish
-            ? 'Configura la película, sala y horario de la función.'
-            : 'Configure the movie, room and schedule for the show.' }}
+            ? 'Configura la película, sala y fechas de la función.'
+            : 'Configure the movie, room and dates for the show.' }}
         </p>
 
       </div>
@@ -296,8 +323,11 @@ onMounted(load);
     </header>
 
     <div v-if="loading" class="sc-card sc-loading">
+
       <i class="pi pi-spin pi-spinner"/>
+
       {{ isSpanish ? 'Cargando información...' : 'Loading information...' }}
+
     </div>
 
     <form
@@ -419,24 +449,28 @@ onMounted(load);
           <div class="sc-field">
 
             <label for="start">
-              {{ t('show.start-time') }}
+              {{ isSpanish ? 'Fecha de inicio' : 'Start date' }}
               <span class="sc-required">*</span>
             </label>
 
             <input
                 id="start"
-                v-model="form.startLocal"
+                :value="form.startLocal"
                 type="text"
-                :placeholder="isSpanish ? 'AAAA-MM-DD HH:mm' : 'YYYY-MM-DD HH:mm'"
+                inputmode="numeric"
+                :placeholder="isSpanish ? 'AAAA-MM-DD' : 'YYYY-MM-DD'"
                 class="sc-input"
-                maxlength="16"
+                maxlength="10"
                 autocomplete="off"
                 :disabled="saving"
+                @input="formatDate($event, 'startLocal')"
                 required
             />
 
             <small>
-              {{ isSpanish ? 'Ejemplo: 2027-07-20 14:00' : 'Example: 2027-07-20 14:00' }}
+              {{ isSpanish
+                ? 'Ejemplo: 2027-07-20'
+                : 'Example: 2027-07-20' }}
             </small>
 
           </div>
@@ -444,24 +478,28 @@ onMounted(load);
           <div class="sc-field">
 
             <label for="end">
-              {{ t('show.end-time') }}
+              {{ isSpanish ? 'Fecha de fin' : 'End date' }}
               <span class="sc-required">*</span>
             </label>
 
             <input
                 id="end"
-                v-model="form.endLocal"
+                :value="form.endLocal"
                 type="text"
-                :placeholder="isSpanish ? 'AAAA-MM-DD HH:mm' : 'YYYY-MM-DD HH:mm'"
+                inputmode="numeric"
+                :placeholder="isSpanish ? 'AAAA-MM-DD' : 'YYYY-MM-DD'"
                 class="sc-input"
-                maxlength="16"
+                maxlength="10"
                 autocomplete="off"
                 :disabled="saving"
+                @input="formatDate($event, 'endLocal')"
                 required
             />
 
             <small>
-              {{ isSpanish ? 'Ejemplo: 2027-07-20 16:00' : 'Example: 2027-07-20 16:00' }}
+              {{ isSpanish
+                ? 'Ejemplo: 2027-07-20'
+                : 'Example: 2027-07-20' }}
             </small>
 
           </div>
@@ -479,7 +517,9 @@ onMounted(load);
                 min="0"
                 step="1"
                 class="sc-input"
-                :placeholder="isSpanish ? 'ID del profesional' : 'Professional ID'"
+                :placeholder="isSpanish
+                  ? 'ID del profesional'
+                  : 'Professional ID'"
                 :disabled="saving"
             />
 
@@ -497,8 +537,8 @@ onMounted(load);
 
           <span>
             {{ isSpanish
-              ? 'El sistema verificará la disponibilidad de la sala y los conflictos de horario antes de guardar.'
-              : 'The system will check room availability and scheduling conflicts before saving.' }}
+              ? 'El sistema verificará automáticamente la disponibilidad de la sala antes de guardar.'
+              : 'The system will automatically check room availability before saving.' }}
           </span>
 
         </div>
@@ -525,6 +565,7 @@ onMounted(load);
         >
 
           <i class="pi pi-exclamation-triangle"/>
+
           {{ conflictMessage }}
 
         </div>
