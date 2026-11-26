@@ -1,4 +1,3 @@
-
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -64,10 +63,43 @@ const navigateBack = () => {
 const toLocalInput = date => {
   const pad = value => String(value).padStart(2, '0');
 
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
 };
 
-const toISO = value => new Date(value).toISOString();
+const toISO = value => {
+  const normalized = value.trim();
+
+  const match = normalized.match(
+      /^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})$/
+  );
+
+  if (!match) {
+    throw new Error('Invalid date format');
+  }
+
+  const [, year, month, day, hour, minute] = match.map(Number);
+
+  const date = new Date(
+      year,
+      month - 1,
+      day,
+      hour,
+      minute
+  );
+
+  if (
+      Number.isNaN(date.getTime()) ||
+      date.getFullYear() !== year ||
+      date.getMonth() !== month - 1 ||
+      date.getDate() !== day ||
+      date.getHours() !== hour ||
+      date.getMinutes() !== minute
+  ) {
+    throw new Error('Invalid date');
+  }
+
+  return date.toISOString();
+};
 
 const load = async () => {
   loading.value = true;
@@ -105,8 +137,8 @@ const saveShow = async () => {
   if (
       form.value.movieId === null ||
       form.value.roomId === null ||
-      !form.value.startLocal ||
-      !form.value.endLocal
+      !form.value.startLocal.trim() ||
+      !form.value.endLocal.trim()
   ) {
     conflictMessage.value = isSpanish.value
         ? 'Completa todos los campos obligatorios.'
@@ -128,13 +160,30 @@ const saveShow = async () => {
     return;
   }
 
+  let startISO;
+  let endISO;
+
+  try {
+    startISO = toISO(form.value.startLocal);
+    endISO = toISO(form.value.endLocal);
+  } catch {
+    conflictMessage.value = isSpanish.value
+        ? 'Ingresa fechas válidas con el formato AAAA-MM-DD HH:mm.'
+        : 'Enter valid dates using the YYYY-MM-DD HH:mm format.';
+    return;
+  }
+
+  if (new Date(endISO) <= new Date(startISO)) {
+    conflictMessage.value = isSpanish.value
+        ? 'La fecha de finalización debe ser posterior a la fecha de inicio.'
+        : 'The end time must be later than the start time.';
+    return;
+  }
+
   let schedule;
 
   try {
-    schedule = new ShowSchedule(
-        toISO(form.value.startLocal),
-        toISO(form.value.endLocal)
-    );
+    schedule = new ShowSchedule(startISO, endISO);
   } catch {
     conflictMessage.value = t('show.invalid-window');
     return;
@@ -184,7 +233,9 @@ const saveShow = async () => {
       id: existing ? existing.getId() : null,
       movieId: form.value.movieId,
       roomId: form.value.roomId,
-      assignedProfessionalId: form.value.assignedProfessionalId,
+      assignedProfessionalId: form.value.assignedProfessionalId === ''
+          ? null
+          : form.value.assignedProfessionalId,
       schedule,
       status: existing ? existing.getStatusAsString() : 'SCHEDULED',
       cancellationReason: existing ? existing.getCancellationReason() : null,
@@ -223,7 +274,6 @@ onMounted(load);
         @click="navigateBack"
     >
       <i class="pi pi-arrow-left"/>
-
       {{ isSpanish ? 'Volver a funciones' : 'Back to shows' }}
     </button>
 
@@ -247,7 +297,6 @@ onMounted(load);
 
     <div v-if="loading" class="sc-card sc-loading">
       <i class="pi pi-spin pi-spinner"/>
-
       {{ isSpanish ? 'Cargando información...' : 'Loading information...' }}
     </div>
 
@@ -260,7 +309,7 @@ onMounted(load);
       <div class="sc-card-header">
 
         <div class="sc-icon">
-          <i class="pi pi-calendar-plus"/>
+          <i class="pi pi-video"/>
         </div>
 
         <div>
@@ -377,11 +426,18 @@ onMounted(load);
             <input
                 id="start"
                 v-model="form.startLocal"
-                type="datetime-local"
+                type="text"
+                :placeholder="isSpanish ? 'AAAA-MM-DD HH:mm' : 'YYYY-MM-DD HH:mm'"
                 class="sc-input"
+                maxlength="16"
+                autocomplete="off"
                 :disabled="saving"
                 required
             />
+
+            <small>
+              {{ isSpanish ? 'Ejemplo: 2027-07-20 14:00' : 'Example: 2027-07-20 14:00' }}
+            </small>
 
           </div>
 
@@ -395,12 +451,18 @@ onMounted(load);
             <input
                 id="end"
                 v-model="form.endLocal"
-                type="datetime-local"
+                type="text"
+                :placeholder="isSpanish ? 'AAAA-MM-DD HH:mm' : 'YYYY-MM-DD HH:mm'"
                 class="sc-input"
-                :min="form.startLocal || undefined"
+                maxlength="16"
+                autocomplete="off"
                 :disabled="saving"
                 required
             />
+
+            <small>
+              {{ isSpanish ? 'Ejemplo: 2027-07-20 16:00' : 'Example: 2027-07-20 16:00' }}
+            </small>
 
           </div>
 
@@ -419,7 +481,6 @@ onMounted(load);
                 class="sc-input"
                 :placeholder="isSpanish ? 'ID del profesional' : 'Professional ID'"
                 :disabled="saving"
-                @input="form.assignedProfessionalId = form.assignedProfessionalId === '' ? null : form.assignedProfessionalId"
             />
 
             <small>
@@ -462,8 +523,10 @@ onMounted(load);
             class="sc-message sc-message-warning"
             role="alert"
         >
+
           <i class="pi pi-exclamation-triangle"/>
           {{ conflictMessage }}
+
         </div>
 
         <div
